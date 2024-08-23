@@ -129,11 +129,11 @@
   {
     "type": "impl",
     "name": "ActionsImpl",
-    "interface_name": "dojo_starter::systems::actions::IActions"
+    "interface_name": "tonatuna::systems::actions::IActions"
   },
   {
     "type": "enum",
-    "name": "dojo_starter::models::Direction",
+    "name": "tonatuna::models::Direction",
     "variants": [
       {
         "name": "None",
@@ -159,7 +159,7 @@
   },
   {
     "type": "interface",
-    "name": "dojo_starter::systems::actions::IActions",
+    "name": "tonatuna::systems::actions::IActions",
     "items": [
       {
         "type": "function",
@@ -174,7 +174,7 @@
         "inputs": [
           {
             "name": "direction",
-            "type": "dojo_starter::models::Direction"
+            "type": "tonatuna::models::Direction"
           }
         ],
         "outputs": [],
@@ -185,11 +185,11 @@
   {
     "type": "impl",
     "name": "IDojoInitImpl",
-    "interface_name": "dojo_starter::systems::actions::actions::IDojoInit"
+    "interface_name": "tonatuna::systems::actions::actions::IDojoInit"
   },
   {
     "type": "interface",
-    "name": "dojo_starter::systems::actions::actions::IDojoInit",
+    "name": "tonatuna::systems::actions::actions::IDojoInit",
     "items": [
       {
         "type": "function",
@@ -249,7 +249,7 @@
   },
   {
     "type": "event",
-    "name": "dojo_starter::systems::actions::actions::Event",
+    "name": "tonatuna::systems::actions::actions::Event",
     "kind": "enum",
     "variants": [
       {

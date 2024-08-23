@@ -1,23 +1,23 @@
 [world]
-name = "Dojo starter"
+name = "Tonatuna"
 description = "The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo Autonomous World up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world."
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
-website = "https://github.com/dojoengine/dojo-starter"
-seed = "dojo_starter"
+website = "https://github.com/okhaimie-dev/tonatuna"
+seed = "tonatuna"
 
 [world.socials]
 x = "https://x.com/ohayo_dojo"
 discord = "https://discord.gg/FB2wR6uF"
-github = "https://github.com/dojoengine/dojo-starter"
+github = "https://github.com/okhaimie-dev/tonatuna"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "dojo_starter"
+default = "tonatuna"
 
 [env]
-rpc_url = "http://localhost:5050/"
+rpc_url = "https://api.cartridge.gg/x/tonatuna/katana"
 # Default account for katana with seed = 0
-account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
-private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-# world_address = "0x3fc79ccfd72c1450d2ccb73c5c521a7ec68b6c6af0caf96a0f1c39ce58876c8"  # Uncomment and update this line with your world address.
+account_address = "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175"
+private_key = "0x5d2e95d7477224d35cd3b1ffe50c1631573e21b71977605177528acfc4b8598"
+world_address = "0x65c3cc2c4287630427181a60cd9301bc4c84a5cdb2457cd7b2a8d1279bd901e"  # Uncomment and update this line with your world address.

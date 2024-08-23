@@ -1,0 +1,26 @@
+kind = "DojoModel"
+class_hash = "0x46309a9ebf09823640924578bad2d0d0b75a5c1ac50fe4dc2c1b5b65426469e"
+original_class_hash = "0x46309a9ebf09823640924578bad2d0d0b75a5c1ac50fe4dc2c1b5b65426469e"
+abi = "manifests/dev/base/abis/models/tonatuna-Moves-2cf8f0f8.json"
+tag = "tonatuna-Moves"
+manifest_name = "tonatuna-Moves-2cf8f0f8"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "remaining"
+type = "u8"
+key = false
+
+[[members]]
+name = "last_direction"
+type = "Direction"
+key = false
+
+[[members]]
+name = "can_move"
+type = "bool"
+key = false

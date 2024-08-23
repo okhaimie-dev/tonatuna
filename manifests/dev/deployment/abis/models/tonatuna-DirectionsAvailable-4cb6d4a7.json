@@ -363,12 +363,12 @@
   },
   {
     "type": "impl",
-    "name": "movesImpl",
-    "interface_name": "dojo_starter::models::Imoves"
+    "name": "directions_availableImpl",
+    "interface_name": "tonatuna::models::Idirections_available"
   },
   {
     "type": "enum",
-    "name": "dojo_starter::models::Direction",
+    "name": "tonatuna::models::Direction",
     "variants": [
       {
         "name": "None",
@@ -393,44 +393,22 @@
     ]
   },
   {
-    "type": "enum",
-    "name": "core::bool",
-    "variants": [
-      {
-        "name": "False",
-        "type": "()"
-      },
-      {
-        "name": "True",
-        "type": "()"
-      }
-    ]
-  },
-  {
     "type": "struct",
-    "name": "dojo_starter::models::Moves",
+    "name": "tonatuna::models::DirectionsAvailable",
     "members": [
       {
         "name": "player",
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "remaining",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "last_direction",
-        "type": "dojo_starter::models::Direction"
-      },
-      {
-        "name": "can_move",
-        "type": "core::bool"
+        "name": "directions",
+        "type": "core::array::Array::<tonatuna::models::Direction>"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "dojo_starter::models::Imoves",
+    "name": "tonatuna::models::Idirections_available",
     "items": [
       {
         "type": "function",
@@ -438,7 +416,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "dojo_starter::models::Moves"
+            "type": "tonatuna::models::DirectionsAvailable"
           }
         ],
         "outputs": [],
@@ -448,7 +426,7 @@
   },
   {
     "type": "event",
-    "name": "dojo_starter::models::moves::Event",
+    "name": "tonatuna::models::directions_available::Event",
     "kind": "enum",
     "variants": []
   }

@@ -363,12 +363,12 @@
   },
   {
     "type": "impl",
-    "name": "movedImpl",
-    "interface_name": "dojo_starter::systems::actions::actions::Imoved"
+    "name": "movesImpl",
+    "interface_name": "tonatuna::models::Imoves"
   },
   {
     "type": "enum",
-    "name": "dojo_starter::models::Direction",
+    "name": "tonatuna::models::Direction",
     "variants": [
       {
         "name": "None",
@@ -393,22 +393,44 @@
     ]
   },
   {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
+  },
+  {
     "type": "struct",
-    "name": "dojo_starter::systems::actions::actions::Moved",
+    "name": "tonatuna::models::Moves",
     "members": [
       {
         "name": "player",
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "direction",
-        "type": "dojo_starter::models::Direction"
+        "name": "remaining",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "last_direction",
+        "type": "tonatuna::models::Direction"
+      },
+      {
+        "name": "can_move",
+        "type": "core::bool"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "dojo_starter::systems::actions::actions::Imoved",
+    "name": "tonatuna::models::Imoves",
     "items": [
       {
         "type": "function",
@@ -416,7 +438,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "dojo_starter::systems::actions::actions::Moved"
+            "type": "tonatuna::models::Moves"
           }
         ],
         "outputs": [],
@@ -426,7 +448,7 @@
   },
   {
     "type": "event",
-    "name": "dojo_starter::systems::actions::actions::moved::Event",
+    "name": "tonatuna::models::moves::Event",
     "kind": "enum",
     "variants": []
   }

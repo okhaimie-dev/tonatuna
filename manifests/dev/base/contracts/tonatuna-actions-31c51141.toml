@@ -1,0 +1,14 @@
+kind = "DojoContract"
+class_hash = "0x36cd00731e578f9d498b5a1a44d910bbefb3c52220320903e2982f66e51c4a9"
+original_class_hash = "0x36cd00731e578f9d498b5a1a44d910bbefb3c52220320903e2982f66e51c4a9"
+base_class_hash = "0x0"
+abi = "manifests/dev/base/abis/contracts/tonatuna-actions-31c51141.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "tonatuna-actions"
+systems = [
+    "spawn",
+    "move",
+]
+manifest_name = "tonatuna-actions-31c51141"
