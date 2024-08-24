@@ -41,9 +41,9 @@ mod elements {
 
     mod bait {
         mod interface;
-        mod small;
-        mod medium;
-        mod large;
-        mod special;
+        mod mackerel;
+        mod mullet;
+        mod squid;
+        mod poppers;
     }
 }

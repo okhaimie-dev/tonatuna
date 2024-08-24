@@ -6,9 +6,9 @@ use tonatuna::elements::tuna::interface::TunaTrait;
 
 const WEIGHT: u8 = 10;
 const VALUE: u8 = 4;
-const RARITY: u16 = 95;
+const RARITY: u8 = 95;
 
-impl Bluefin of BluefinTrait {
+impl Bluefin of TunaTrait {
     #[inline]
     fn weight() -> u8 {
         WEIGHT
@@ -20,7 +20,7 @@ impl Bluefin of BluefinTrait {
     }
 
     #[inline]
-    fn rarity() -> u16 {
+    fn rarity() -> u8 {
         RARITY
     }
 }

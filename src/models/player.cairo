@@ -1,3 +1,7 @@
+// External imports
+
+use starknet::ContractAddress;
+
 // Internal imports
 
 use tonatuna::models::index::Player;

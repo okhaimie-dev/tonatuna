@@ -3,10 +3,10 @@ use tonatuna::elements::bait;
 #[derive(Copy, Drop)]
 enum Bait {
     None,
-    Small,
-    Medium,
-    Large,
-    Special,
+    Mackerel,
+    Mullet,
+    Squid,
+    Poppers,
 }
 
 #[generate_trait]
@@ -15,10 +15,10 @@ impl BaitImpl of BaitTrait {
     fn size(self: Bait) -> u8 {
         match self {
             Bait::None => 0,
-            Bait::Small => bait::small::Small::size(),
-            Bait::Medium => bait::medium::Medium::size(),
-            Bait::Large => bait::large::Large::size(),
-            Bait::Special => bait::special::Special::size(),
+            Bait::Mackerel => bait::mackerel::Mackerel::size(),
+            Bait::Mullet => bait::mullet::Mullet::size(),
+            Bait::Squid => bait::squid::Squid::size(),
+            Bait::Poppers => bait::poppers::Poppers::size(),
         }
     }
 
@@ -26,10 +26,10 @@ impl BaitImpl of BaitTrait {
     fn attract_power(self: Bait) -> u8 {
         match self {
             Bait::None => 0,
-            Bait::Small => bait::small::Small::attract_power(),
-            Bait::Medium => bait::medium::Medium::attract_power(),
-            Bait::Large => bait::large::Large::attract_power(),
-            Bait::Special => bait::special::Special::attract_power(),
+            Bait::Mackerel => bait::mackerel::Mackerel::attract_power(),
+            Bait::Mullet => bait::mullet::Mullet::attract_power(),
+            Bait::Squid => bait::squid::Squid::attract_power(),
+            Bait::Poppers => bait::poppers::Poppers::attract_power(),
         }
     }
 
@@ -37,10 +37,10 @@ impl BaitImpl of BaitTrait {
     fn durability(self: Bait) -> u8 {
         match self {
             Bait::None => 0,
-            Bait::Small => bait::small::Small::durability(),
-            Bait::Medium => bait::medium::Medium::durability(),
-            Bait::Large => bait::large::Large::durability(),
-            Bait::Special => bait::special::Special::durability(),
+            Bait::Mackerel => bait::mackerel::Mackerel::durability(),
+            Bait::Mullet => bait::mullet::Mullet::durability(),
+            Bait::Squid => bait::squid::Squid::durability(),
+            Bait::Poppers => bait::poppers::Poppers::durability(),
         }
     }
 
@@ -48,10 +48,10 @@ impl BaitImpl of BaitTrait {
     fn rare_fish_bonus(self: Bait) -> u8 {
         match self {
             Bait::None => 0,
-            Bait::Small => bait::small::Small::rare_fish_bonus(),
-            Bait::Medium => bait::medium::Medium::rare_fish_bonus(),
-            Bait::Large => bait::large::Large::rare_fish_bonus(),
-            Bait::Special => bait::special::Special::rare_fish_bonus(),
+            Bait::Mackerel => bait::mackerel::Mackerel::rare_fish_bonus(),
+            Bait::Mullet => bait::mullet::Mullet::rare_fish_bonus(),
+            Bait::Squid => bait::squid::Squid::rare_fish_bonus(),
+            Bait::Poppers => bait::poppers::Poppers::rare_fish_bonus(),
         }
     }
 }
@@ -61,10 +61,10 @@ impl IntoBaitFelt252 of core::Into<Bait, felt252> {
     fn into(self: Bait) -> felt252 {
         match self {
             Bait::None => 'NONE',
-            Bait::Small => 'SMALL',
-            Bait::Medium => 'MEDIUM',
-            Bait::Large => 'LARGE',
-            Bait::Special => 'SPECIAL',
+            Bait::Mackerel => 'MACKEREL',
+            Bait::Mullet => 'MULLET',
+            Bait::Squid => 'SQUID',
+            Bait::Poppers => 'POPPERS',
         }
     }
 }
@@ -74,10 +74,10 @@ impl IntoBaitU8 of core::Into<Bait, u8> {
     fn into(self: Bait) -> u8 {
         match self {
             Bait::None => 0,
-            Bait::Small => 1,
-            Bait::Medium => 2,
-            Bait::Large => 3,
-            Bait::Special => 4,
+            Bait::Mackerel => 1,
+            Bait::Mullet => 2,
+            Bait::Squid => 3,
+            Bait::Poppers => 4,
         }
     }
 }
@@ -88,10 +88,10 @@ impl IntoU8Bait of core::Into<u8, Bait> {
         let bait_type: felt252 = self.into();
         match bait_type {
             0 => Bait::None,
-            1 => Bait::Small,
-            2 => Bait::Medium,
-            3 => Bait::Large,
-            4 => Bait::Special,
+            1 => Bait::Mackerel,
+            2 => Bait::Mullet,
+            3 => Bait::Squid,
+            4 => Bait::Poppers,
             _ => Bait::None,
         }
     }

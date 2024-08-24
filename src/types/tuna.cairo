@@ -1,6 +1,6 @@
 // Internal imports
 
-use tonatuna::elements::fishes;
+use tonatuna::elements::tuna;
 
 #[derive(Copy, Drop)]
 enum Tuna {

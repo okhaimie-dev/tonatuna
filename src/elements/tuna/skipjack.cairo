@@ -6,9 +6,9 @@ use tonatuna::elements::tuna::interface::TunaTrait;
 
 const WEIGHT: u8 = 5;
 const VALUE: u8 = 1;
-const RARITY: u16 = 30;
+const RARITY: u8 = 30;
 
-impl Skipjack of SkipjackTrait {
+impl Skipjack of TunaTrait {
     #[inline]
     fn weight() -> u8 {
         WEIGHT
@@ -20,7 +20,7 @@ impl Skipjack of SkipjackTrait {
     }
 
     #[inline]
-    fn rarity() -> u16 {
+    fn rarity() -> u8 {
         RARITY
     }
 }
