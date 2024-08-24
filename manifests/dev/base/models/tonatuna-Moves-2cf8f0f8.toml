@@ -3,6 +3,7 @@ class_hash = "0x46309a9ebf09823640924578bad2d0d0b75a5c1ac50fe4dc2c1b5b65426469e"
 original_class_hash = "0x46309a9ebf09823640924578bad2d0d0b75a5c1ac50fe4dc2c1b5b65426469e"
 abi = "manifests/dev/base/abis/models/tonatuna-Moves-2cf8f0f8.json"
 tag = "tonatuna-Moves"
+qualified_path = "tonatuna::models::moves"
 manifest_name = "tonatuna-Moves-2cf8f0f8"
 
 [[members]]

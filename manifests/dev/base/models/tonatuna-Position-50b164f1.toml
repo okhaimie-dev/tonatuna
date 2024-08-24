@@ -3,6 +3,7 @@ class_hash = "0x7d25c8545f279fb7ccf71241d0c395176d75a6d7207c321d370154bdda54dc5"
 original_class_hash = "0x7d25c8545f279fb7ccf71241d0c395176d75a6d7207c321d370154bdda54dc5"
 abi = "manifests/dev/base/abis/models/tonatuna-Position-50b164f1.json"
 tag = "tonatuna-Position"
+qualified_path = "tonatuna::models::position"
 manifest_name = "tonatuna-Position-50b164f1"
 
 [[members]]
