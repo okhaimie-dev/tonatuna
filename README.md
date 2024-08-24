@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/icon.png" alt="shinigami-logo" height="260"/>
 
-  ***Bitcoin Script VM in Cairo***
+  ***Fishing Game using Dojo Engine***
 </div>
 
 # Tonatuna: A Dojo Gamejame Project
