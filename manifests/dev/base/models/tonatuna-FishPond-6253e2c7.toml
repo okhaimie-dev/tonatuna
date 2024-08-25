@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714"
+original_class_hash = "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714"
+abi = "manifests/dev/base/abis/models/tonatuna-FishPond-6253e2c7.json"
+tag = "tonatuna-FishPond"
+qualified_path = "tonatuna::models::index::fish_pond"
+manifest_name = "tonatuna-FishPond-6253e2c7"
+
+[[members]]
+name = "id"
+type = "u32"
+key = true
+
+[[members]]
+name = "fish_population"
+type = "u32"
+key = false
+
+[[members]]
+name = "daily_catch_limit"
+type = "u32"
+key = false
+
+[[members]]
+name = "rare_fish_chance"
+type = "u8"
+key = false
+
+[[members]]
+name = "daily_catches"
+type = "u32"
+key = false
