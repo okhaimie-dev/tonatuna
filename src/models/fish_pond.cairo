@@ -38,18 +38,13 @@ impl FishPondImpl of FishPondTrait {
 
 #[generate_trait]
 impl FishPondAssert of AssertTrait {
-    fn assert_catch_limit_not_reached(self: FishPond, amount: u16) {
+    fn assert_catch_limit_not_reached(self: FishPond, amount: u32) {
         assert(
             self.daily_catches + amount <= self.daily_catch_limit, errors::POND_CATCH_LIMIT_REACHED
         );
     }
 
-    fn assert_enough_fish(self: FishPond, amount: u16) {
+    fn assert_enough_fish(self: FishPond, amount: u32) {
         assert(self.fish_population >= amount, errors::POND_NOT_ENOUGH_FISH);
-    }
-
-    fn assert_action_allowed(self: FishPond, current_time: u64) {
-        // Assuming a cooldown of 1 hour (3600 seconds)
-        assert(current_time >= self.last_action_time + 3600, errors::POND_ACTION_TOO_SOON);
     }
 }

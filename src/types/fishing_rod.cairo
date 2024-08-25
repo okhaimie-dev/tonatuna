@@ -3,10 +3,9 @@ use tonatuna::elements::fishing_rod;
 #[derive(Copy, Drop)]
 enum FishingRod {
     None,
-    Beginner,
-    Intermediate,
-    Advanced,
-    Professional,
+    Bent,
+    Popping,
+    Jigging,
 }
 
 #[generate_trait]
@@ -15,32 +14,29 @@ impl FishingRodImpl of FishingRodTrait {
     fn strength(self: FishingRod) -> u8 {
         match self {
             FishingRod::None => 0,
-            FishingRod::Beginner => fishing_rod::beginner::Beginner::strength(),
-            FishingRod::Intermediate => fishing_rod::intermediate::Intermediate::strength(),
-            FishingRod::Advanced => fishing_rod::advanced::Advanced::strength(),
-            FishingRod::Professional => fishing_rod::professional::Professional::strength(),
+            FishingRod::Bent => fishing_rod::bent::Bent::strength(),
+            FishingRod::Popping => fishing_rod::popping::Popping::strength(),
+            FishingRod::Jigging => fishing_rod::jigging::Jigging::strength(),
         }
     }
 
     #[inline]
-    fn durability(self: FishingRod) -> u16 {
+    fn durability(self: FishingRod) -> u8 {
         match self {
             FishingRod::None => 0,
-            FishingRod::Beginner => fishing_rod::beginner::Beginner::durability(),
-            FishingRod::Intermediate => fishing_rod::intermediate::Intermediate::durability(),
-            FishingRod::Advanced => fishing_rod::advanced::Advanced::durability(),
-            FishingRod::Professional => fishing_rod::professional::Professional::durability(),
+            FishingRod::Bent => fishing_rod::bent::Bent::durability(),
+            FishingRod::Popping => fishing_rod::popping::Popping::durability(),
+            FishingRod::Jigging => fishing_rod::jigging::Jigging::durability(),
         }
     }
 
     #[inline]
-    fn casting_distance(self: FishingRod) -> u16 {
+    fn casting_distance(self: FishingRod) -> u8 {
         match self {
             FishingRod::None => 0,
-            FishingRod::Beginner => fishing_rod::beginner::Beginner::casting_distance(),
-            FishingRod::Intermediate => fishing_rod::intermediate::Intermediate::casting_distance(),
-            FishingRod::Advanced => fishing_rod::advanced::Advanced::casting_distance(),
-            FishingRod::Professional => fishing_rod::professional::Professional::casting_distance(),
+            FishingRod::Bent => fishing_rod::bent::Bent::casting_distance(),
+            FishingRod::Popping => fishing_rod::popping::Popping::casting_distance(),
+            FishingRod::Jigging => fishing_rod::jigging::Jigging::casting_distance(),
         }
     }
 
@@ -48,10 +44,9 @@ impl FishingRodImpl of FishingRodTrait {
     fn luck_bonus(self: FishingRod) -> u8 {
         match self {
             FishingRod::None => 0,
-            FishingRod::Beginner => fishing_rod::beginner::Beginner::luck_bonus(),
-            FishingRod::Intermediate => fishing_rod::intermediate::Intermediate::luck_bonus(),
-            FishingRod::Advanced => fishing_rod::advanced::Advanced::luck_bonus(),
-            FishingRod::Professional => fishing_rod::professional::Professional::luck_bonus(),
+            FishingRod::Bent => fishing_rod::bent::Bent::luck_bonus(),
+            FishingRod::Popping => fishing_rod::popping::Popping::luck_bonus(),
+            FishingRod::Jigging => fishing_rod::jigging::Jigging::luck_bonus(),
         }
     }
 }
@@ -61,10 +56,9 @@ impl IntoFishingRodFelt252 of core::Into<FishingRod, felt252> {
     fn into(self: FishingRod) -> felt252 {
         match self {
             FishingRod::None => 'NONE',
-            FishingRod::Beginner => 'BEGINNER',
-            FishingRod::Intermediate => 'INTERMEDIATE',
-            FishingRod::Advanced => 'ADVANCED',
-            FishingRod::Professional => 'PROFESSIONAL',
+            FishingRod::Bent => 'BENT',
+            FishingRod::Popping => 'POPPING',
+            FishingRod::Jigging => 'JIGGING',
         }
     }
 }
@@ -74,10 +68,9 @@ impl IntoFishingRodU8 of core::Into<FishingRod, u8> {
     fn into(self: FishingRod) -> u8 {
         match self {
             FishingRod::None => 0,
-            FishingRod::Beginner => 1,
-            FishingRod::Intermediate => 2,
-            FishingRod::Advanced => 3,
-            FishingRod::Professional => 4,
+            FishingRod::Bent => 1,
+            FishingRod::Popping => 2,
+            FishingRod::Jigging => 3,
         }
     }
 }
@@ -88,10 +81,9 @@ impl IntoU8FishingRod of core::Into<u8, FishingRod> {
         let rod_type: felt252 = self.into();
         match rod_type {
             0 => FishingRod::None,
-            1 => FishingRod::Beginner,
-            2 => FishingRod::Intermediate,
-            3 => FishingRod::Advanced,
-            4 => FishingRod::Professional,
+            1 => FishingRod::Bent,
+            2 => FishingRod::Popping,
+            3 => FishingRod::Jigging,
             _ => FishingRod::None,
         }
     }

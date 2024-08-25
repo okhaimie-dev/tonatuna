@@ -14,7 +14,7 @@ enum Tuna {
 #[generate_trait]
 impl TunaImpl of TunaTrait {
     #[inline]
-    fn weight(self: Tuna) -> u16 {
+    fn weight(self: Tuna) -> u8 {
         match self {
             Tuna::None => 0,
             Tuna::Yellowfin => tuna::yellowfin::Yellowfin::weight(),
@@ -25,7 +25,7 @@ impl TunaImpl of TunaTrait {
     }
 
     #[inline]
-    fn value(self: Tuna) -> u16 {
+    fn value(self: Tuna) -> u8 {
         match self {
             Tuna::None => 0,
             Tuna::Yellowfin => tuna::yellowfin::Yellowfin::value(),
@@ -43,17 +43,6 @@ impl TunaImpl of TunaTrait {
             Tuna::Bluefin => tuna::bluefin::Bluefin::rarity(),
             Tuna::Albacore => tuna::albacore::Albacore::rarity(),
             Tuna::Skipjack => tuna::skipjack::Skipjack::rarity(),
-        }
-    }
-
-    #[inline]
-    fn fighting_strength(self: Tuna) -> u8 {
-        match self {
-            Tuna::None => 0,
-            Tuna::Yellowfin => tuna::yellowfin::Yellowfin::fighting_strength(),
-            Tuna::Bluefin => tuna::bluefin::Bluefin::fighting_strength(),
-            Tuna::Albacore => tuna::albacore::Albacore::fighting_strength(),
-            Tuna::Skipjack => tuna::skipjack::Skipjack::fighting_strength(),
         }
     }
 }

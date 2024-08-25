@@ -32,28 +32,6 @@ impl BaitImpl of BaitTrait {
             Bait::Poppers => bait::poppers::Poppers::attract_power(),
         }
     }
-
-    #[inline]
-    fn durability(self: Bait) -> u8 {
-        match self {
-            Bait::None => 0,
-            Bait::Mackerel => bait::mackerel::Mackerel::durability(),
-            Bait::Mullet => bait::mullet::Mullet::durability(),
-            Bait::Squid => bait::squid::Squid::durability(),
-            Bait::Poppers => bait::poppers::Poppers::durability(),
-        }
-    }
-
-    #[inline]
-    fn rare_fish_bonus(self: Bait) -> u8 {
-        match self {
-            Bait::None => 0,
-            Bait::Mackerel => bait::mackerel::Mackerel::rare_fish_bonus(),
-            Bait::Mullet => bait::mullet::Mullet::rare_fish_bonus(),
-            Bait::Squid => bait::squid::Squid::rare_fish_bonus(),
-            Bait::Poppers => bait::poppers::Poppers::rare_fish_bonus(),
-        }
-    }
 }
 
 impl IntoBaitFelt252 of core::Into<Bait, felt252> {

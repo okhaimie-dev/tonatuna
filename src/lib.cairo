@@ -33,10 +33,9 @@ mod elements {
 
     mod fishing_rod {
         mod interface;
-        mod beginner;
-        mod intermediate;
-        mod advanced;
-        mod professional;
+        mod bent;
+        mod jigging;
+        mod popping;
     }
 
     mod bait {
