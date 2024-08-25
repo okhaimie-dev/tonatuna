@@ -5,7 +5,7 @@ use tonatuna::elements::tuna::interface::TunaTrait;
 // Constants
 
 const WEIGHT: u8 = 10;
-const VALUE: u8 = 4;
+const REWARD: u8 = 4;
 const RARITY: u8 = 95;
 
 impl Bluefin of TunaTrait {
@@ -15,8 +15,8 @@ impl Bluefin of TunaTrait {
     }
 
     #[inline]
-    fn value() -> u8 {
-        VALUE
+    fn reward() -> u8 {
+        REWARD
     }
 
     #[inline]

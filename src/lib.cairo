@@ -1,15 +1,10 @@
-mod systems {
-    mod actions;
-}
+mod constants;
+mod store;
 
 mod types {
     mod tuna;
     mod fishing_rod;
     mod bait;
-}
-
-mod components {
-    mod playable;
 }
 
 mod models {
@@ -18,8 +13,12 @@ mod models {
     mod player;
 }
 
-mod tests {
-    mod test_world;
+mod components {
+    mod playable;
+}
+
+mod systems {
+    mod actions;
 }
 
 mod elements {
@@ -45,4 +44,10 @@ mod elements {
         mod squid;
         mod poppers;
     }
+}
+
+mod helpers {}
+
+mod tests {
+    mod test_world;
 }

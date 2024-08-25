@@ -5,7 +5,7 @@ use tonatuna::elements::tuna::interface::TunaTrait;
 // Constants
 
 const WEIGHT: u8 = 10;
-const VALUE: u8 = 3;
+const REWARD: u8 = 3;
 const RARITY: u8 = 70;
 
 impl Albacore of TunaTrait {
@@ -15,8 +15,8 @@ impl Albacore of TunaTrait {
     }
 
     #[inline]
-    fn value() -> u8 {
-        VALUE
+    fn reward() -> u8 {
+        REWARD
     }
 
     #[inline]

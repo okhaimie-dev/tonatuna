@@ -25,13 +25,13 @@ impl TunaImpl of TunaTrait {
     }
 
     #[inline]
-    fn value(self: Tuna) -> u8 {
+    fn reward(self: Tuna) -> u8 {
         match self {
             Tuna::None => 0,
-            Tuna::Yellowfin => tuna::yellowfin::Yellowfin::value(),
-            Tuna::Bluefin => tuna::bluefin::Bluefin::value(),
-            Tuna::Albacore => tuna::albacore::Albacore::value(),
-            Tuna::Skipjack => tuna::skipjack::Skipjack::value(),
+            Tuna::Yellowfin => tuna::yellowfin::Yellowfin::reward(),
+            Tuna::Bluefin => tuna::bluefin::Bluefin::reward(),
+            Tuna::Albacore => tuna::albacore::Albacore::reward(),
+            Tuna::Skipjack => tuna::skipjack::Skipjack::reward(),
         }
     }
 

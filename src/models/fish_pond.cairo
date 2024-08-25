@@ -1,5 +1,5 @@
 // Internal imports
-
+use tonatuna::constants::{DAILY_CATCH_LIMIT};
 use tonatuna::models::index::FishPond;
 
 mod errors {
@@ -11,12 +11,11 @@ mod errors {
 #[generate_trait]
 impl FishPondImpl of FishPondTrait {
     #[inline]
-    fn new(id: felt252) -> FishPond {
+    fn new(id: u32) -> FishPond {
         FishPond {
             id,
             fish_population: 1000,
-            daily_catch_limit: 100,
-            depth: 50,
+            daily_catch_limit: DAILY_CATCH_LIMIT,
             rare_fish_chance: 5,
             daily_catches: 0,
         }
@@ -24,15 +23,6 @@ impl FishPondImpl of FishPondTrait {
 
     fn reset_daily_catches(ref self: FishPond) {
         self.daily_catches = 0;
-    }
-
-    fn catch_fish(ref self: FishPond) -> bool {
-        if self.daily_catches >= self.daily_catch_limit {
-            return false;
-        }
-
-        self.daily_catches += 1;
-        true
     }
 }
 

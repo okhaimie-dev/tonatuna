@@ -1,13 +1,7 @@
 // define the interface
 #[starknet::interface]
-trait IActions<TContractState> {//fn go_fishing(self: @TContractState, name: felt252);
-//fn cast_line(self: @TContractState, distance: u16, direction: u8);
-//fn change_bait(self: @TContractState, bait_type: u8);
-//fn reel_in(self: @TContractState);
-//fn attempt_capture(self: @TContractState);
-//fn check_inventory(self: @TContractState) -> Array<u8>;
-//fn sell_fish(self: @TContractState, fish_type: u8, quantity: u8);
-//fn move_location(self: @TContractState, new_location: u8);
+trait IActions<TContractState> {
+    fn create_fish_pond(self: @TContractState);
 }
 
 // dojo decorator
@@ -44,5 +38,9 @@ mod actions {
     // Implementations
 
     #[abi(embed_v0)]
-    impl ActionsImpl of IActions<ContractState> {}
+    impl ActionsImpl of IActions<ContractState> {
+        fn create_fish_pond(self: @ContractState) {
+            self.playable.create_fish_pond(self.world())
+        }
+    }
 }
