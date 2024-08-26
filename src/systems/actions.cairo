@@ -70,12 +70,12 @@ mod actions {
             self.playable.create_fish_pond(self.world())
         }
 
-        fn move(self: @ContractState, dest_pos: Vec2) {
-            self.playable.move(self.world(), dest_pos);
-        }
-
         fn new_player(self: @ContractState, id: felt252, name: felt252) -> Player {
             self.playable.new_player(self.world(), id, name)
+        }
+
+        fn move(self: @ContractState, dest_pos: Vec2) {
+            self.playable.move(self.world(), dest_pos);
         }
     }
 }

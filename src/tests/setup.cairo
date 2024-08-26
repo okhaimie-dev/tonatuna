@@ -16,7 +16,7 @@ mod setup {
     // Internal imports
     use tonatuna::{
         systems::{actions::{actions, IActions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{player::Player, fish_pond::FishPond}
+        models::{player::Player, fish_pond::FishPond, fish::Fish}
         // models::{{Position, Vec2, position, Moves, Direction, moves}}
     };
 

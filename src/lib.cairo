@@ -12,6 +12,7 @@ mod models {
     mod index;
     mod fish_pond;
     mod player;
+    mod fish;
 }
 
 mod components {

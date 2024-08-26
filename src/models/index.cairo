@@ -22,3 +22,15 @@ pub struct FishPond {
     pub rare_fish_chance: u8,
     pub daily_catches: u32
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Fish {
+    #[key]
+    pub pond_id: u32,
+    #[key]
+    pub fish_id: u32,
+    pub position: Vec2,
+    pub weight: u32
+    // pub rarity: u8,
+}
