@@ -132,53 +132,15 @@
     "interface_name": "tonatuna::systems::actions::IActions"
   },
   {
-    "type": "enum",
-    "name": "tonatuna::models::Direction",
-    "variants": [
-      {
-        "name": "None",
-        "type": "()"
-      },
-      {
-        "name": "Left",
-        "type": "()"
-      },
-      {
-        "name": "Right",
-        "type": "()"
-      },
-      {
-        "name": "Up",
-        "type": "()"
-      },
-      {
-        "name": "Down",
-        "type": "()"
-      }
-    ]
-  },
-  {
     "type": "interface",
     "name": "tonatuna::systems::actions::IActions",
     "items": [
       {
         "type": "function",
-        "name": "spawn",
+        "name": "create_fish_pond",
         "inputs": [],
         "outputs": [],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "move",
-        "inputs": [
-          {
-            "name": "direction",
-            "type": "tonatuna::models::Direction"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "external"
+        "state_mutability": "view"
       }
     ]
   },
@@ -249,6 +211,12 @@
   },
   {
     "type": "event",
+    "name": "tonatuna::components::playable::PlayableComponent::Event",
+    "kind": "enum",
+    "variants": []
+  },
+  {
+    "type": "event",
     "name": "tonatuna::systems::actions::actions::Event",
     "kind": "enum",
     "variants": [
@@ -256,6 +224,11 @@
         "name": "UpgradeableEvent",
         "type": "dojo::contract::upgradeable::upgradeable::Event",
         "kind": "nested"
+      },
+      {
+        "name": "PlayableEvent",
+        "type": "tonatuna::components::playable::PlayableComponent::Event",
+        "kind": "flat"
       }
     ]
   }
