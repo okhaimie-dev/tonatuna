@@ -363,52 +363,38 @@
   },
   {
     "type": "impl",
-    "name": "directions_availableImpl",
-    "interface_name": "tonatuna::models::Idirections_available"
-  },
-  {
-    "type": "enum",
-    "name": "tonatuna::models::Direction",
-    "variants": [
-      {
-        "name": "None",
-        "type": "()"
-      },
-      {
-        "name": "Left",
-        "type": "()"
-      },
-      {
-        "name": "Right",
-        "type": "()"
-      },
-      {
-        "name": "Up",
-        "type": "()"
-      },
-      {
-        "name": "Down",
-        "type": "()"
-      }
-    ]
+    "name": "playerImpl",
+    "interface_name": "tonatuna::models::index::Iplayer"
   },
   {
     "type": "struct",
-    "name": "tonatuna::models::DirectionsAvailable",
+    "name": "tonatuna::models::index::Player",
     "members": [
       {
-        "name": "player",
-        "type": "core::starknet::contract_address::ContractAddress"
+        "name": "id",
+        "type": "core::felt252"
       },
       {
-        "name": "directions",
-        "type": "core::array::Array::<tonatuna::models::Direction>"
+        "name": "name",
+        "type": "core::felt252"
+      },
+      {
+        "name": "bait_balance",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "fish_caught",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "daily_attempts",
+        "type": "core::integer::u8"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "tonatuna::models::Idirections_available",
+    "name": "tonatuna::models::index::Iplayer",
     "items": [
       {
         "type": "function",
@@ -416,7 +402,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "tonatuna::models::DirectionsAvailable"
+            "type": "tonatuna::models::index::Player"
           }
         ],
         "outputs": [],
@@ -426,7 +412,7 @@
   },
   {
     "type": "event",
-    "name": "tonatuna::models::directions_available::Event",
+    "name": "tonatuna::models::index::player::Event",
     "kind": "enum",
     "variants": []
   }
