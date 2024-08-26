@@ -14,6 +14,7 @@ trait IActions<TContractState> {
     fn create_fish_pond(self: @TContractState) -> u32;
     fn new_player(self: @TContractState, id: felt252, name: felt252) -> Player;
     fn move(self: @TContractState, dest_pos: Vec2);
+    fn spawn_fish(self: @TContractState, fish_pond_id: u32, fish_id: u32);
 }
 
 // dojo decorator
@@ -76,6 +77,10 @@ mod actions {
 
         fn move(self: @ContractState, dest_pos: Vec2) {
             self.playable.move(self.world(), dest_pos);
+        }
+
+        fn spawn_fish(self: @ContractState, fish_pond_id: u32, fish_id: u32) {
+            self.playable.spawn_fish(self.world(), fish_pond_id, fish_id);
         }
     }
 }

@@ -6,6 +6,7 @@ mod errors {
     const POND_CATCH_LIMIT_REACHED: felt252 = 'Pond: daily catch limit reached';
     const POND_NOT_ENOUGH_FISH: felt252 = 'Pond: not enough fish to catch';
     const POND_ACTION_TOO_SOON: felt252 = 'Pond: action too soon';
+    const POND_DOESNT_EXIST: felt252 = 'Pond: does not exist';
 }
 
 #[generate_trait]
@@ -36,5 +37,9 @@ impl FishPondAssert of AssertTrait {
 
     fn assert_enough_fish(self: FishPond, amount: u32) {
         assert(self.fish_population >= amount, errors::POND_NOT_ENOUGH_FISH);
+    }
+
+    fn assert_exists(self: FishPond) {
+        assert(self.id != 0, errors::POND_DOESNT_EXIST);
     }
 }

@@ -6,6 +6,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 // Model imports
 use tonatuna::models::player::Player;
 use tonatuna::models::fish_pond::FishPond;
+use tonatuna::models::fish::Fish;
 
 // Structs
 #[derive(Copy, Drop)]
@@ -37,6 +38,11 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
+    fn get_fish(self: Store, fish_pond_id: u32, fish_id: u32) -> Fish {
+        get!(self.world, (fish_pond_id, fish_id), (Fish))
+    }
+
+    #[inline]
     fn set_state(self: Store, player: Player, fish_pond: FishPond) {
         set!(self.world, (player, fish_pond))
     }
@@ -49,5 +55,10 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn set_fish_pond(self: Store, fish_pond: FishPond) {
         set!(self.world, (fish_pond))
+    }
+
+    #[inline]
+    fn set_fish(self: Store, fish: Fish) {
+        set!(self.world, (fish))
     }
 }

@@ -27,7 +27,7 @@ pub struct FishPond {
 #[dojo::model]
 pub struct Fish {
     #[key]
-    pub pond_id: u32,
+    pub fish_pond_id: u32,
     #[key]
     pub fish_id: u32,
     pub position: Vec2,
