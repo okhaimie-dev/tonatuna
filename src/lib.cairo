@@ -49,7 +49,9 @@ mod elements {
     }
 }
 
-mod helpers {}
+mod helpers {
+    mod random;
+}
 
 mod tests {
     mod test_world;

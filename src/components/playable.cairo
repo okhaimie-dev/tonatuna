@@ -91,11 +91,6 @@ mod PlayableComponent {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
-            // // [Check] Player exists
-            // let caller = get_caller_address();
-            // let mut player = store.get_player(caller.into());
-            // player.assert_exists();
-
             // [Effect] Get fish pond
             let fish_pond: FishPond = store.get_fish_pond(fish_pond_id);
             fish_pond.assert_exists();

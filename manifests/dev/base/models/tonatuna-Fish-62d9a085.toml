@@ -1,13 +1,13 @@
 kind = "DojoModel"
-class_hash = "0x3187d7fc0cc6fa1fa7e573a263da7586c53b1bf2e4bd130e37fe2db548056de"
-original_class_hash = "0x3187d7fc0cc6fa1fa7e573a263da7586c53b1bf2e4bd130e37fe2db548056de"
+class_hash = "0x6aef4aa7505628e7f337b434ca47e656d5a54febb8400cd3275b00981adec33"
+original_class_hash = "0x6aef4aa7505628e7f337b434ca47e656d5a54febb8400cd3275b00981adec33"
 abi = "manifests/dev/base/abis/models/tonatuna-Fish-62d9a085.json"
 tag = "tonatuna-Fish"
 qualified_path = "tonatuna::models::index::fish"
 manifest_name = "tonatuna-Fish-62d9a085"
 
 [[members]]
-name = "pond_id"
+name = "fish_pond_id"
 type = "u32"
 key = true
 

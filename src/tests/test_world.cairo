@@ -16,8 +16,9 @@ mod tests {
     use tonatuna::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
         models::{player::Player, fish_pond::FishPond},
-        types::vec2::Vec2
+        types::vec2::Vec2,
         // models::{{Position, Vec2, position, Moves, Direction, moves}}
+        // helpers::random::random_num
     };
 
     use tonatuna::store::{Store, StoreTrait};
@@ -97,5 +98,33 @@ mod tests {
         // assert(player.name == 'Bob', 'name is wrong');
         // assert(player.position.x == 1, 'position x is wrong');
         // assert(player.position.y == 1, 'position y is wrong');
+    }
+
+    fn test_random() {
+        // caller
+        let caller = starknet::contract_address_const::<0x0>();
+
+        // models
+        let mut models = core::array::ArrayTrait::new();
+        models.append(tonatuna::models::index::player::TEST_CLASS_HASH);
+        models.append(tonatuna::models::index::fish_pond::TEST_CLASS_HASH);
+
+        // deploy world with models
+        let world = spawn_test_world(["tonatuna"].span(), models.span());
+
+        let store = StoreTrait::new(world);
+
+        // deploy systems contract
+        let contract_address = world
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+        let actions_system = IActionsDispatcher { contract_address };
+
+        world.grant_writer(dojo::utils::bytearray_hash(@"tonatuna"), contract_address);
+
+        // let tmp = random_num(seed: 0, nonce: 0, max_value: 10);
+        // println!("random number: ", tmp);
+
+        // generate fishes based on the random numbers
+
     }
 }

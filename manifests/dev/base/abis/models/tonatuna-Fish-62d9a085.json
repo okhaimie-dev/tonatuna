@@ -385,7 +385,7 @@
     "name": "tonatuna::models::index::Fish",
     "members": [
       {
-        "name": "pond_id",
+        "name": "fish_pond_id",
         "type": "core::integer::u32"
       },
       {
