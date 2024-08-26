@@ -7,6 +7,7 @@ pub struct Player {
     pub bait_balance: u32,
     pub fish_caught: u32,
     pub daily_attempts: u8,
+    pub position: Vec2,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -18,4 +19,10 @@ pub struct FishPond {
     pub daily_catch_limit: u32,
     pub rare_fish_chance: u8,
     pub daily_catches: u32
+}
+
+#[derive(Copy, Drop, Serde, IntrospectPacked, Debug)]
+pub struct Vec2 {
+    pub x: u32,
+    pub y: u32
 }

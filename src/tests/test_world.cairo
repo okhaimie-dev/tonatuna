@@ -1,14 +1,25 @@
 #[cfg(test)]
 mod tests {
+    // Core imports
+    use core::debug::PrintTrait;
+
+    // starknet imports
+    use starknet::ContractAddress;
+    use starknet::testing::{set_contract_address, set_caller_address};
+
     // import world dispatcher
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     // import test utils
     use dojo::utils::test::{spawn_test_world, deploy_contract};
-    // import test utils
+
+    // import tonatuna
     use tonatuna::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{{Position, Vec2, position, Moves, Direction, moves}}
+        models::{player::Player, fish_pond::FishPond}
+        // models::{{Position, Vec2, position, Moves, Direction, moves}}
     };
+
+    use tonatuna::store::{Store, StoreTrait};
 
     #[test]
     fn test_move() {
@@ -16,10 +27,14 @@ mod tests {
         let caller = starknet::contract_address_const::<0x0>();
 
         // models
-        let mut models = array![position::TEST_CLASS_HASH, moves::TEST_CLASS_HASH];
+        let mut models = core::array::ArrayTrait::new();
+        models.append(tonatuna::models::index::player::TEST_CLASS_HASH);
+        models.append(tonatuna::models::index::fish_pond::TEST_CLASS_HASH);
 
         // deploy world with models
         let world = spawn_test_world(["tonatuna"].span(), models.span());
+
+        let store = StoreTrait::new(world);
 
         // deploy systems contract
         let contract_address = world
@@ -28,31 +43,15 @@ mod tests {
 
         world.grant_writer(dojo::utils::bytearray_hash(@"tonatuna"), contract_address);
 
-        // call spawn()
-        actions_system.spawn();
+        // register the player
+        let mut player = Player::new(1, "Bob"); // id(felt252), name(252)
 
-        // call move with direction right
-        actions_system.move(Direction::Right);
+        actions_system.move(Vec2{ x: 1, y: 1 });
 
-        // Check world state
-        let moves = get!(world, caller, Moves);
+        player = store.get_player(caller.into());
 
-        // casting right direction
-        let right_dir_felt: felt252 = Direction::Right.into();
+        assert(player.position.x == 1, 'position x is wrong');
+        assert(player.position.y == 1, 'position y is wrong');
 
-        // check moves
-        assert(moves.remaining == 99, 'moves is wrong');
-
-        // check last direction
-        assert(moves.last_direction.into() == right_dir_felt, 'last direction is wrong');
-
-        // get new_position
-        let new_position = get!(world, caller, Position);
-
-        // check new position x
-        assert(new_position.vec.x == 11, 'position x is wrong');
-
-        // check new position y
-        assert(new_position.vec.y == 10, 'position y is wrong');
     }
 }

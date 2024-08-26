@@ -32,8 +32,8 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn get_fish_pond(self: Store, player_id: felt252) -> FishPond {
-        get!(self.world, player_id, (FishPond))
+    fn get_fish_pond(self: Store, fish_pond_id: u32) -> FishPond {
+        get!(self.world, fish_pond_id, (FishPond))
     }
 
     #[inline]

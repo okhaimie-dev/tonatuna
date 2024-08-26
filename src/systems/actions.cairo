@@ -1,20 +1,36 @@
+// Starknet imports
+use starknet::ContractAddress;
+
+// Dojo imports
+use dojo::world::IWorldDispatcher;
+
+// Internal imports
+use tonatuna::models::player::Player;
+use tonatuna::models::index::Vec2;
+
 // define the interface
 #[starknet::interface]
 trait IActions<TContractState> {
-    fn create_fish_pond(self: @TContractState);
+    fn create_fish_pond(self: @TContractState) -> u32;
+    // fn new_player(self: @TContractState, id: felt252, name: felt252) -> Player;
+    fn move(self: @TContractState, dest_pos: Vec2);
 }
 
 // dojo decorator
 #[dojo::contract]
 mod actions {
+
     // Component imports
 
+    // use tonatuna::components::initializable::InitializableComponent;
     use tonatuna::components::playable::PlayableComponent;
+
 
     use super::{IActions};
 
     // Components
 
+    #[abi(embed_v0)]
     component!(path: PlayableComponent, storage: playable, event: PlayableEvent);
     impl PlayableInternalImpl = PlayableComponent::InternalImpl<ContractState>;
 
@@ -22,6 +38,8 @@ mod actions {
 
     #[storage]
     struct Storage {
+        // #[substorage(v0)]
+        // initializable: InitializableComponent::Storage,
         #[substorage(v0)]
         playable: PlayableComponent::Storage,
     }
@@ -31,16 +49,33 @@ mod actions {
     #[event]
     #[derive(Drop, starknet::Event)]
     enum Event {
+        // #[flat]
+        // InitializableEvent: InitializableComponent::Event,
         #[flat]
         PlayableEvent: PlayableComponent::Event,
     }
 
     // Implementations
 
+    // #[abi(embed_v0)]
+    // impl DojoResourceProviderImpl of IDojoResourceProvider<ContractState> {
+    //     fn dojo_resource(self: @ContractState) -> felt252 {
+    //         'actions'
+    //     }
+    // }
+
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
-        fn create_fish_pond(self: @ContractState) {
+        fn create_fish_pond(self: @ContractState) -> u32{
             self.playable.create_fish_pond(self.world())
         }
+
+        fn move(self: @ContractState, dest_pos: Vec2) {
+            self.playable.move(self.world(), dest_pos);
+        }
+
+        // fn new_player(self: @ContractState, id: felt252, name: felt252) -> Player {
+        //     self.playable.new(self.world(), id, name)
+        // }
     }
 }
