@@ -4,6 +4,8 @@ class_hash = "0x3715f072aa1c07be724249fcda8b0322687f6c5c585eebc4402d162649c707c"
 original_class_hash = "0x3715f072aa1c07be724249fcda8b0322687f6c5c585eebc4402d162649c707c"
 abi = "manifests/dev/deployment/abis/dojo-world.json"
 address = "0x11e23a4568363aa10dce5254094f893e95cbd700915fd0d0c30a59f218d2a9d"
+transaction_hash = "0x46909d24893e481968a1ebe6ee8a8ef872a7761494d93f757271d4311d2c0a1"
+block_number = 3
 seed = "tonatuna"
 manifest_name = "dojo-world"
 
@@ -21,9 +23,10 @@ manifest_name = "dojo-base"
 
 [[contracts]]
 kind = "DojoContract"
+address = "0x2fdd8dc923c575334bfce376871fb80b89bcba892d9322ba9fb5db698146c9b"
 class_hash = "0x5425bcd6d88ddc65f34468f6ff3cd3068ed3bf1983ab733ecfc61478556cd4"
 original_class_hash = "0x5425bcd6d88ddc65f34468f6ff3cd3068ed3bf1983ab733ecfc61478556cd4"
-base_class_hash = "0x0"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/tonatuna-actions-31c51141.json"
 reads = []
 writes = ["ns:tonatuna"]

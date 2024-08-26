@@ -1,15 +1,12 @@
 import "./App.css";
-import { useComponentValue, useQuerySync } from "@dojoengine/react";
-import { Entity } from "@dojoengine/recs";
+import { useQuerySync } from "@dojoengine/react";
 import { useEffect, useState } from "react";
-import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useDojo } from "./dojo/useDojo";
 
 function App() {
   const {
     setup: {
       systemCalls: { create_fish_pond },
-      clientComponents: { FishPond },
       toriiClient,
       contractComponents,
     },
@@ -22,11 +19,6 @@ function App() {
     message: "",
     isError: false,
   });
-
-  // entity id we are syncing
-  const entityId = getEntityIdFromKeys([
-    BigInt(account?.account.address),
-  ]) as Entity;
 
   const handleRestoreBurners = async () => {
     try {
