@@ -6,7 +6,7 @@ use core::debug::PrintTrait;
 use tonatuna::constants::{MAX_DAILY_FISHING_ATTEMPTS};
 use tonatuna::models::index::Player;
 use tonatuna::models::index::FishPond;
-use tonatuna::models::index::Vec2;
+use tonatuna::types::vec2::Vec2;
 
 mod errors {
     const PLAYER_NOT_EXIST: felt252 = 'Player: does not exist';

@@ -2,6 +2,7 @@ mod constants;
 mod store;
 
 mod types {
+    mod vec2;
     mod tuna;
     mod fishing_rod;
     mod bait;

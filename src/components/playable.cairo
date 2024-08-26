@@ -16,7 +16,7 @@ mod PlayableComponent {
 
     // Internal imports
     use tonatuna::store::{Store, StoreTrait};
-    use tonatuna::models::index::Vec2;
+    use tonatuna::types::vec2::Vec2;
     use tonatuna::models::fish_pond::{FishPond, FishPondTrait, FishPondAssert};
     use tonatuna::models::player::{Player, PlayerTrait, PlayerAssert};
     use tonatuna::types::bait::Bait;

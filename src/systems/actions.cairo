@@ -6,13 +6,13 @@ use dojo::world::IWorldDispatcher;
 
 // Internal imports
 use tonatuna::models::player::Player;
-use tonatuna::models::index::Vec2;
+use tonatuna::types::vec2::Vec2;
 
 // define the interface
 #[starknet::interface]
 trait IActions<TContractState> {
     fn create_fish_pond(self: @TContractState) -> u32;
-    // fn new_player(self: @TContractState, id: felt252, name: felt252) -> Player;
+    fn new_player(self: @TContractState, id: felt252, name: felt252) -> Player;
     fn move(self: @TContractState, dest_pos: Vec2);
 }
 
@@ -26,7 +26,7 @@ mod actions {
     use tonatuna::components::playable::PlayableComponent;
 
 
-    use super::{IActions};
+    use super::{IActions, Vec2, Player};
 
     // Components
 
@@ -74,8 +74,8 @@ mod actions {
             self.playable.move(self.world(), dest_pos);
         }
 
-        // fn new_player(self: @ContractState, id: felt252, name: felt252) -> Player {
-        //     self.playable.new(self.world(), id, name)
-        // }
+        fn new_player(self: @ContractState, id: felt252, name: felt252) -> Player {
+            self.playable.new_player(self.world(), id, name)
+        }
     }
 }
