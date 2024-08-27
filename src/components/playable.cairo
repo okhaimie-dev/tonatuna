@@ -96,7 +96,7 @@ mod PlayableComponent {
             fish_pond.assert_exists();
 
             // [Effect] Spawn fish
-            let new_fish: Fish = FishTrait::new(fish_pond_id, fish_id);
+            let new_fish: Fish = FishTrait::new(fish_pond_id, fish_id, get_block_timestamp().into());
 
             // [Effect] Update fish pond
             // store.set_fish_pond(fish_pond);

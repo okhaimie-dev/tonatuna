@@ -50,7 +50,8 @@ mod elements {
 }
 
 mod helpers {
-    mod random;
+    // mod random;
+    mod dice;
 }
 
 mod tests {
