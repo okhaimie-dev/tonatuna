@@ -19,8 +19,8 @@ impl FishImpl of FishTrait {
     fn new(fish_pond_id: u32, fish_id: u32, seed: felt252) -> Fish {
         assert(fish_pond_id != 0, errors::FISH_POND_ID_INVALID);
         // [Setup] Dice
-        // should we use the same seed and increment nonce for all fish?
-        let mut dice: Dice = DiceTrait::new(MAX_SIZE, seed);
+        // fish_id * 2 + 1: to avoid having the same nonce as the next fish
+        let mut dice: Dice = DiceTrait::new_with_nonce(MAX_SIZE, seed, (fish_id * 2).into());
 
         Fish {
             fish_pond_id,

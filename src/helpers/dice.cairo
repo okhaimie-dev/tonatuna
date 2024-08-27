@@ -21,6 +21,11 @@ pub impl DiceImpl of DiceTrait {
     }
 
     #[inline]
+    fn new_with_nonce(face_count: u32, seed: felt252, nonce: felt252) -> Dice {
+        Dice { face_count, seed, nonce }
+    }
+
+    #[inline]
     fn roll(ref self: Dice) -> u32 {
         let mut state = PoseidonTrait::new();
         state = state.update(self.seed);

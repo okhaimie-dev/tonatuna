@@ -15,7 +15,7 @@ impl FishPondImpl of FishPondTrait {
     fn new(id: u32) -> FishPond {
         FishPond {
             id,
-            fish_population: 1000,
+            fish_population: 0,
             daily_catch_limit: DAILY_CATCH_LIMIT,
             rare_fish_chance: 5,
             daily_catches: 0,
