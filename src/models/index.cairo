@@ -34,3 +34,15 @@ pub struct Fish {
     pub weight: u32
     // pub rarity: u8,
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Commitment {
+    #[key]
+    pub player_id: felt252,
+    #[key]
+    pub fish_pond_id: u32,
+    pub value: felt252,
+    pub nonce: u32,
+    pub timestamp: u64
+}

@@ -100,14 +100,16 @@ fn move(id: u256, xDest: i32, yDest: i32) {
 }
 
 // Fisherman -> hidden fish commiment
-fn cast(id: u256, commitment: u32) {
+fn cast(id: u256, commitment: felt252, nonce: u32) { // random hash hash(fish_id, salt) 
   if is_fish_id(id) revert
   if owner(id) != sender revert
+  
   
   baitBalance[id] -= 1;
   commitment[id] = Commitment {
     id: id,
     value: commitment,
+    nonce: nonce
     timestamp: now()
   }
 }

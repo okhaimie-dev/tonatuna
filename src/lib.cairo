@@ -13,6 +13,7 @@ mod models {
     mod fish_pond;
     mod player;
     mod fish;
+    mod commitment;
 }
 
 mod components {
