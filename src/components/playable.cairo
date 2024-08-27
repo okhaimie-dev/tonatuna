@@ -125,8 +125,6 @@ mod PlayableComponent {
             player.bait_balance -= 1;
             // [Update] Player's daily attempts
             player.daily_attempts += 1;
-            // [Update] Player's fish caught
-            player.fish_caught += 1;
 
             let mut commit: Commitment = store.get_commitment(caller.into(), fish_pond_id);
 
@@ -138,6 +136,36 @@ mod PlayableComponent {
             store.set_player(player);
             // [Effect] Set commitment
             store.set_commitment(commit);
+
+            // [Effect] Update player
+            store.set_player(player);
+        }
+
+        // Reveal the commitment to catch the fish
+        fn reel_by_revealing(self: @ComponentState<TContractState>, world: IWorldDispatcher, player_id: felt252, fish_pond_id: u32, salt: u256) {
+            // [Setup] Datastore
+            let store: Store = StoreTrait::new(world);
+
+            // [Check] Player exists
+            let caller = get_caller_address();
+            let mut player = store.get_player(caller.into());
+            player.assert_exists();
+
+            
+
+            let mut commit: Commitment = store.get_commitment(caller.into(), fish_pond_id);
+
+            commit.nonce += 1;
+            commit.value = commitment;
+            commit.timestamp = get_block_timestamp();
+
+            // [Effect] Set player info
+            store.set_player(player);
+            // [Effect] Set commitment
+            store.set_commitment(commit);
+
+            // [Update] Player's fish caught
+            player.fish_caught += 1;
 
             // [Effect] Update player
             store.set_player(player);

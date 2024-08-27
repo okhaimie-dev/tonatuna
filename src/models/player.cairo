@@ -34,46 +34,6 @@ impl PlayerImpl of PlayerTrait {
     fn buy_bait(ref self: Player, quantity: u8) { // use ERC20 to buy bait
         // [Check] Player has enough bait
     }
-
-    // // cast trying to a fish
-    // #[inline]
-    // fn cast_fishing(ref self: Player, fish_pond: FishPond, commitment: felt252) { // [Check] Player has enough bait
-    //     // [Setup] Datastore
-    //     let store: Store = StoreImpl::new(world);
-
-    //     // [Check] Player exists
-    //     let caller = get_caller_address();
-
-
-    //     let mut player = store.get_player(caller.into());
-    //     player.assert_exists();
-        
-    //     // [Check] Player has enough bait
-    //     player.assert_is_affordable(1);
-
-    //     // [Check] Player has enough bait
-    //     player.assert_enough_bait(1);
-    //     // [Check] Player has not reached the daily limit
-    //     player.assert_daily_attempts();
-
-    //     // [Update] Player's bait balance
-    //     player.bait_balance -= 1;
-    //     // [Update] Player's daily attempts
-    //     player.daily_attempts += 1;
-    //     // [Update] Player's fish caught
-    //     player.fish_caught += 1;
-
-    //     // let mut commit: Commitment = store.get_commitment(caller.into(), fish_pond.id);
-
-    //     // commit.nonce += 1;
-    //     // commit.value = commitment;
-    //     // commit.timestamp = get_block_timestamp();
-
-    //     // [Effect] Set player info
-    //     store.set_player(player);
-    //     // [Effect] Set commitment
-    //     // store.set_commitment(commit);
-    // }
 }
 
 #[generate_trait]
