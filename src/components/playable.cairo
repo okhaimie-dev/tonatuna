@@ -26,7 +26,7 @@ mod PlayableComponent {
     use tonatuna::types::bait::Bait;
     use tonatuna::types::tuna::Tuna;
     use tonatuna::types::fishing_rod::FishingRod;
-    use tonatuna::constants::{CAST_DURATION};
+    use tonatuna::constants::{REEL_DURATION, CATCH_DURATION};
 
     // Errors
 
@@ -155,7 +155,7 @@ mod PlayableComponent {
             player.assert_exists();
 
             // [Check] Fish has not been caught
-            let fish = store.get_fish(fish_pond_id, fish_id);
+            let mut fish = store.get_fish(fish_pond_id, fish_id);
             fish.is_not_caught(); // -> if so, delete commitment??
 
             // [Check] Commitment Hash is correct
@@ -167,8 +167,8 @@ mod PlayableComponent {
             let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
             
-            // [Check] the time is over CAST_DURATION
-            assert(get_block_timestamp() - commitment.timestamp > CAST_DURATION, 'you have to wait');
+            // [Check] the time is over REEL_DURATION
+            assert(get_block_timestamp() - commitment.timestamp > REEL_DURATION, 'you have to wait');
 
             // [Effect] Set fish status
             let mut reveal_history = store.get_reveal_history(fish_pond_id, fish_id);
@@ -180,12 +180,60 @@ mod PlayableComponent {
                 // reset
                 reveal_history.timestamp = get_block_timestamp();
                 reveal_history.count = 0;
-                // fish is getting bigger.
-                // both fails.
+
+                // [Effect] fish is getting bigger.
+                fish.weight += 1;
+                store.set_fish(fish);
+
+                // [Effect] both fails.
+                // WIP: How to affect the previous commitment????
             }
 
             // [Effect] Update reveal_history
             store.set_reveal_history(reveal_history);
         }
+
+        // if the player reels the fish correctly, the fish is caught.
+        fn catch_the_fish(self: @ComponentState<TContractState>, world: IWorldDispatcher, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32) {
+            // [Setup] Datastore
+            let store: Store = StoreTrait::new(world);
+
+            // [Check] Player exists
+            let caller = get_caller_address();
+            let mut player = store.get_player(caller.into());
+            player.assert_exists();
+
+            // [Check] Fish has not been caught
+            let mut fish = store.get_fish(fish_pond_id, fish_id);
+            fish.is_not_caught(); // -> if so, delete commitment??
+
+            // [Check] reveal_history.count == 1 and player has the correct commitment.
+            let mut reveal_history = store.get_reveal_history(fish_pond_id, fish_id);
+            assert(reveal_history.count == 1, 'reeling failed');
+
+            // [Check] Commitment Hash is correct : FIXME: Do we need this?????
+            let hash_state = PoseidonTrait::new();
+            let hash_state = hash_state.update(fish_id.into());
+            let hash_state = hash_state.update(salt.into());
+            let commitment_value = hash_state.finalize().into();
+
+            let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
+            assert(commitment_value == commitment.value, 'hash value is wrong');
+            
+            // FIXME!!
+            // For now, if player A reels the fish, and player B reels the fish, player A can catch the fish after some time.
+
+            // [Check] reveal_history.timestamp is over CATCH_DURATION
+            assert(get_block_timestamp() - reveal_history.timestamp > CATCH_DURATION, 'you have to wait');
+
+            // [Effect] Set fish status
+            fish.status = 2;
+            store.set_fish(fish);
+
+            // [Effect] Update player
+            player.fish_caught += 1;
+            store.set_player(player);
+        }
+        
     }
 }

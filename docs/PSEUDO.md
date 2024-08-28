@@ -120,7 +120,7 @@ fn reel(id: u256, fish_id: u256, salt: u256) {
   if !is_fish_id(fish_id) revert
   if owner(id) != sender revert
   if hash(fish_id, salt) != commitment[id].value revert
-  if commitment[id].timestamp + CAST_DURATION > now() revert
+  if commitment[id].timestamp + REEL_DURATION > now() revert
 
   // fish already caught
   if fish[fish_id].size == 0 {
