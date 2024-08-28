@@ -5,6 +5,7 @@ import "./index.css";
 import { setup } from "./dojo/setup.ts";
 import { DojoProvider } from "./dojo/DojoContext.tsx";
 import { dojoConfig } from "../dojoConfig.ts";
+import "./phaser/PhaserGame.ts";
 
 async function init() {
   const rootElement = document.getElementById("root");
