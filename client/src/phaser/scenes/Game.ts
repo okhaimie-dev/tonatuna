@@ -52,6 +52,8 @@ export class Game extends Phaser.Scene {
     this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
     this.setupGridEngine();
+    this.listenPositionUpdate();
+    this.listenPlayerUpdate();
   }
 
   update() {
@@ -148,11 +150,11 @@ export class Game extends Phaser.Scene {
     // send move transaction
   }
 
-  handlePositionUpdate() {
+  listenPositionUpdate() {
     // listen to onchain position updates and call movePlayerTo on player object
   }
 
-  handlePlayerUpdate() {
+  listenPlayerUpdate() {
     // listen to players being added and removed and call spawnPlayer and removePlayer
   }
 }
