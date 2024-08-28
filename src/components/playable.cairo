@@ -170,23 +170,32 @@ mod PlayableComponent {
             // [Check] the time is over REEL_DURATION
             assert(get_block_timestamp() - commitment.timestamp > REEL_DURATION, 'you have to wait');
 
-            // [Effect] Set fish status
+            // [Check] reveal history
             let mut reveal_history = store.get_reveal_history(fish_pond_id, fish_id);
 
-            if reveal_history.count == 0 { // the first trial.
-                reveal_history.timestamp = get_block_timestamp();
-                reveal_history.count = 1;
+            // [Check] commitment.timestamp is over reveal_history.commit_timestamp
+            assert(commitment.timestamp >= reveal_history.commit_timestamp, 'your commit was failed');
+
+            if (reveal_history.count != 0) {
+                // [Check] it's revevant to the previous commitment.
+                if (commitment.timestamp < reveal_history.reveal_timestamp) {
+                    // fails to reel the fish. because someone's commitment is already revealed.
+                    // [Effect] fish is getting bigger.
+                    fish.weight += 1;
+                    store.set_fish(fish);
+
+                    // [Effect] reset reveal_history
+                    reveal_history.commit_timestamp = get_block_timestamp();
+                    reveal_history.reveal_timestamp = get_block_timestamp();
+                    reveal_history.count = 0;
+                } 
+                // else if (commitment.timestamp > reveal_history.commit_timestamp) {
+                //     // can reel the fish later???
+                // }
             } else {
-                // reset
-                reveal_history.timestamp = get_block_timestamp();
-                reveal_history.count = 0;
-
-                // [Effect] fish is getting bigger.
-                fish.weight += 1;
-                store.set_fish(fish);
-
-                // [Effect] both fails.
-                // WIP: How to affect the previous commitment????
+                reveal_history.commit_timestamp = commitment.timestamp;
+                reveal_history.reveal_timestamp = get_block_timestamp();
+                reveal_history.count = 1;
             }
 
             // [Effect] Update reveal_history
@@ -224,7 +233,10 @@ mod PlayableComponent {
             // For now, if player A reels the fish, and player B reels the fish, player A can catch the fish after some time.
 
             // [Check] reveal_history.timestamp is over CATCH_DURATION
-            assert(get_block_timestamp() - reveal_history.timestamp > CATCH_DURATION, 'you have to wait');
+            assert(get_block_timestamp() - reveal_history.reveal_timestamp > CATCH_DURATION, 'you have to wait');
+
+            // [Check] reveal_history.commit_timestamp == commitment.timestamp
+            assert(reveal_history.commit_timestamp == commitment.timestamp, 'commit is not yours');
 
             // [Effect] Set fish status
             fish.status = 2;

@@ -55,6 +55,7 @@ pub struct RevealHistory {
     pub fish_pond_id: u32,
     #[key]
     pub fish_id: u32,
-    pub timestamp: u64,
+    pub commit_timestamp: u64,
+    pub reveal_timestamp: u64,
     pub count: u32
 }

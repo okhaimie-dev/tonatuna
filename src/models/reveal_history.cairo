@@ -23,7 +23,8 @@ impl RevealHistoryImpl of RevealHistoryTrait {
         RevealHistory {
             fish_pond_id,
             fish_id,
-            timestamp: get_block_timestamp(),
+            commit_timestamp: get_block_timestamp(),
+            reveal_timestamp: get_block_timestamp(),
             count: 1
         }
     }
