@@ -11,7 +11,7 @@ export class Game extends Phaser.Scene {
   keyD!: Phaser.Input.Keyboard.Key;
 
   gridEngine!: GridEngine;
-  playerSprite!: Phaser.GameObjects.Sprite;
+  playerContainer!: Phaser.GameObjects.Container;
 
   constructor() {
     super({ key: "Game" });
@@ -44,13 +44,19 @@ export class Game extends Phaser.Scene {
       repeat: -1,
     });
 
-    const playerSprite = this.add.sprite(0, 0, "surf");
-    this.cameras.main.startFollow(playerSprite, true);
+    const surfSprite = this.add.sprite(0, 0, "surf");
+    const playerSprite = this.add.sprite(4, -8, "surf");
+    const playerContainer = this.add.container(0, 0, [
+      surfSprite,
+      playerSprite,
+    ]);
+
+    this.cameras.main.startFollow(playerContainer, true);
     this.cameras.main.setFollowOffset(
-      -playerSprite.width,
-      -playerSprite.height
+      -playerContainer.width,
+      -playerContainer.height
     );
-    this.playerSprite = playerSprite;
+    this.playerContainer = playerContainer;
 
     const tilemap = this.make.tilemap({
       // create a 2d 1000 x 1000 array of 0s
@@ -58,13 +64,13 @@ export class Game extends Phaser.Scene {
         Array.from({ length: 1000 }, () => 0)
       ),
     });
-    tilemap.createLayer(0, "surf", 0, 0);
+    tilemap.createLayer(0, "layer", 0, 0);
 
     const gridEngineConfig: GridEngineConfig = {
       characters: [
         {
           id: "surf",
-          sprite: playerSprite,
+          sprite: surfSprite,
           walkingAnimationMapping: {
             down: { leftFoot: 10, rightFoot: 10, standing: 10 },
             left: { leftFoot: 22, rightFoot: 22, standing: 22 },
@@ -72,12 +78,23 @@ export class Game extends Phaser.Scene {
             up: { leftFoot: 46, rightFoot: 46, standing: 46 },
           },
         },
+        {
+          id: "player",
+          sprite: playerSprite,
+          walkingAnimationMapping: {
+            down: { leftFoot: 4, rightFoot: 4, standing: 4 },
+            left: { leftFoot: 16, rightFoot: 16, standing: 16 },
+            right: { leftFoot: 28, rightFoot: 28, standing: 28 },
+            up: { leftFoot: 40, rightFoot: 40, standing: 40 },
+          },
+          container: playerContainer,
+        },
       ],
     };
 
     this.gridEngine.create(tilemap, gridEngineConfig);
 
-    this.cameras.main.setZoom(2);
+    this.cameras.main.setZoom(3);
     this.keyW = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyS = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -85,12 +102,12 @@ export class Game extends Phaser.Scene {
   }
 
   update() {
-    if (!this.playerSprite) return;
+    if (!this.playerContainer) return;
     let snappedChunkX = Math.round(
-      this.playerSprite.x / (CHUNK_SIZE * TILE_SIZE)
+      this.playerContainer.x / (CHUNK_SIZE * TILE_SIZE)
     );
     let snappedChunkY = Math.round(
-      this.playerSprite.y / (CHUNK_SIZE * TILE_SIZE)
+      this.playerContainer.y / (CHUNK_SIZE * TILE_SIZE)
     );
 
     for (let x = snappedChunkX - 2; x <= snappedChunkX + 2; x++) {
@@ -103,6 +120,7 @@ export class Game extends Phaser.Scene {
             tileSize: TILE_SIZE,
           });
           chunk.load();
+          console.log("loaded chunk", x, y);
           this.chunks.push(chunk);
         }
       }
@@ -122,16 +140,20 @@ export class Game extends Phaser.Scene {
     });
 
     if (this.keyW.isDown) {
-      this.gridEngine.move("surf", Direction.UP);
+      this.gridEngine.move("player", Direction.UP);
+      this.gridEngine.turnTowards("surf", Direction.UP);
     }
     if (this.keyS.isDown) {
-      this.gridEngine.move("surf", Direction.DOWN);
+      this.gridEngine.move("player", Direction.DOWN);
+      this.gridEngine.turnTowards("surf", Direction.DOWN);
     }
     if (this.keyA.isDown) {
-      this.gridEngine.move("surf", Direction.LEFT);
+      this.gridEngine.move("player", Direction.LEFT);
+      this.gridEngine.turnTowards("surf", Direction.LEFT);
     }
     if (this.keyD.isDown) {
-      this.gridEngine.move("surf", Direction.RIGHT);
+      this.gridEngine.move("player", Direction.RIGHT);
+      this.gridEngine.turnTowards("surf", Direction.RIGHT);
     }
   }
 
