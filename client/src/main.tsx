@@ -8,21 +8,21 @@ import { dojoConfig } from "../dojoConfig.ts";
 import "./phaser/PhaserGame.ts";
 
 async function init() {
-    const rootElement = document.getElementById("root");
-    if (!rootElement) throw new Error("React root not found");
-    const root = ReactDOM.createRoot(rootElement as HTMLElement);
+  const rootElement = document.getElementById("root");
+  if (!rootElement) throw new Error("React root not found");
+  const root = ReactDOM.createRoot(rootElement as HTMLElement);
 
-    const setupResult = await setup(dojoConfig);
+  const setupResult = await setup(dojoConfig);
 
-    !setupResult && <div>Loading....</div>;
+  !setupResult && <div>Loading....</div>;
 
-    root.render(
-        <React.StrictMode>
-            <DojoProvider value={setupResult}>
-                <App />
-            </DojoProvider>
-        </React.StrictMode>
-    );
+  root.render(
+    <React.StrictMode>
+      <DojoProvider value={setupResult}>
+        <App />
+      </DojoProvider>
+    </React.StrictMode>,
+  );
 }
 
 init();

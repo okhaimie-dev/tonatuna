@@ -1,17 +1,17 @@
 [world]
 kind = "WorldContract"
-class_hash = "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2"
-original_class_hash = "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2"
+class_hash = "0x3715f072aa1c07be724249fcda8b0322687f6c5c585eebc4402d162649c707c"
+original_class_hash = "0x3715f072aa1c07be724249fcda8b0322687f6c5c585eebc4402d162649c707c"
 abi = "manifests/dev/deployment/abis/dojo-world.json"
-address = "0x65c3cc2c4287630427181a60cd9301bc4c84a5cdb2457cd7b2a8d1279bd901e"
-transaction_hash = "0x72b8907e8cfb88bb4071c713aa533aff4fe948d507c169e4b77d4327174ef17"
+address = "0x11e23a4568363aa10dce5254094f893e95cbd700915fd0d0c30a59f218d2a9d"
+transaction_hash = "0x46909d24893e481968a1ebe6ee8a8ef872a7761494d93f757271d4311d2c0a1"
 block_number = 3
 seed = "tonatuna"
 manifest_name = "dojo-world"
 
 [world.metadata]
 profile_name = "dev"
-rpc_url = "https://api.cartridge.gg/x/tonatuna/katana"
+rpc_url = "https://api.cartridge.gg/x/tonatuna-alpha-v1/katana"
 
 [base]
 kind = "Class"
@@ -23,99 +23,82 @@ manifest_name = "dojo-base"
 
 [[contracts]]
 kind = "DojoContract"
-address = "0x426feaf880a9d54f5b52a3f0169bb4502a7b93d0d6db12aa9b578fc55894a35"
-class_hash = "0x36cd00731e578f9d498b5a1a44d910bbefb3c52220320903e2982f66e51c4a9"
-original_class_hash = "0x36cd00731e578f9d498b5a1a44d910bbefb3c52220320903e2982f66e51c4a9"
+address = "0x2fdd8dc923c575334bfce376871fb80b89bcba892d9322ba9fb5db698146c9b"
+class_hash = "0x5425bcd6d88ddc65f34468f6ff3cd3068ed3bf1983ab733ecfc61478556cd4"
+original_class_hash = "0x5425bcd6d88ddc65f34468f6ff3cd3068ed3bf1983ab733ecfc61478556cd4"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/tonatuna-actions-31c51141.json"
 reads = []
 writes = ["ns:tonatuna"]
 init_calldata = []
 tag = "tonatuna-actions"
-systems = [
-    "spawn",
-    "move",
-]
+systems = ["create_fish_pond"]
 manifest_name = "tonatuna-actions-31c51141"
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x3b98b467b59555f321c490645a78765ca8ba1edaee023fb0db47682c48a18e5"
-original_class_hash = "0x3b98b467b59555f321c490645a78765ca8ba1edaee023fb0db47682c48a18e5"
-abi = "manifests/dev/deployment/abis/models/tonatuna-DirectionsAvailable-4cb6d4a7.json"
-tag = "tonatuna-DirectionsAvailable"
-manifest_name = "tonatuna-DirectionsAvailable-4cb6d4a7"
+class_hash = "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714"
+original_class_hash = "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714"
+abi = "manifests/dev/deployment/abis/models/tonatuna-FishPond-6253e2c7.json"
+tag = "tonatuna-FishPond"
+qualified_path = "tonatuna::models::index::fish_pond"
+manifest_name = "tonatuna-FishPond-6253e2c7"
 
 [[models.members]]
-name = "player"
-type = "ContractAddress"
+name = "id"
+type = "u32"
 key = true
 
 [[models.members]]
-name = "directions"
-type = "Array<Direction>"
+name = "fish_population"
+type = "u32"
 key = false
 
-[[models]]
-kind = "DojoModel"
-class_hash = "0x4c4c0b25daf190eea9de98667ef946b34bb7e5ac8b73aa3833572c1cdf8966b"
-original_class_hash = "0x4c4c0b25daf190eea9de98667ef946b34bb7e5ac8b73aa3833572c1cdf8966b"
-abi = "manifests/dev/deployment/abis/models/tonatuna-Moved-20af9a00.json"
-tag = "tonatuna-Moved"
-manifest_name = "tonatuna-Moved-20af9a00"
-
 [[models.members]]
-name = "player"
-type = "ContractAddress"
-key = true
-
-[[models.members]]
-name = "direction"
-type = "Direction"
+name = "daily_catch_limit"
+type = "u32"
 key = false
 
-[[models]]
-kind = "DojoModel"
-class_hash = "0x46309a9ebf09823640924578bad2d0d0b75a5c1ac50fe4dc2c1b5b65426469e"
-original_class_hash = "0x46309a9ebf09823640924578bad2d0d0b75a5c1ac50fe4dc2c1b5b65426469e"
-abi = "manifests/dev/deployment/abis/models/tonatuna-Moves-2cf8f0f8.json"
-tag = "tonatuna-Moves"
-manifest_name = "tonatuna-Moves-2cf8f0f8"
-
 [[models.members]]
-name = "player"
-type = "ContractAddress"
-key = true
-
-[[models.members]]
-name = "remaining"
+name = "rare_fish_chance"
 type = "u8"
 key = false
 
 [[models.members]]
-name = "last_direction"
-type = "Direction"
-key = false
-
-[[models.members]]
-name = "can_move"
-type = "bool"
+name = "daily_catches"
+type = "u32"
 key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x7d25c8545f279fb7ccf71241d0c395176d75a6d7207c321d370154bdda54dc5"
-original_class_hash = "0x7d25c8545f279fb7ccf71241d0c395176d75a6d7207c321d370154bdda54dc5"
-abi = "manifests/dev/deployment/abis/models/tonatuna-Position-50b164f1.json"
-tag = "tonatuna-Position"
-manifest_name = "tonatuna-Position-50b164f1"
+class_hash = "0x478a247a5f54f03ed440231e5ada86ac9faa77ef9f1ab0f7ff740d37887eab0"
+original_class_hash = "0x478a247a5f54f03ed440231e5ada86ac9faa77ef9f1ab0f7ff740d37887eab0"
+abi = "manifests/dev/deployment/abis/models/tonatuna-Player-24470676.json"
+tag = "tonatuna-Player"
+qualified_path = "tonatuna::models::index::player"
+manifest_name = "tonatuna-Player-24470676"
 
 [[models.members]]
-name = "player"
-type = "ContractAddress"
+name = "id"
+type = "felt252"
 key = true
 
 [[models.members]]
-name = "vec"
-type = "Vec2"
+name = "name"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "bait_balance"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "fish_caught"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "daily_attempts"
+type = "u8"
 key = false
