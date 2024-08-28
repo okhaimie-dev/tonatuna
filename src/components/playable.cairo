@@ -229,9 +229,6 @@ mod PlayableComponent {
             let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
             
-            // FIXME!!
-            // For now, if player A reels the fish, and player B reels the fish, player A can catch the fish after some time.
-
             // [Check] reveal_history.timestamp is over CATCH_DURATION
             assert(get_block_timestamp() - reveal_history.reveal_timestamp > CATCH_DURATION, 'you have to wait');
 
