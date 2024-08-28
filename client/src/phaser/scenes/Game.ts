@@ -1,14 +1,17 @@
+import GridEngine, { Direction, GridEngineConfig } from "grid-engine";
 import { Chunk } from "../objects/Chunk";
 import { CHUNK_SIZE, TILE_SIZE } from "../phaser.constants";
 
 export class Game extends Phaser.Scene {
   chunks: Chunk[] = [];
 
-  followPoint!: Phaser.Math.Vector2;
   keyW!: Phaser.Input.Keyboard.Key;
   keyS!: Phaser.Input.Keyboard.Key;
   keyA!: Phaser.Input.Keyboard.Key;
   keyD!: Phaser.Input.Keyboard.Key;
+
+  gridEngine!: GridEngine;
+  playerSprite!: Phaser.GameObjects.Sprite;
 
   constructor() {
     super({ key: "Game" });
@@ -25,6 +28,10 @@ export class Game extends Phaser.Scene {
         frameHeight: 16,
       },
     });
+    this.load.spritesheet("surf", "surf.png", {
+      frameWidth: 24,
+      frameHeight: 32,
+    });
   }
 
   create() {
@@ -37,17 +44,40 @@ export class Game extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.cameras.main.setZoom(2);
-    this.cameras.main.centerOn(0, 0);
-    this.followPoint = new Phaser.Math.Vector2(
-      this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
-      this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
+    const playerSprite = this.add.sprite(0, 0, "surf");
+    this.cameras.main.startFollow(playerSprite, true);
+    this.cameras.main.setFollowOffset(
+      -playerSprite.width,
+      -playerSprite.height
     );
+    this.playerSprite = playerSprite;
 
-    this.followPoint = new Phaser.Math.Vector2(
-      this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
-      this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
-    );
+    const tilemap = this.make.tilemap({
+      // create a 2d 1000 x 1000 array of 0s
+      data: Array.from({ length: 1000 }, () =>
+        Array.from({ length: 1000 }, () => 0)
+      ),
+    });
+    tilemap.createLayer(0, "surf", 0, 0);
+
+    const gridEngineConfig: GridEngineConfig = {
+      characters: [
+        {
+          id: "surf",
+          sprite: playerSprite,
+          walkingAnimationMapping: {
+            down: { leftFoot: 10, rightFoot: 10, standing: 10 },
+            left: { leftFoot: 22, rightFoot: 22, standing: 22 },
+            right: { leftFoot: 34, rightFoot: 34, standing: 34 },
+            up: { leftFoot: 46, rightFoot: 46, standing: 46 },
+          },
+        },
+      ],
+    };
+
+    this.gridEngine.create(tilemap, gridEngineConfig);
+
+    this.cameras.main.setZoom(2);
     this.keyW = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyS = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -55,11 +85,12 @@ export class Game extends Phaser.Scene {
   }
 
   update() {
+    if (!this.playerSprite) return;
     let snappedChunkX = Math.round(
-      this.followPoint.x / (CHUNK_SIZE * TILE_SIZE)
+      this.playerSprite.x / (CHUNK_SIZE * TILE_SIZE)
     );
     let snappedChunkY = Math.round(
-      this.followPoint.y / (CHUNK_SIZE * TILE_SIZE)
+      this.playerSprite.y / (CHUNK_SIZE * TILE_SIZE)
     );
 
     for (let x = snappedChunkX - 2; x <= snappedChunkX + 2; x++) {
@@ -91,19 +122,17 @@ export class Game extends Phaser.Scene {
     });
 
     if (this.keyW.isDown) {
-      this.followPoint.y -= 10;
+      this.gridEngine.move("surf", Direction.UP);
     }
     if (this.keyS.isDown) {
-      this.followPoint.y += 10;
+      this.gridEngine.move("surf", Direction.DOWN);
     }
     if (this.keyA.isDown) {
-      this.followPoint.x -= 10;
+      this.gridEngine.move("surf", Direction.LEFT);
     }
     if (this.keyD.isDown) {
-      this.followPoint.x += 10;
+      this.gridEngine.move("surf", Direction.RIGHT);
     }
-
-    this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
   }
 
   getChunk(x: number, y: number) {

@@ -1,3 +1,4 @@
+import GridEngine from "grid-engine";
 import Phaser from "phaser";
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -7,6 +8,15 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.ScaleModes.RESIZE,
     width: window.innerWidth * window.devicePixelRatio,
     height: window.innerHeight * window.devicePixelRatio,
+  },
+  plugins: {
+    scene: [
+      {
+        key: "gridEngine",
+        plugin: GridEngine,
+        mapping: "gridEngine",
+      },
+    ],
   },
 };
 
