@@ -276,4 +276,6 @@ mod tests {
         // ERROR should be occur: 'you have to wait'
         actions_system.reel_by_revealing(caller.into(), fish_pond_id, fish_id, salt);
    }
+
+   // fn test_catch_the_fish() // ERROR should be occur: 'you have to wait'
 }
