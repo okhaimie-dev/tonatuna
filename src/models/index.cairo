@@ -31,7 +31,8 @@ pub struct Fish {
     #[key]
     pub fish_id: u32,
     pub position: Vec2,
-    pub weight: u32
+    pub weight: u32,
+    pub status: u8
     // pub rarity: u8,
 }
 
@@ -45,4 +46,15 @@ pub struct Commitment {
     pub value: felt252,
     pub nonce: u32,
     pub timestamp: u64
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct RevealHistory {
+    #[key]
+    pub fish_pond_id: u32,
+    #[key]
+    pub fish_id: u32,
+    pub timestamp: u64,
+    pub count: u32
 }

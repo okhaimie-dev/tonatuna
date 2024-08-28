@@ -27,6 +27,7 @@ impl FishImpl of FishTrait {
             fish_id,
             position: Vec2 { x: dice.roll().into(), y: dice.roll().into() },
             weight: 1,
+            status: 1
         }
     }
 }
@@ -37,5 +38,23 @@ impl FishAssert of AssertTrait {
     fn assert_valid_fish_pond_id(self: Fish) {
         // [Check] Pond ID is valid
         assert(self.fish_pond_id != 0, errors::FISH_POND_ID_INVALID);
+    }
+
+    #[inline]
+    fn is_not_caught(self: Fish) -> bool {
+        if self.status == 1 {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    #[inline]
+    fn is_caught(self: Fish) -> bool {
+        if self.status == 2 {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

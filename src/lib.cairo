@@ -14,6 +14,7 @@ mod models {
     mod player;
     mod fish;
     mod commitment;
+    mod reveal_history;
 }
 
 mod components {

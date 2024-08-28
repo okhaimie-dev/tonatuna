@@ -363,26 +363,12 @@
   },
   {
     "type": "impl",
-    "name": "fishImpl",
-    "interface_name": "tonatuna::models::index::Ifish"
+    "name": "reveal_historyImpl",
+    "interface_name": "tonatuna::models::index::Ireveal_history"
   },
   {
     "type": "struct",
-    "name": "tonatuna::types::vec2::Vec2",
-    "members": [
-      {
-        "name": "x",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "y",
-        "type": "core::integer::u32"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "tonatuna::models::index::Fish",
+    "name": "tonatuna::models::index::RevealHistory",
     "members": [
       {
         "name": "fish_pond_id",
@@ -393,22 +379,18 @@
         "type": "core::integer::u32"
       },
       {
-        "name": "position",
-        "type": "tonatuna::types::vec2::Vec2"
+        "name": "timestamp",
+        "type": "core::integer::u64"
       },
       {
-        "name": "weight",
+        "name": "count",
         "type": "core::integer::u32"
-      },
-      {
-        "name": "status",
-        "type": "core::integer::u8"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "tonatuna::models::index::Ifish",
+    "name": "tonatuna::models::index::Ireveal_history",
     "items": [
       {
         "type": "function",
@@ -416,7 +398,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "tonatuna::models::index::Fish"
+            "type": "tonatuna::models::index::RevealHistory"
           }
         ],
         "outputs": [],
@@ -426,7 +408,7 @@
   },
   {
     "type": "event",
-    "name": "tonatuna::models::index::fish::Event",
+    "name": "tonatuna::models::index::reveal_history::Event",
     "kind": "enum",
     "variants": []
   }

@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x3dcb62417132db3c45947e932f0104500652c756c890de5d8808e263893e2ea"
+original_class_hash = "0x3dcb62417132db3c45947e932f0104500652c756c890de5d8808e263893e2ea"
+abi = "manifests/dev/base/abis/models/tonatuna-RevealHistory-ca67e456.json"
+tag = "tonatuna-RevealHistory"
+qualified_path = "tonatuna::models::index::reveal_history"
+manifest_name = "tonatuna-RevealHistory-ca67e456"
+
+[[members]]
+name = "fish_pond_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "fish_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "timestamp"
+type = "u64"
+key = false
+
+[[members]]
+name = "count"
+type = "u32"
+key = false

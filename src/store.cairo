@@ -8,6 +8,7 @@ use tonatuna::models::player::Player;
 use tonatuna::models::fish_pond::FishPond;
 use tonatuna::models::fish::Fish;
 use tonatuna::models::commitment::Commitment;
+use tonatuna::models::reveal_history::RevealHistory;
 
 // Structs
 #[derive(Copy, Drop)]
@@ -49,6 +50,11 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
+    fn get_reveal_history(self: Store, fish_pond_id: u32, fish_id: u32) -> RevealHistory {
+        get!(self.world, (fish_pond_id, fish_id), (RevealHistory))
+    }
+
+    #[inline]
     fn set_state(self: Store, player: Player, fish_pond: FishPond) {
         set!(self.world, (player, fish_pond))
     }
@@ -71,5 +77,10 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn set_commitment(self: Store, commitment: Commitment) {
         set!(self.world, (commitment))
+    }
+
+    #[inline]
+    fn set_reveal_history(self: Store, reveal_history: RevealHistory) {
+        set!(self.world, (reveal_history))
     }
 }

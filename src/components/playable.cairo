@@ -1,8 +1,9 @@
 #[starknet::component]
 mod PlayableComponent {
     // Core imports
-
     use core::debug::PrintTrait;
+    use core::poseidon::PoseidonTrait;
+    use core::hash::HashStateTrait;
 
     // Starknet imports
 
@@ -21,9 +22,11 @@ mod PlayableComponent {
     use tonatuna::models::player::{Player, PlayerTrait, PlayerAssert};
     use tonatuna::models::fish::{Fish, FishTrait, FishAssert};
     use tonatuna::models::commitment::{Commitment, CommitmentTrait, CommitmentAssert};
+    use tonatuna::models::reveal_history::{RevealHistory, RevealHistoryTrait, RevealHistoryAssert};
     use tonatuna::types::bait::Bait;
     use tonatuna::types::tuna::Tuna;
     use tonatuna::types::fishing_rod::FishingRod;
+    use tonatuna::constants::{CAST_DURATION};
 
     // Errors
 
@@ -142,7 +145,7 @@ mod PlayableComponent {
         }
 
         // Reveal the commitment to catch the fish
-        fn reel_by_revealing(self: @ComponentState<TContractState>, world: IWorldDispatcher, player_id: felt252, fish_pond_id: u32, salt: u256) {
+        fn reel_by_revealing(self: @ComponentState<TContractState>, world: IWorldDispatcher, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -151,24 +154,38 @@ mod PlayableComponent {
             let mut player = store.get_player(caller.into());
             player.assert_exists();
 
+            // [Check] Fish has not been caught
+            let fish = store.get_fish(fish_pond_id, fish_id);
+            fish.is_not_caught(); // -> if so, delete commitment??
+
+            // [Check] Commitment Hash is correct
+            let hash_state = PoseidonTrait::new();
+            let hash_state = hash_state.update(fish_id.into());
+            let hash_state = hash_state.update(salt.into());
+            let commitment_value = hash_state.finalize().into();
+
+            let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
+            assert(commitment_value == commitment.value, 'hash value is wrong');
             
+            // [Check] the time is over CAST_DURATION
+            assert(get_block_timestamp() - commitment.timestamp > CAST_DURATION, 'you have to wait');
 
-            let mut commit: Commitment = store.get_commitment(caller.into(), fish_pond_id);
+            // [Effect] Set fish status
+            let mut reveal_history = store.get_reveal_history(fish_pond_id, fish_id);
 
-            commit.nonce += 1;
-            commit.value = commitment;
-            commit.timestamp = get_block_timestamp();
+            if reveal_history.count == 0 { // the first trial.
+                reveal_history.timestamp = get_block_timestamp();
+                reveal_history.count = 1;
+            } else {
+                // reset
+                reveal_history.timestamp = get_block_timestamp();
+                reveal_history.count = 0;
+                // fish is getting bigger.
+                // both fails.
+            }
 
-            // [Effect] Set player info
-            store.set_player(player);
-            // [Effect] Set commitment
-            store.set_commitment(commit);
-
-            // [Update] Player's fish caught
-            player.fish_caught += 1;
-
-            // [Effect] Update player
-            store.set_player(player);
+            // [Effect] Update reveal_history
+            store.set_reveal_history(reveal_history);
         }
     }
 }
