@@ -1,5 +1,6 @@
-import GridEngine, { Direction, GridEngineConfig } from "grid-engine";
+import GridEngine, { Direction } from "grid-engine";
 import { Chunk } from "../objects/Chunk";
+import { Player } from "../objects/Player";
 import { CHUNK_SIZE, TILE_SIZE } from "../phaser.constants";
 
 export class Game extends Phaser.Scene {
@@ -11,7 +12,7 @@ export class Game extends Phaser.Scene {
   keyD!: Phaser.Input.Keyboard.Key;
 
   gridEngine!: GridEngine;
-  playerContainer!: Phaser.GameObjects.Container;
+  myPlayer?: Player;
 
   constructor() {
     super({ key: "Game" });
@@ -44,20 +45,25 @@ export class Game extends Phaser.Scene {
       repeat: -1,
     });
 
-    const surfSprite = this.add.sprite(0, 0, "surf");
-    const playerSprite = this.add.sprite(4, -8, "surf");
-    const playerContainer = this.add.container(0, 0, [
-      surfSprite,
-      playerSprite,
-    ]);
+    this.cameras.main.setZoom(3);
+    this.keyW = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyS = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-    this.cameras.main.startFollow(playerContainer, true);
-    this.cameras.main.setFollowOffset(
-      -playerContainer.width,
-      -playerContainer.height
-    );
-    this.playerContainer = playerContainer;
+    this.setupGridEngine();
+  }
 
+  update() {
+    this.updateChunks();
+    this.handleUserInput();
+  }
+
+  getChunk(x: number, y: number) {
+    return this.chunks.find((chunk) => chunk.x === x && chunk.y === y);
+  }
+
+  setupGridEngine() {
     const tilemap = this.make.tilemap({
       // create a 2d 1000 x 1000 array of 0s
       data: Array.from({ length: 1000 }, () =>
@@ -66,49 +72,32 @@ export class Game extends Phaser.Scene {
     });
     tilemap.createLayer(0, "layer", 0, 0);
 
-    const gridEngineConfig: GridEngineConfig = {
-      characters: [
-        {
-          id: "surf",
-          sprite: surfSprite,
-          walkingAnimationMapping: {
-            down: { leftFoot: 10, rightFoot: 10, standing: 10 },
-            left: { leftFoot: 22, rightFoot: 22, standing: 22 },
-            right: { leftFoot: 34, rightFoot: 34, standing: 34 },
-            up: { leftFoot: 46, rightFoot: 46, standing: 46 },
-          },
-        },
-        {
-          id: "player",
-          sprite: playerSprite,
-          walkingAnimationMapping: {
-            down: { leftFoot: 4, rightFoot: 4, standing: 4 },
-            left: { leftFoot: 16, rightFoot: 16, standing: 16 },
-            right: { leftFoot: 28, rightFoot: 28, standing: 28 },
-            up: { leftFoot: 40, rightFoot: 40, standing: 40 },
-          },
-          container: playerContainer,
-        },
-      ],
-    };
-
-    this.gridEngine.create(tilemap, gridEngineConfig);
-
-    this.cameras.main.setZoom(3);
-    this.keyW = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.keyS = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.gridEngine.create(tilemap, { characters: [] });
   }
 
-  update() {
-    if (!this.playerContainer) return;
-    let snappedChunkX = Math.round(
-      this.playerContainer.x / (CHUNK_SIZE * TILE_SIZE)
-    );
-    let snappedChunkY = Math.round(
-      this.playerContainer.y / (CHUNK_SIZE * TILE_SIZE)
-    );
+  spawnPlayer(id: string, isOwner?: boolean) {
+    const player = new Player(this, this.gridEngine, 0, 0, id);
+
+    if (isOwner) {
+      this.cameras.main.startFollow(player, true);
+      this.myPlayer = player;
+    }
+
+    return player;
+  }
+
+  removePlayer(id: string) {
+    this.gridEngine.removeCharacter(id);
+
+    if (this.myPlayer?.key === id) {
+      this.myPlayer = undefined;
+    }
+  }
+
+  updateChunks() {
+    if (!this.myPlayer) return;
+    let snappedChunkX = Math.round(this.myPlayer.x / (CHUNK_SIZE * TILE_SIZE));
+    let snappedChunkY = Math.round(this.myPlayer.y / (CHUNK_SIZE * TILE_SIZE));
 
     for (let x = snappedChunkX - 2; x <= snappedChunkX + 2; x++) {
       for (let y = snappedChunkY - 2; y <= snappedChunkY + 2; y++) {
@@ -138,26 +127,32 @@ export class Game extends Phaser.Scene {
       }
       return true;
     });
+  }
 
+  handleUserInput() {
     if (this.keyW.isDown) {
-      this.gridEngine.move("player", Direction.UP);
-      this.gridEngine.turnTowards("surf", Direction.UP);
+      this.sendMove(Direction.UP);
     }
     if (this.keyS.isDown) {
-      this.gridEngine.move("player", Direction.DOWN);
-      this.gridEngine.turnTowards("surf", Direction.DOWN);
+      this.sendMove(Direction.DOWN);
     }
     if (this.keyA.isDown) {
-      this.gridEngine.move("player", Direction.LEFT);
-      this.gridEngine.turnTowards("surf", Direction.LEFT);
+      this.sendMove(Direction.LEFT);
     }
     if (this.keyD.isDown) {
-      this.gridEngine.move("player", Direction.RIGHT);
-      this.gridEngine.turnTowards("surf", Direction.RIGHT);
+      this.sendMove(Direction.RIGHT);
     }
   }
 
-  getChunk(x: number, y: number) {
-    return this.chunks.find((chunk) => chunk.x === x && chunk.y === y);
+  sendMove(direction: Direction) {
+    // send move transaction
+  }
+
+  handlePositionUpdate() {
+    // listen to onchain position updates and call movePlayerTo on player object
+  }
+
+  handlePlayerUpdate() {
+    // listen to players being added and removed and call spawnPlayer and removePlayer
   }
 }
