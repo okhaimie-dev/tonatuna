@@ -2,7 +2,7 @@ import GridEngine, { Direction } from "grid-engine";
 import { Chunk } from "../objects/Chunk";
 import { Fish } from "../objects/Fish";
 import { Player } from "../objects/Player";
-import { CHUNK_SIZE, TILE_SIZE } from "../phaser.constants";
+import { CHUNK_SIZE, GRID_SIZE, TILE_SIZE } from "../phaser.constants";
 
 export class Game extends Phaser.Scene {
   chunks: Chunk[] = [];
@@ -11,9 +11,13 @@ export class Game extends Phaser.Scene {
   keyS!: Phaser.Input.Keyboard.Key;
   keyA!: Phaser.Input.Keyboard.Key;
   keyD!: Phaser.Input.Keyboard.Key;
+  keyF!: Phaser.Input.Keyboard.Key;
 
   gridEngine!: GridEngine;
   myPlayer?: Player;
+
+  isFishing: boolean = false;
+  selectIndicator!: Phaser.GameObjects.Graphics;
 
   constructor() {
     super({ key: "Game" });
@@ -50,20 +54,33 @@ export class Game extends Phaser.Scene {
       repeat: -1,
     });
 
+    this.selectIndicator = this.add
+      .graphics()
+      .lineStyle(2, 0xffffff)
+      .strokeRect(0, 0, GRID_SIZE, GRID_SIZE)
+      .setDepth(2)
+      .setVisible(false);
+
     this.cameras.main.setZoom(3);
     this.keyW = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyS = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyF = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
     this.setupGridEngine();
     this.listenPositionUpdate();
     this.listenPlayerUpdate();
+    this.listenKeyPresses();
+
+    // TESTING
+    this.spawnPlayer("player1", 5, 5, true);
+    this.spawnFish("fish1", 3, 3);
   }
 
   update() {
     this.updateChunks();
-    this.handleUserInput();
+    this.handleKeyHolds();
   }
 
   getChunk(x: number, y: number) {
@@ -145,18 +162,54 @@ export class Game extends Phaser.Scene {
     });
   }
 
-  handleUserInput() {
+  handleKeyHolds() {
+    if (this.isFishing) return;
     if (this.keyW.isDown) {
       this.sendMove(Direction.UP);
-    }
-    if (this.keyS.isDown) {
+    } else if (this.keyS.isDown) {
       this.sendMove(Direction.DOWN);
-    }
-    if (this.keyA.isDown) {
+    } else if (this.keyA.isDown) {
       this.sendMove(Direction.LEFT);
-    }
-    if (this.keyD.isDown) {
+    } else if (this.keyD.isDown) {
       this.sendMove(Direction.RIGHT);
+    }
+  }
+
+  listenKeyPresses() {
+    this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
+      if (event.key === "f") {
+        this.toggleFishing();
+      } else if (this.isFishing) {
+        if (event.key === "w") {
+          this.selectIndicator.y -= GRID_SIZE;
+        } else if (event.key === "s") {
+          this.selectIndicator.y += GRID_SIZE;
+        } else if (event.key === "a") {
+          this.selectIndicator.x -= GRID_SIZE;
+        } else if (event.key === "d") {
+          this.selectIndicator.x += GRID_SIZE;
+        } else if (event.key === "Enter") {
+          const x = Math.round(this.selectIndicator.x / GRID_SIZE);
+          const y = Math.round(this.selectIndicator.y / GRID_SIZE);
+          const fishId = this.gridEngine.getCharactersAt({ x, y })[0];
+          if (fishId) {
+            if (this.myPlayer) {
+              this.sendCast(this.myPlayer.key, fishId);
+            }
+            this.toggleFishing();
+          }
+        }
+      }
+    });
+  }
+
+  toggleFishing() {
+    if (!this.myPlayer) return;
+    this.isFishing = !this.isFishing;
+    this.selectIndicator.setVisible(this.isFishing);
+    if (this.isFishing) {
+      const pos = this.gridEngine.getPosition(this.myPlayer.key);
+      this.selectIndicator.setPosition(pos.x * GRID_SIZE, pos.y * GRID_SIZE);
     }
   }
 
