@@ -208,6 +208,18 @@
       },
       {
         "type": "function",
+        "name": "buy_baits",
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
         "name": "move",
         "inputs": [
           {
@@ -271,10 +283,6 @@
         "name": "reel_by_revealing",
         "inputs": [
           {
-            "name": "player_id",
-            "type": "core::felt252"
-          },
-          {
             "name": "fish_pond_id",
             "type": "core::integer::u32"
           },
@@ -294,10 +302,6 @@
         "type": "function",
         "name": "catch_the_fish",
         "inputs": [
-          {
-            "name": "player_id",
-            "type": "core::felt252"
-          },
           {
             "name": "fish_pond_id",
             "type": "core::integer::u32"

@@ -13,15 +13,16 @@ use tonatuna::types::vec2::Vec2;
 trait IActions<TContractState> {
     fn create_fish_pond(self: @TContractState) -> u32;
     fn new_player(self: @TContractState, name: felt252) -> Player;
+    fn buy_baits(self: @TContractState, amount: u32);
     fn move(self: @TContractState, dest_pos: Vec2);
     fn spawn_fish(self: @TContractState, fish_pond_id: u32, fish_id: u32);
     fn spawn_multiple_fishes(self: @TContractState, fish_pond_id: u32, num_fish: u32);
     fn cast_fishing(self: @TContractState, fish_pond_id: u32, commitment: felt252);
     fn reel_by_revealing(
-        self: @TContractState, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32
+        self: @TContractState, fish_pond_id: u32, fish_id: u32, salt: u32
     );
     fn catch_the_fish(
-        self: @TContractState, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32
+        self: @TContractState, fish_pond_id: u32, fish_id: u32, salt: u32
     );
 }
 
@@ -83,6 +84,10 @@ mod actions {
             self.playable.new_player(self.world(), name)
         }
 
+        fn buy_baits(self: @ContractState, amount: u32) {
+            self.playable.buy_baits(self.world(), amount);
+        }
+
         fn move(self: @ContractState, dest_pos: Vec2) {
             self.playable.move(self.world(), dest_pos);
         }
@@ -104,15 +109,15 @@ mod actions {
         }
 
         fn reel_by_revealing(
-            self: @ContractState, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32
+            self: @ContractState, fish_pond_id: u32, fish_id: u32, salt: u32
         ) {
-            self.playable.reel_by_revealing(self.world(), player_id, fish_pond_id, fish_id, salt);
+            self.playable.reel_by_revealing(self.world(), fish_pond_id, fish_id, salt);
         }
 
         fn catch_the_fish(
-            self: @ContractState, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32
+            self: @ContractState, fish_pond_id: u32, fish_id: u32, salt: u32
         ) {
-            self.playable.catch_the_fish(self.world(), player_id, fish_pond_id, fish_id, salt);
+            self.playable.catch_the_fish(self.world(), fish_pond_id, fish_id, salt);
         }
     }
 }

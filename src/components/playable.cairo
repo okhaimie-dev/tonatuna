@@ -77,6 +77,26 @@ mod PlayableComponent {
             player
         }
 
+        fn buy_baits(
+            self: @ComponentState<TContractState>, world: IWorldDispatcher, amount: u32
+        ) {
+            // [Setup] Datastore
+            let store: Store = StoreTrait::new(world);
+
+            // [Check] Player exists
+            let caller = get_caller_address();
+            let mut player = store.get_player(caller.into());
+            player.assert_exists();
+
+            // FIXME: Have to pay ETH/STRK for buying baits
+
+            // [Effect] Buy baits
+            player.bait_balance += amount;
+
+            // [Effect] Update player
+            store.set_player(player);
+        }
+
         fn move(self: @ComponentState<TContractState>, world: IWorldDispatcher, dest_pos: Vec2) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -161,7 +181,6 @@ mod PlayableComponent {
         fn reel_by_revealing(
             self: @ComponentState<TContractState>,
             world: IWorldDispatcher,
-            player_id: felt252,
             fish_pond_id: u32,
             fish_id: u32,
             salt: u32
@@ -184,7 +203,7 @@ mod PlayableComponent {
             let hash_state = hash_state.update(salt.into());
             let commitment_value = hash_state.finalize().into();
 
-            let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
+            let commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
 
             // [Check] the time is over REEL_DURATION
@@ -230,7 +249,6 @@ mod PlayableComponent {
         fn catch_the_fish(
             self: @ComponentState<TContractState>,
             world: IWorldDispatcher,
-            player_id: felt252,
             fish_pond_id: u32,
             fish_id: u32,
             salt: u32
@@ -257,7 +275,7 @@ mod PlayableComponent {
             let hash_state = hash_state.update(salt.into());
             let commitment_value = hash_state.finalize().into();
 
-            let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
+            let commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
 
             // [Check] reveal_history.timestamp is over CATCH_DURATION

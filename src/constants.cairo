@@ -6,5 +6,10 @@ const MAX_SIZE: u32 = 100;
 const MAX_DAILY_FISHING_ATTEMPTS: u8 = 5;
 
 // Game
-const REEL_DURATION: u64 = 10 * 60; // 10 minutes
-const CATCH_DURATION: u64 = 20 * 60; // 20 minutes after commitments are made
+// For Actual Play
+// const REEL_DURATION: u64 = 10 * 60; // 10 minutes
+// const CATCH_DURATION: u64 = 20 * 60; // 20 minutes after commitments are made
+
+// For test
+const REEL_DURATION: u64 = 10;
+const CATCH_DURATION: u64 = 10;

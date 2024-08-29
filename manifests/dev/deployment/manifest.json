@@ -1230,12 +1230,12 @@
       }
     ],
     "address": "0x11e23a4568363aa10dce5254094f893e95cbd700915fd0d0c30a59f218d2a9d",
-    "transaction_hash": "0x5c6b526a2bc354eb356ebf3bde5e5b459c8b1167a7aaeac711b7458f78e9906",
+    "transaction_hash": "0x430e559d062bd14a063a74972596bbec6507b7d5b0bebd588057397171aaafb",
     "block_number": 3,
     "seed": "tonatuna",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/tonatuna-alpha-v2/katana"
+      "rpc_url": "http://0.0.0.0:5050/"
     },
     "manifest_name": "dojo-world"
   },
@@ -1251,8 +1251,8 @@
     {
       "kind": "DojoContract",
       "address": "0x2fdd8dc923c575334bfce376871fb80b89bcba892d9322ba9fb5db698146c9b",
-      "class_hash": "0x58cbd9109837e327dd077bfb7f7f76ba9605999c6d6d435d80657dbab41f10",
-      "original_class_hash": "0x58cbd9109837e327dd077bfb7f7f76ba9605999c6d6d435d80657dbab41f10",
+      "class_hash": "0x14a564a64fff2b0b742c548c739b8923906ea233d8339971ec1fae68d7af81d",
+      "original_class_hash": "0x14a564a64fff2b0b742c548c739b8923906ea233d8339971ec1fae68d7af81d",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1464,6 +1464,18 @@
             },
             {
               "type": "function",
+              "name": "buy_baits",
+              "inputs": [
+                {
+                  "name": "amount",
+                  "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
               "name": "move",
               "inputs": [
                 {
@@ -1527,10 +1539,6 @@
               "name": "reel_by_revealing",
               "inputs": [
                 {
-                  "name": "player_id",
-                  "type": "core::felt252"
-                },
-                {
                   "name": "fish_pond_id",
                   "type": "core::integer::u32"
                 },
@@ -1550,10 +1558,6 @@
               "type": "function",
               "name": "catch_the_fish",
               "inputs": [
-                {
-                  "name": "player_id",
-                  "type": "core::felt252"
-                },
                 {
                   "name": "fish_pond_id",
                   "type": "core::integer::u32"
@@ -1668,6 +1672,7 @@
       "init_calldata": [],
       "tag": "tonatuna-actions",
       "systems": [
+        "buy_baits",
         "move",
         "spawn_fish",
         "spawn_multiple_fishes",
