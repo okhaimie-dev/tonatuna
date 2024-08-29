@@ -195,10 +195,6 @@
         "name": "new_player",
         "inputs": [
           {
-            "name": "id",
-            "type": "core::felt252"
-          },
-          {
             "name": "name",
             "type": "core::felt252"
           }

@@ -1,6 +1,6 @@
 kind = "DojoContract"
-class_hash = "0x19841d7c6b603ae686a6b04ba3bf77653276da655c5180a7e44e534b52389bd"
-original_class_hash = "0x19841d7c6b603ae686a6b04ba3bf77653276da655c5180a7e44e534b52389bd"
+class_hash = "0x58cbd9109837e327dd077bfb7f7f76ba9605999c6d6d435d80657dbab41f10"
+original_class_hash = "0x58cbd9109837e327dd077bfb7f7f76ba9605999c6d6d435d80657dbab41f10"
 base_class_hash = "0x0"
 abi = "manifests/dev/base/abis/contracts/tonatuna-actions-31c51141.json"
 reads = []
