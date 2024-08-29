@@ -42,6 +42,10 @@ export class Game extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
+    this.load.spritesheet("fishing", "fishing.png", {
+      frameWidth: 32,
+      frameHeight: 40,
+    });
   }
 
   create() {
@@ -210,6 +214,9 @@ export class Game extends Phaser.Scene {
     if (this.isFishing) {
       const pos = this.gridEngine.getPosition(this.myPlayer.key);
       this.selectIndicator.setPosition(pos.x * GRID_SIZE, pos.y * GRID_SIZE);
+      this.myPlayer.precast();
+    } else {
+      this.myPlayer.release();
     }
   }
 
