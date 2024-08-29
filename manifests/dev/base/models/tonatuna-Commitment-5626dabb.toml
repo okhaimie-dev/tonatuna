@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325"
+original_class_hash = "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325"
+abi = "manifests/dev/base/abis/models/tonatuna-Commitment-5626dabb.json"
+tag = "tonatuna-Commitment"
+qualified_path = "tonatuna::models::index::commitment"
+manifest_name = "tonatuna-Commitment-5626dabb"
+
+[[members]]
+name = "player_id"
+type = "felt252"
+key = true
+
+[[members]]
+name = "fish_pond_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "value"
+type = "felt252"
+key = false
+
+[[members]]
+name = "nonce"
+type = "u32"
+key = false
+
+[[members]]
+name = "timestamp"
+type = "u64"
+key = false

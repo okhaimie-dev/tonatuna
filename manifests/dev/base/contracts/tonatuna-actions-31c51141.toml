@@ -1,11 +1,18 @@
 kind = "DojoContract"
-class_hash = "0x5425bcd6d88ddc65f34468f6ff3cd3068ed3bf1983ab733ecfc61478556cd4"
-original_class_hash = "0x5425bcd6d88ddc65f34468f6ff3cd3068ed3bf1983ab733ecfc61478556cd4"
+class_hash = "0x19841d7c6b603ae686a6b04ba3bf77653276da655c5180a7e44e534b52389bd"
+original_class_hash = "0x19841d7c6b603ae686a6b04ba3bf77653276da655c5180a7e44e534b52389bd"
 base_class_hash = "0x0"
 abi = "manifests/dev/base/abis/contracts/tonatuna-actions-31c51141.json"
 reads = []
 writes = []
 init_calldata = []
 tag = "tonatuna-actions"
-systems = ["create_fish_pond"]
+systems = [
+    "move",
+    "spawn_fish",
+    "spawn_multiple_fishes",
+    "cast_fishing",
+    "reel_by_revealing",
+    "catch_the_fish",
+]
 manifest_name = "tonatuna-actions-31c51141"

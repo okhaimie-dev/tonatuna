@@ -2,6 +2,7 @@ mod constants;
 mod store;
 
 mod types {
+    mod vec2;
     mod tuna;
     mod fishing_rod;
     mod bait;
@@ -11,9 +12,13 @@ mod models {
     mod index;
     mod fish_pond;
     mod player;
+    mod fish;
+    mod commitment;
+    mod reveal_history;
 }
 
 mod components {
+    // mod initializable;
     mod playable;
 }
 
@@ -46,7 +51,10 @@ mod elements {
     }
 }
 
-mod helpers {}
+mod helpers {
+    // mod random;
+    mod dice;
+}
 
 mod tests {
     mod test_world;

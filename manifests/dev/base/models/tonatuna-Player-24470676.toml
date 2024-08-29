@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x478a247a5f54f03ed440231e5ada86ac9faa77ef9f1ab0f7ff740d37887eab0"
-original_class_hash = "0x478a247a5f54f03ed440231e5ada86ac9faa77ef9f1ab0f7ff740d37887eab0"
+class_hash = "0x5d1e34fed7ae0fb2b98222f698af52ff1f528dd2bc7c9e66722e336313cb7d6"
+original_class_hash = "0x5d1e34fed7ae0fb2b98222f698af52ff1f528dd2bc7c9e66722e336313cb7d6"
 abi = "manifests/dev/base/abis/models/tonatuna-Player-24470676.json"
 tag = "tonatuna-Player"
 qualified_path = "tonatuna::models::index::player"
@@ -29,4 +29,9 @@ key = false
 [[members]]
 name = "daily_attempts"
 type = "u8"
+key = false
+
+[[members]]
+name = "position"
+type = "Vec2"
 key = false

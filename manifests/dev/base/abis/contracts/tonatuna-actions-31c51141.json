@@ -132,6 +132,50 @@
     "interface_name": "tonatuna::systems::actions::IActions"
   },
   {
+    "type": "struct",
+    "name": "tonatuna::types::vec2::Vec2",
+    "members": [
+      {
+        "name": "x",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "y",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "tonatuna::models::index::Player",
+    "members": [
+      {
+        "name": "id",
+        "type": "core::felt252"
+      },
+      {
+        "name": "name",
+        "type": "core::felt252"
+      },
+      {
+        "name": "bait_balance",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "fish_caught",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "daily_attempts",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "position",
+        "type": "tonatuna::types::vec2::Vec2"
+      }
+    ]
+  },
+  {
     "type": "interface",
     "name": "tonatuna::systems::actions::IActions",
     "items": [
@@ -139,6 +183,138 @@
         "type": "function",
         "name": "create_fish_pond",
         "inputs": [],
+        "outputs": [
+          {
+            "type": "core::integer::u32"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "new_player",
+        "inputs": [
+          {
+            "name": "id",
+            "type": "core::felt252"
+          },
+          {
+            "name": "name",
+            "type": "core::felt252"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "tonatuna::models::index::Player"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "move",
+        "inputs": [
+          {
+            "name": "dest_pos",
+            "type": "tonatuna::types::vec2::Vec2"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "spawn_fish",
+        "inputs": [
+          {
+            "name": "fish_pond_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "fish_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "spawn_multiple_fishes",
+        "inputs": [
+          {
+            "name": "fish_pond_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "num_fish",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "cast_fishing",
+        "inputs": [
+          {
+            "name": "fish_pond_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "commitment",
+            "type": "core::felt252"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "reel_by_revealing",
+        "inputs": [
+          {
+            "name": "player_id",
+            "type": "core::felt252"
+          },
+          {
+            "name": "fish_pond_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "fish_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "salt",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "catch_the_fish",
+        "inputs": [
+          {
+            "name": "player_id",
+            "type": "core::felt252"
+          },
+          {
+            "name": "fish_pond_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "fish_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "salt",
+            "type": "core::integer::u32"
+          }
+        ],
         "outputs": [],
         "state_mutability": "view"
       }

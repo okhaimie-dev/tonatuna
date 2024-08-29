@@ -100,14 +100,16 @@ fn move(id: u256, xDest: i32, yDest: i32) {
 }
 
 // Fisherman -> hidden fish commiment
-fn cast(id: u256, commitment: u32) {
+fn cast(id: u256, commitment: felt252, nonce: u32) { // random hash hash(fish_id, salt) 
   if is_fish_id(id) revert
   if owner(id) != sender revert
+  
   
   baitBalance[id] -= 1;
   commitment[id] = Commitment {
     id: id,
     value: commitment,
+    nonce: nonce
     timestamp: now()
   }
 }
@@ -118,6 +120,7 @@ fn reel(id: u256, fish_id: u256, salt: u256) {
   if !is_fish_id(fish_id) revert
   if owner(id) != sender revert
   if hash(fish_id, salt) != commitment[id].value revert
+  if commitment[id].timestamp + REEL_DURATION > now() revert
 
   // fish already caught
   if fish[fish_id].size == 0 {
@@ -132,11 +135,15 @@ fn reel(id: u256, fish_id: u256, salt: u256) {
   }
 
   // within reel duration of first reel
-  if revealCount[fish_id].timestamp + REEL_DURATION < now() {
+  if revealCount[fish_id].timestamp != 0 && revealCount[fish_id].timestamp + REEL_DURATION < now() {
     revealCount[fish_id].count += 1
   } else if revealCount[fish_id].count > 1 {
   // if more than 2 reel, previous attempt failed, so reset reel
-    revealCount[fish_id].count = 1
+    revealCount[fish_id] = RevealCount {
+      id: fish_id
+      timestamp: now()
+      count: 1
+    }
   }
   // else only 1 reel and fish was caught
   delete commitment[id]
@@ -149,11 +156,14 @@ fn catch(id: u256, fish_id: u256) {
   if owner(id) != sender revert
   if reveal[id].fish_id != fish_id revert
 
+  delete reveal[id]
+
   // fish already caught
   if fish[fish_id].size == 0 revert
 
   fishBalance[id].amount += fish[fish_id].size
   delete fish[fish_id]
+  delete position[fish_id]
 }
 
 fn sellFishes(id: u256) {
