@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
-import { setup } from "./dojo/setup.ts";
-import { DojoProvider } from "./dojo/DojoContext.tsx";
 import { dojoConfig } from "../dojoConfig.ts";
-import "./phaser/PhaserGame.ts";
+import App from "./App.tsx";
+import { PhaserGameContextProvider } from "./contexts/PhaserGameContext.tsx";
+import { DojoProvider } from "./dojo/DojoContext.tsx";
+import { setup } from "./dojo/setup.ts";
+import "./index.css";
 
 async function init() {
   const rootElement = document.getElementById("root");
@@ -19,9 +19,11 @@ async function init() {
   root.render(
     <React.StrictMode>
       <DojoProvider value={setupResult}>
-        <App />
+        <PhaserGameContextProvider>
+          <App />
+        </PhaserGameContextProvider>
       </DojoProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
   );
 }
 
