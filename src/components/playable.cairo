@@ -28,7 +28,8 @@ mod PlayableComponent {
     use tonatuna::types::fishing_rod::FishingRod;
     use tonatuna::types::fish_status::FishStatus;
     use tonatuna::types::commit_status::CommitStatus;
-    use tonatuna::constants::{REEL_DURATION, CATCH_DURATION};
+    use tonatuna::constants::{REEL_DURATION, CATCH_DURATION, BAIT_PRICE, TOKEN_ADDRESS, GAME_CONTRACT_ADDRESS};
+    use tonatuna::interfaces::ierc20::{ierc20, IERC20Dispatcher, IERC20DispatcherTrait};
 
     // Errors
 
@@ -92,6 +93,22 @@ mod PlayableComponent {
 
             // FIXME: Have to pay ETH/STRK for buying baits
 
+            // have to change the contract address
+            let token = ierc20(TOKEN_ADDRESS());
+            let total = token.total_supply();
+            println!("total supply: {}", total);
+
+
+            // [Check] assert that the caller has enough tokens
+            // assert(token.balance_of(caller.into()) >= amount.into() * BAIT_PRICE.into(), 'not enough tokens');
+
+            // [Check] if the caller allowed enogh tokens to the contract
+            // assert(token.allowance(caller.into(), get_contract_address().into()) >= amount.into() * BAIT_PRICE.into(), 'not enough allowance');
+
+            // send tokens from caller to contract
+            token.transfer_from(caller.into(), GAME_CONTRACT_ADDRESS(), amount.into() * BAIT_PRICE.into());
+
+
             // [Effect] Buy baits
             player.bait_balance += amount;
 
@@ -145,6 +162,9 @@ mod PlayableComponent {
             // [Effect] Get fish pond
             let fish_pond: FishPond = store.get_fish_pond(fish_pond_id);
             fish_pond.assert_exists();
+
+            let old_fish = store.get_fish(fish_pond_id, fish_id);
+            assert(old_fish.status == FishStatus::None.into(), 'fish_id is already used');
 
             // [Effect] Spawn fish
             let new_fish: Fish = FishTrait::new(

@@ -6,6 +6,7 @@ use tonatuna::models::index::Fish;
 use tonatuna::types::vec2::Vec2;
 
 use tonatuna::helpers::dice::{Dice, DiceTrait};
+use tonatuna::types::fish_status::FishStatus;
 
 use tonatuna::constants::MAX_SIZE;
 
@@ -27,7 +28,7 @@ impl FishImpl of FishTrait {
             fish_id,
             position: Vec2 { x: dice.roll().into(), y: dice.roll().into() },
             weight: 1,
-            status: 1
+            status: FishStatus::Swiming.into()
         }
     }
 }

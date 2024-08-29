@@ -15,8 +15,17 @@ version = "1.0.0-alpha.4"
 source = "git+https://github.com/dojoengine/dojo?rev=f15def33#f15def330c0d099e79351d11c197f63e8cc1ff36"
 
 [[package]]
+name = "origami_token"
+version = "1.0.0-alpha.7"
+source = "git+https://github.com/dojoengine/origami?tag=v1.0.0-alpha.7#51707903c8e657cf742c999927be6df689751e86"
+dependencies = [
+ "dojo",
+]
+
+[[package]]
 name = "tonatuna"
 version = "0.0.2"
 dependencies = [
  "dojo",
+ "origami_token",
 ]

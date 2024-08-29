@@ -1,3 +1,5 @@
+use starknet::ContractAddress;
+
 // Fishing Pond
 const DAILY_CATCH_LIMIT: u32 = 1000;
 const MAX_SIZE: u32 = 100;
@@ -13,3 +15,10 @@ const MAX_DAILY_FISHING_ATTEMPTS: u8 = 5;
 // For test
 const REEL_DURATION: u64 = 10;
 const CATCH_DURATION: u64 = 10;
+
+const ETH_TO_WEI: u256 = 1_000_000_000_000_000_000;
+
+const BAIT_PRICE: u256 = 10;
+
+fn TOKEN_ADDRESS() -> ContractAddress { starknet::contract_address_const::<0x1234>() }
+fn GAME_CONTRACT_ADDRESS() -> ContractAddress { starknet::contract_address_const::<0x5678>() }

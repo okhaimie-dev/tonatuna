@@ -28,6 +28,10 @@ mod systems {
     mod actions;
 }
 
+mod interfaces {
+    mod ierc20;
+}
+
 mod elements {
     mod tuna {
         mod interface;
@@ -60,4 +64,5 @@ mod helpers {
 
 mod tests {
     mod test_world;
+    mod setup;
 }

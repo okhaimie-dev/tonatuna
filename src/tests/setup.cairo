@@ -1,47 +1,38 @@
-mod setup {
+#[cfg(test)]
+mod tests {
     // Core imports
-
     use core::debug::PrintTrait;
+    use core::poseidon::PoseidonTrait;
+    use core::hash::HashStateTrait;
 
-    // Starknet imports
-
+    // starknet imports
     use starknet::ContractAddress;
     use starknet::testing::{set_contract_address, set_caller_address};
 
-    // Dojo imports
 
-    use dojo::world::{IWorldDispatcherTrait, IWorldDispatcher};
-    use dojo::test_utils::{spawn_test_world, deploy_contract};
+    // import world dispatcher
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    // import test utils
+    use dojo::utils::test::{spawn_test_world, deploy_contract};
 
-    // Internal imports
+    // import tonatuna
     use tonatuna::{
-        systems::{actions::{actions, IActions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{player::Player, fish_pond::FishPond, fish::Fish}
+        systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
+        models::{
+            player::Player, fish_pond::FishPond, fish::Fish, commitment::Commitment,
+            reveal_history::RevealHistory
+        },
+        types::vec2::Vec2,
         // models::{{Position, Vec2, position, Moves, Direction, moves}}
+    // helpers::random::random_num
     };
 
-    // Constants
-    fn PLAYER() -> ContractAddress {
-        starknet::contract_address_const::<'PLAYER'>()
-    }
+    use tonatuna::store::{Store, StoreTrait};
 
-    const PLAYER_NAME: felt252 = 'PLAYER';
-
-    #[derive(Drop)]
-    struct Systems {
-        actions: IActionsDispatcher,
-    }
-
-    #[derive(Drop)]
-    struct Context {
-        player_id: felt252,
-        player_name: felt252,
-        fish_pond_id: u32,
-    }
-
-    #[inline(always)]
-    fn spawn_game() -> (IWorldDispatcher, Systems, Context) {
-        // [Setup] World
+    #[test]
+    fn test_setup() {
+        // caller
+        let caller = starknet::contract_address_const::<0x0>();
 
         // models
         let mut models = core::array::ArrayTrait::new();
@@ -51,24 +42,24 @@ mod setup {
         // deploy world with models
         let world = spawn_test_world(["tonatuna"].span(), models.span());
 
-        // [Setup] Systems
-        let actions_address = deploy_contract(actions::TEST_CLASS_HASH, array![].span());
-        let systems = Systems {
-            actions: IActionsDispatcher { contract_address: actions_address },
-        };
+        let store = StoreTrait::new(world);
 
-        // [Setup] Context
-        set_contract_address(PLAYER());
-        systems.actions.signup(world, PLAYER_NAME);
+        // deploy systems contract
+        let contract_address = world
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+        let actions_system = IActionsDispatcher { contract_address };
 
-        // [Setup] Game
-        let game_id = systems.actions.start(world);
+        world.grant_writer(dojo::utils::bytearray_hash(@"tonatuna"), contract_address);
 
-        let context = Context {
-            player_id: PLAYER().into(), player_name: PLAYER_NAME, game_id: game_id,
-        };
+        // register the player
+        let mut player = actions_system.new_player(name: 'Bob');
 
-        // [Return]
-        (world, systems, context)
+        actions_system.move(Vec2 { x: 1, y: 1 });
+
+        player = store.get_player(caller.into());
+
+        assert(player.name == 'Bob', 'name is wrong');
+        assert(player.position.x == 1, 'position x is wrong');
+        assert(player.position.y == 1, 'position y is wrong');
     }
 }
