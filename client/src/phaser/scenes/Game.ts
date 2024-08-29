@@ -1,5 +1,6 @@
 import GridEngine, { Direction } from "grid-engine";
 import { Chunk } from "../objects/Chunk";
+import { Fish } from "../objects/Fish";
 import { Player } from "../objects/Player";
 import { CHUNK_SIZE, TILE_SIZE } from "../phaser.constants";
 
@@ -31,6 +32,10 @@ export class Game extends Phaser.Scene {
     });
     this.load.spritesheet("surf", "surf.png", {
       frameWidth: 24,
+      frameHeight: 32,
+    });
+    this.load.spritesheet("magikarp", "magikarp.png", {
+      frameWidth: 32,
       frameHeight: 32,
     });
   }
@@ -77,8 +82,8 @@ export class Game extends Phaser.Scene {
     this.gridEngine.create(tilemap, { characters: [] });
   }
 
-  spawnPlayer(id: string, isOwner?: boolean) {
-    const player = new Player(this, this.gridEngine, 0, 0, id);
+  spawnPlayer(id: string, x: number = 0, y: number = 0, isOwner?: boolean) {
+    const player = new Player(this, this.gridEngine, x, y, id);
 
     if (isOwner) {
       this.cameras.main.startFollow(player, true);
@@ -94,6 +99,15 @@ export class Game extends Phaser.Scene {
     if (this.myPlayer?.key === id) {
       this.myPlayer = undefined;
     }
+  }
+
+  spawnFish(id: string, x: number, y: number) {
+    // create fish object
+    return new Fish(this, this.gridEngine, x, y, id);
+  }
+
+  removeFish(id: string) {
+    this.gridEngine.removeCharacter(id);
   }
 
   updateChunks() {
@@ -148,6 +162,11 @@ export class Game extends Phaser.Scene {
 
   sendMove(direction: Direction) {
     // send move transaction
+    this.myPlayer?.move(direction);
+  }
+
+  sendCast(playerId: string, fishId: string) {
+    // send cast transaction
   }
 
   listenPositionUpdate() {
@@ -156,5 +175,9 @@ export class Game extends Phaser.Scene {
 
   listenPlayerUpdate() {
     // listen to players being added and removed and call spawnPlayer and removePlayer
+  }
+
+  listenFishUpdate() {
+    // listen to fish being added and removed and call spawnFish and removeFish
   }
 }
