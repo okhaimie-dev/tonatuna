@@ -1,6 +1,6 @@
 kind = "DojoContract"
-class_hash = "0x14a564a64fff2b0b742c548c739b8923906ea233d8339971ec1fae68d7af81d"
-original_class_hash = "0x14a564a64fff2b0b742c548c739b8923906ea233d8339971ec1fae68d7af81d"
+class_hash = "0xe5ea3770d858215f352aa5bef3264cf3a7fc019fcc04adf5152ae37cb2f43"
+original_class_hash = "0xe5ea3770d858215f352aa5bef3264cf3a7fc019fcc04adf5152ae37cb2f43"
 base_class_hash = "0x0"
 abi = "manifests/dev/base/abis/contracts/tonatuna-actions-31c51141.json"
 reads = []
@@ -8,6 +8,7 @@ writes = []
 init_calldata = []
 tag = "tonatuna-actions"
 systems = [
+    "reset_daily_attempts",
     "buy_baits",
     "move",
     "spawn_fish",

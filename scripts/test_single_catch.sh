@@ -7,6 +7,9 @@ echo "Player info"
 player_info=$(sozo model get Player $address)
 echo $player_info
 
+echo "Reset Daily Attempts"
+sozo execute tonatuna-actions reset_daily_attempts
+
 echo "Buy Baits"
 sozo execute tonatuna-actions buy_baits -c 5
 player_info=$(sozo model get Player $address)
@@ -36,7 +39,19 @@ commitment_info=$(sozo model get Commitment $address $fish_pond_id)
 echo $commitment_info
 
 sleep 30
+# to proceed block number
+sozo execute tonatuna-actions create_fish_pond
 
 echo "Reveal"
 sozo execute tonatuna-actions reel_by_revealing -c $fish_pond_id,$fish_id,$salt
 
+sleep 30
+# to proceed block number
+sozo execute tonatuna-actions create_fish_pond
+
+echo "Catch"
+sozo execute tonatuna-actions catch_the_fish -c $fish_pond_id,$fish_id,$salt
+
+echo "Player Status"
+player_info=$(sozo model get Player $address)
+echo $player_info

@@ -27,6 +27,19 @@ pnpm install
 pnpm dev
 ```
 
+## Option: Running Katana locally
+
+You have to modify `dojo_dev.toml`. And check `rpc_url` and addresses.
+
+```bash
+katana --disable--fee --allowed-origins "*"
+```
+
+```bash
+sozo build
+sozo migrate apply
+```
+
 ---
 
 ## Contribution

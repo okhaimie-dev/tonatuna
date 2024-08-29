@@ -6,6 +6,8 @@ mod types {
     mod tuna;
     mod fishing_rod;
     mod bait;
+    mod fish_status;
+    mod commit_status;
 }
 
 mod models {

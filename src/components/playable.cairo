@@ -26,6 +26,8 @@ mod PlayableComponent {
     use tonatuna::types::bait::Bait;
     use tonatuna::types::tuna::Tuna;
     use tonatuna::types::fishing_rod::FishingRod;
+    use tonatuna::types::fish_status::FishStatus;
+    use tonatuna::types::commit_status::CommitStatus;
     use tonatuna::constants::{REEL_DURATION, CATCH_DURATION};
 
     // Errors
@@ -92,6 +94,24 @@ mod PlayableComponent {
 
             // [Effect] Buy baits
             player.bait_balance += amount;
+
+            // [Effect] Update player
+            store.set_player(player);
+        }
+
+        fn reset_daily_attempts(
+            self: @ComponentState<TContractState>, world: IWorldDispatcher
+        ) {
+            // [Setup] Datastore
+            let store: Store = StoreTrait::new(world);
+
+            // [Check] Player exists
+            let caller = get_caller_address();
+            let mut player = store.get_player(caller.into());
+            player.assert_exists();
+
+            // [Effect] Reset daily attempts
+            player.daily_attempts = 0;
 
             // [Effect] Update player
             store.set_player(player);
@@ -164,7 +184,7 @@ mod PlayableComponent {
 
             let mut commit: Commitment = store.get_commitment(caller.into(), fish_pond_id);
 
-            commit.nonce += 1;
+            commit.status = CommitStatus::Committed.into();
             commit.value = commitment;
             commit.timestamp = get_block_timestamp();
 
@@ -203,7 +223,7 @@ mod PlayableComponent {
             let hash_state = hash_state.update(salt.into());
             let commitment_value = hash_state.finalize().into();
 
-            let commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
+            let mut commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
 
             // [Check] the time is over REEL_DURATION
@@ -218,6 +238,9 @@ mod PlayableComponent {
             assert(
                 commitment.timestamp >= reveal_history.commit_timestamp, 'your commit was failed'
             );
+
+            // [Check] commitment.status is Committed
+            assert(commitment.status == CommitStatus::Committed.into(), 'the commit is used');
 
             if (reveal_history.count != 0) {
                 // [Check] it's revevant to the previous commitment.
@@ -241,6 +264,9 @@ mod PlayableComponent {
                 reveal_history.count = 1;
             }
 
+            commitment.status = CommitStatus::Revealed.into();
+            store.set_commitment(commitment);
+
             // [Effect] Update reveal_history
             store.set_reveal_history(reveal_history);
         }
@@ -251,7 +277,6 @@ mod PlayableComponent {
             world: IWorldDispatcher,
             fish_pond_id: u32,
             fish_id: u32,
-            salt: u32
         ) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -269,14 +294,17 @@ mod PlayableComponent {
             let mut reveal_history = store.get_reveal_history(fish_pond_id, fish_id);
             assert(reveal_history.count == 1, 'reeling failed');
 
-            // [Check] Commitment Hash is correct : FIXME: Do we need this?????
-            let hash_state = PoseidonTrait::new();
-            let hash_state = hash_state.update(fish_id.into());
-            let hash_state = hash_state.update(salt.into());
-            let commitment_value = hash_state.finalize().into();
+            // // [Check] Commitment Hash is correct : FIXME: Do we need this?????
+            // let hash_state = PoseidonTrait::new();
+            // let hash_state = hash_state.update(fish_id.into());
+            // let hash_state = hash_state.update(salt.into());
+            // let commitment_value = hash_state.finalize().into();
 
-            let commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
-            assert(commitment_value == commitment.value, 'hash value is wrong');
+            let mut commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
+            // assert(commitment_value == commitment.value, 'hash value is wrong');
+
+            // [Check] commitment.status is Revealed
+            assert(commitment.status == CommitStatus::Revealed.into(), 'commit is not revealed');
 
             // [Check] reveal_history.timestamp is over CATCH_DURATION
             assert(
@@ -287,8 +315,12 @@ mod PlayableComponent {
             // [Check] reveal_history.commit_timestamp == commitment.timestamp
             assert(reveal_history.commit_timestamp == commitment.timestamp, 'commit is not yours');
 
+            // [Effect] Set commitment status
+            commitment.status = CommitStatus::Used.into();
+            store.set_commitment(commitment);
+
             // [Effect] Set fish status
-            fish.status = 2;
+            fish.status = FishStatus::Caught.into();
             store.set_fish(fish);
 
             // [Effect] Update player

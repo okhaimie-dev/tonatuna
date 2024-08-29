@@ -208,6 +208,13 @@
       },
       {
         "type": "function",
+        "name": "reset_daily_attempts",
+        "inputs": [],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
         "name": "buy_baits",
         "inputs": [
           {
@@ -308,10 +315,6 @@
           },
           {
             "name": "fish_id",
-            "type": "core::integer::u32"
-          },
-          {
-            "name": "salt",
             "type": "core::integer::u32"
           }
         ],

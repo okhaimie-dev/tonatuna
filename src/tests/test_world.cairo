@@ -236,7 +236,7 @@ mod tests {
 
         let commitment = store.get_commitment(caller.into(), fish_pond_id);
 
-        // println!("commitment value: {}", commitment.value); //
+        println!("commitment value: {}", commitment.value); //
         // 1351846939947373597151552475990911731122143735091351208236876836383481829808
 
         assert(

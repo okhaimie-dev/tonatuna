@@ -13,6 +13,7 @@ use tonatuna::types::vec2::Vec2;
 trait IActions<TContractState> {
     fn create_fish_pond(self: @TContractState) -> u32;
     fn new_player(self: @TContractState, name: felt252) -> Player;
+    fn reset_daily_attempts(self: @TContractState);
     fn buy_baits(self: @TContractState, amount: u32);
     fn move(self: @TContractState, dest_pos: Vec2);
     fn spawn_fish(self: @TContractState, fish_pond_id: u32, fish_id: u32);
@@ -22,7 +23,7 @@ trait IActions<TContractState> {
         self: @TContractState, fish_pond_id: u32, fish_id: u32, salt: u32
     );
     fn catch_the_fish(
-        self: @TContractState, fish_pond_id: u32, fish_id: u32, salt: u32
+        self: @TContractState, fish_pond_id: u32, fish_id: u32
     );
 }
 
@@ -84,6 +85,10 @@ mod actions {
             self.playable.new_player(self.world(), name)
         }
 
+        fn reset_daily_attempts(self: @ContractState) {
+            self.playable.reset_daily_attempts(self.world());
+        }
+
         fn buy_baits(self: @ContractState, amount: u32) {
             self.playable.buy_baits(self.world(), amount);
         }
@@ -115,9 +120,9 @@ mod actions {
         }
 
         fn catch_the_fish(
-            self: @ContractState, fish_pond_id: u32, fish_id: u32, salt: u32
+            self: @ContractState, fish_pond_id: u32, fish_id: u32
         ) {
-            self.playable.catch_the_fish(self.world(), fish_pond_id, fish_id, salt);
+            self.playable.catch_the_fish(self.world(), fish_pond_id, fish_id);
         }
     }
 }

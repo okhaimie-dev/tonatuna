@@ -22,6 +22,8 @@ impl FishPondImpl of FishPondTrait {
         }
     }
 
+    // not using daily_catches for now. we are using player's daily_attempts    
+    #[inline]
     fn reset_daily_catches(ref self: FishPond) {
         self.daily_catches = 0;
     }

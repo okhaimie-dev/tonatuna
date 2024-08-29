@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x2fdd8dc923c575334bfce376871fb80b89bcba892d9322ba9fb5db698146c9b"
-class_hash = "0x14a564a64fff2b0b742c548c739b8923906ea233d8339971ec1fae68d7af81d"
-original_class_hash = "0x14a564a64fff2b0b742c548c739b8923906ea233d8339971ec1fae68d7af81d"
+class_hash = "0xe5ea3770d858215f352aa5bef3264cf3a7fc019fcc04adf5152ae37cb2f43"
+original_class_hash = "0xe5ea3770d858215f352aa5bef3264cf3a7fc019fcc04adf5152ae37cb2f43"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/tonatuna-actions-31c51141.json"
 reads = []
@@ -33,6 +33,7 @@ writes = ["ns:tonatuna"]
 init_calldata = []
 tag = "tonatuna-actions"
 systems = [
+    "reset_daily_attempts",
     "buy_baits",
     "move",
     "spawn_fish",
@@ -45,8 +46,8 @@ manifest_name = "tonatuna-actions-31c51141"
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325"
-original_class_hash = "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325"
+class_hash = "0x7df68e024fc00da2b03d6c3c8e38f6e839dbd8fdfa44b527a97083c5c53ce0b"
+original_class_hash = "0x7df68e024fc00da2b03d6c3c8e38f6e839dbd8fdfa44b527a97083c5c53ce0b"
 abi = "manifests/dev/deployment/abis/models/tonatuna-Commitment-5626dabb.json"
 tag = "tonatuna-Commitment"
 qualified_path = "tonatuna::models::index::commitment"
@@ -68,8 +69,8 @@ type = "felt252"
 key = false
 
 [[models.members]]
-name = "nonce"
-type = "u32"
+name = "status"
+type = "u8"
 key = false
 
 [[models.members]]
