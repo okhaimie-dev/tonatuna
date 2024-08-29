@@ -1,7 +1,7 @@
 [package]
 cairo-version = "=2.7.0"
 name = "tonatuna"
-version = "0.0.1"
+version = "0.0.2"
 
 [cairo]
 sierra-replace-ids = true

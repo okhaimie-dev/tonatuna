@@ -363,56 +363,38 @@
   },
   {
     "type": "impl",
-    "name": "playerImpl",
-    "interface_name": "tonatuna::models::index::Iplayer"
+    "name": "commitmentImpl",
+    "interface_name": "tonatuna::models::index::Icommitment"
   },
   {
     "type": "struct",
-    "name": "tonatuna::types::vec2::Vec2",
+    "name": "tonatuna::models::index::Commitment",
     "members": [
       {
-        "name": "x",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "y",
-        "type": "core::integer::u32"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "tonatuna::models::index::Player",
-    "members": [
-      {
-        "name": "id",
+        "name": "player_id",
         "type": "core::felt252"
       },
       {
-        "name": "name",
+        "name": "fish_pond_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "value",
         "type": "core::felt252"
       },
       {
-        "name": "bait_balance",
+        "name": "nonce",
         "type": "core::integer::u32"
       },
       {
-        "name": "fish_caught",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "daily_attempts",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "position",
-        "type": "tonatuna::types::vec2::Vec2"
+        "name": "timestamp",
+        "type": "core::integer::u64"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "tonatuna::models::index::Iplayer",
+    "name": "tonatuna::models::index::Icommitment",
     "items": [
       {
         "type": "function",
@@ -420,7 +402,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "tonatuna::models::index::Player"
+            "type": "tonatuna::models::index::Commitment"
           }
         ],
         "outputs": [],
@@ -430,7 +412,7 @@
   },
   {
     "type": "event",
-    "name": "tonatuna::models::index::player::Event",
+    "name": "tonatuna::models::index::commitment::Event",
     "kind": "enum",
     "variants": []
   }

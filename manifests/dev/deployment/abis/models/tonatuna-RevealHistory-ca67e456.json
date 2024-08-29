@@ -363,56 +363,38 @@
   },
   {
     "type": "impl",
-    "name": "playerImpl",
-    "interface_name": "tonatuna::models::index::Iplayer"
+    "name": "reveal_historyImpl",
+    "interface_name": "tonatuna::models::index::Ireveal_history"
   },
   {
     "type": "struct",
-    "name": "tonatuna::types::vec2::Vec2",
+    "name": "tonatuna::models::index::RevealHistory",
     "members": [
       {
-        "name": "x",
+        "name": "fish_pond_id",
         "type": "core::integer::u32"
       },
       {
-        "name": "y",
-        "type": "core::integer::u32"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "tonatuna::models::index::Player",
-    "members": [
-      {
-        "name": "id",
-        "type": "core::felt252"
-      },
-      {
-        "name": "name",
-        "type": "core::felt252"
-      },
-      {
-        "name": "bait_balance",
+        "name": "fish_id",
         "type": "core::integer::u32"
       },
       {
-        "name": "fish_caught",
+        "name": "commit_timestamp",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "reveal_timestamp",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "count",
         "type": "core::integer::u32"
-      },
-      {
-        "name": "daily_attempts",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "position",
-        "type": "tonatuna::types::vec2::Vec2"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "tonatuna::models::index::Iplayer",
+    "name": "tonatuna::models::index::Ireveal_history",
     "items": [
       {
         "type": "function",
@@ -420,7 +402,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "tonatuna::models::index::Player"
+            "type": "tonatuna::models::index::RevealHistory"
           }
         ],
         "outputs": [],
@@ -430,7 +412,7 @@
   },
   {
     "type": "event",
-    "name": "tonatuna::models::index::player::Event",
+    "name": "tonatuna::models::index::reveal_history::Event",
     "kind": "enum",
     "variants": []
   }
