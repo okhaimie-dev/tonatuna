@@ -18,13 +18,7 @@ mod errors {
 impl CommitmentImpl of CommitmentTrait {
     #[inline]
     fn new(player_id: felt252, fish_pond_id: u32) -> Commitment {
-        Commitment {
-            player_id,
-            fish_pond_id,
-            value: 0,
-            nonce: 0,
-            timestamp: 0,
-        }
+        Commitment { player_id, fish_pond_id, value: 0, nonce: 0, timestamp: 0, }
     }
 }
 

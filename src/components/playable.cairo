@@ -47,7 +47,7 @@ mod PlayableComponent {
     impl InternalImpl<
         TContractState, +HasComponent<TContractState>
     > of InternalTrait<TContractState> {
-        fn create_fish_pond(self: @ComponentState<TContractState>, world: IWorldDispatcher) -> u32{
+        fn create_fish_pond(self: @ComponentState<TContractState>, world: IWorldDispatcher) -> u32 {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -59,17 +59,19 @@ mod PlayableComponent {
             fish_pond_id
         }
 
-        fn new_player(self: @ComponentState<TContractState>, world: IWorldDispatcher, id: felt252, name: felt252) -> Player {
+        fn new_player(
+            self: @ComponentState<TContractState>, world: IWorldDispatcher, name: felt252
+        ) -> Player {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
             // [Check] Player exists
-            // let caller = get_caller_address();
-            let mut player = store.get_player(id);
+            let caller = get_caller_address();
+            let mut player = store.get_player(caller.into());
             player.assert_not_exists();
 
             // [Effect] Create player
-            let player = PlayerTrait::new(id, name);
+            let player = PlayerTrait::new(caller.into(), name);
             store.set_player(player);
 
             player
@@ -91,7 +93,12 @@ mod PlayableComponent {
             store.set_player(player);
         }
 
-        fn spawn_fish(self: @ComponentState<TContractState>, world: IWorldDispatcher, fish_pond_id: u32, fish_id: u32) {
+        fn spawn_fish(
+            self: @ComponentState<TContractState>,
+            world: IWorldDispatcher,
+            fish_pond_id: u32,
+            fish_id: u32
+        ) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -100,7 +107,9 @@ mod PlayableComponent {
             fish_pond.assert_exists();
 
             // [Effect] Spawn fish
-            let new_fish: Fish = FishTrait::new(fish_pond_id, fish_id, get_block_timestamp().into());
+            let new_fish: Fish = FishTrait::new(
+                fish_pond_id, fish_id, get_block_timestamp().into()
+            );
 
             // [Effect] Update fish pond
             // store.set_fish_pond(fish_pond);
@@ -108,8 +117,12 @@ mod PlayableComponent {
         }
 
 
-
-        fn cast_fishing(self: @ComponentState<TContractState>, world: IWorldDispatcher, fish_pond_id: u32, commitment: felt252) { // deleted fish_rod: FishingRod for now.
+        fn cast_fishing(
+            self: @ComponentState<TContractState>,
+            world: IWorldDispatcher,
+            fish_pond_id: u32,
+            commitment: felt252
+        ) { // deleted fish_rod: FishingRod for now.
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -145,7 +158,14 @@ mod PlayableComponent {
         }
 
         // Reveal the commitment to catch the fish
-        fn reel_by_revealing(self: @ComponentState<TContractState>, world: IWorldDispatcher, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32) {
+        fn reel_by_revealing(
+            self: @ComponentState<TContractState>,
+            world: IWorldDispatcher,
+            player_id: felt252,
+            fish_pond_id: u32,
+            fish_id: u32,
+            salt: u32
+        ) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -166,15 +186,19 @@ mod PlayableComponent {
 
             let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
-            
+
             // [Check] the time is over REEL_DURATION
-            assert(get_block_timestamp() - commitment.timestamp > REEL_DURATION, 'you have to wait');
+            assert(
+                get_block_timestamp() - commitment.timestamp > REEL_DURATION, 'you have to wait'
+            );
 
             // [Check] reveal history
             let mut reveal_history = store.get_reveal_history(fish_pond_id, fish_id);
 
             // [Check] commitment.timestamp is over reveal_history.commit_timestamp
-            assert(commitment.timestamp >= reveal_history.commit_timestamp, 'your commit was failed');
+            assert(
+                commitment.timestamp >= reveal_history.commit_timestamp, 'your commit was failed'
+            );
 
             if (reveal_history.count != 0) {
                 // [Check] it's revevant to the previous commitment.
@@ -188,10 +212,10 @@ mod PlayableComponent {
                     reveal_history.commit_timestamp = get_block_timestamp();
                     reveal_history.reveal_timestamp = get_block_timestamp();
                     reveal_history.count = 0;
-                } 
+                }
                 // else if (commitment.timestamp > reveal_history.commit_timestamp) {
-                //     // can reel the fish later???
-                // }
+            //     // can reel the fish later???
+            // }
             } else {
                 reveal_history.commit_timestamp = commitment.timestamp;
                 reveal_history.reveal_timestamp = get_block_timestamp();
@@ -203,7 +227,14 @@ mod PlayableComponent {
         }
 
         // if the player reels the fish correctly, the fish is caught.
-        fn catch_the_fish(self: @ComponentState<TContractState>, world: IWorldDispatcher, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32) {
+        fn catch_the_fish(
+            self: @ComponentState<TContractState>,
+            world: IWorldDispatcher,
+            player_id: felt252,
+            fish_pond_id: u32,
+            fish_id: u32,
+            salt: u32
+        ) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -228,9 +259,12 @@ mod PlayableComponent {
 
             let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
-            
+
             // [Check] reveal_history.timestamp is over CATCH_DURATION
-            assert(get_block_timestamp() - reveal_history.reveal_timestamp > CATCH_DURATION, 'you have to wait');
+            assert(
+                get_block_timestamp() - reveal_history.reveal_timestamp > CATCH_DURATION,
+                'you have to wait'
+            );
 
             // [Check] reveal_history.commit_timestamp == commitment.timestamp
             assert(reveal_history.commit_timestamp == commitment.timestamp, 'commit is not yours');
@@ -243,6 +277,5 @@ mod PlayableComponent {
             player.fish_caught += 1;
             store.set_player(player);
         }
-        
     }
 }
