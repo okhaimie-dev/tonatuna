@@ -48,6 +48,7 @@ export class Player extends Phaser.GameObjects.Container {
 
   move(direction: Direction) {
     this.gridEngine.move(this.key, direction);
+    this.gridEngine.turnTowards(`${this.key}-surf`, direction);
   }
 
   movePlayerTo(targetPos: Position) {
