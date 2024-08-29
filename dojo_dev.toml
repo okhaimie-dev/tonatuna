@@ -12,6 +12,7 @@ discord = "https://discord.gg/FB2wR6uF"
 github = "https://github.com/okhaimie-dev/tonatuna"
 telegram = "https://t.me/dojoengine"
 
+[namespace]
 default = "tonatuna"
 
 [env]

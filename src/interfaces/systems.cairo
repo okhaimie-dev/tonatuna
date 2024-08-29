@@ -4,7 +4,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait, Resource};
 
 
 mod SELECTORS {
-    const ADMIN: felt252 = selector_from_tag!("pistols-admin");
+    // const ADMIN: felt252 = selector_from_tag!("pistols-admin");
     const ACTIONS: felt252 = selector_from_tag!("pistols-actions");
     const MINTER: felt252 = selector_from_tag!("pistols-minter");
     const TOKEN_DUELIST: felt252 = selector_from_tag!("pistols-token_duelist");

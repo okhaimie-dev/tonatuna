@@ -100,10 +100,10 @@ mod PlayableComponent {
 
 
             // [Check] assert that the caller has enough tokens
-            // assert(token.balance_of(caller.into()) >= amount.into() * BAIT_PRICE.into(), 'not enough tokens');
+            assert(token.balance_of(caller.into()) >= amount.into() * BAIT_PRICE.into(), 'not enough tokens');
 
             // [Check] if the caller allowed enogh tokens to the contract
-            // assert(token.allowance(caller.into(), get_contract_address().into()) >= amount.into() * BAIT_PRICE.into(), 'not enough allowance');
+            assert(token.allowance(caller.into(), get_contract_address().into()) >= amount.into() * BAIT_PRICE.into(), 'not enough allowance');
 
             // send tokens from caller to contract
             token.transfer_from(caller.into(), GAME_CONTRACT_ADDRESS(), amount.into() * BAIT_PRICE.into());
