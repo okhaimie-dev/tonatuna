@@ -12,8 +12,8 @@ export class Player extends Phaser.GameObjects.Container {
     y: number,
     key: string
   ) {
-    const surfSprite = scene.add.sprite(0, 0, `${key}-surf`);
-    const playerSprite = scene.add.sprite(4, -8, key);
+    const surfSprite = scene.add.sprite(0, 0, "surf");
+    const playerSprite = scene.add.sprite(4, -8, "surf");
 
     super(scene, x, y, [surfSprite, playerSprite]);
 
