@@ -1,12 +1,13 @@
 import "./App.css";
 import { useQuerySync } from "@dojoengine/react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDojo } from "./dojo/useDojo";
 
 function App() {
   const {
     setup: {
-      systemCalls: { create_fish_pond },
+      systemCalls: { create_fish_pond, new_player },
       toriiClient,
       contractComponents,
     },
@@ -93,6 +94,12 @@ function App() {
       <div className="card">
         <button onClick={() => create_fish_pond(account.account)}>
           Create Fish Pond
+        </button>
+      </div>
+
+      <div className="card">
+        <button onClick={() => new_player(account.account, BigInt(0x1))}>
+          Create New Player
         </button>
       </div>
     </>
