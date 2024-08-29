@@ -12,10 +12,10 @@ export class Player extends Phaser.GameObjects.Container {
     y: number,
     key: string
   ) {
-    const surfSprite = scene.add.sprite(x * 32, y * 32, "surf");
-    const playerSprite = scene.add.sprite(x * 32 + 4, y * 32 - 8, "surf");
+    const surfSprite = scene.add.sprite(0, 0, "surf");
+    const playerSprite = scene.add.sprite(4, -8, "surf");
 
-    super(scene, x, y, [surfSprite, playerSprite]);
+    super(scene, 0, 0, [surfSprite, playerSprite]);
 
     gridEngine.addCharacter({
       id: `${key}-surf`,
@@ -38,6 +38,7 @@ export class Player extends Phaser.GameObjects.Container {
       },
       container: this,
     });
+    gridEngine.setPosition(key, { x, y });
 
     this.scene = scene;
     this.gridEngine = gridEngine;
