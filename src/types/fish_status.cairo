@@ -10,8 +10,7 @@ enum FishStatus {
 }
 
 #[generate_trait]
-impl FishStatusImpl of FishStatusTrait {
-}
+impl FishStatusImpl of FishStatusTrait {}
 
 impl IntoFishStatusFelt252 of core::Into<FishStatus, felt252> {
     #[inline]

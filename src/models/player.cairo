@@ -27,20 +27,26 @@ impl PlayerImpl of PlayerTrait {
         // [Check] Name is valid
         assert(name != 0, errors::PLAYER_INVALID_NAME);
         // [Return] Player
-        Player { id, name, bait_balance: 0, fish_caught: 0, daily_attempts: 0, position: Vec2 { x: 0, y: 0 }}
+        Player {
+            id,
+            name,
+            bait_balance: 0,
+            fish_caught: 0,
+            daily_attempts: 0,
+            position: Vec2 { x: 0, y: 0 }
+        }
     }
 
     #[inline]
     fn buy_bait(ref self: Player, quantity: u8) { // use ERC20 to buy bait
-        // [Check] Player has enough bait
+    // [Check] Player has enough bait
     }
 }
 
 #[generate_trait]
 impl PlayerAssert of AssertTrait {
     #[inline]
-    fn assert_is_affordable(self: Player, qty: u32) {
-        // [Check] Player has enough balance
+    fn assert_is_affordable(self: Player, qty: u32) {// [Check] Player has enough balance
     }
 
     #[inline]
@@ -69,7 +75,14 @@ impl PlayerAssert of AssertTrait {
 impl ZeroablePlayerImpl of core::Zeroable<Player> {
     #[inline]
     fn zero() -> Player {
-        Player { id: 0, name: 0, bait_balance: 0, fish_caught: 0, daily_attempts: 0, position: Vec2 { x: 0, y: 0 } }
+        Player {
+            id: 0,
+            name: 0,
+            bait_balance: 0,
+            fish_caught: 0,
+            daily_attempts: 0,
+            position: Vec2 { x: 0, y: 0 }
+        }
     }
 
     #[inline]

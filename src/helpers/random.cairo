@@ -27,11 +27,10 @@ impl Seeder of SeederTrait {
         let random: u256 = state.finalize().into();
         (random % max + 1).try_into().unwrap()
     }
-
     // #[inline]
-    // fn compute_id(time: u64) -> u64 {
-    //     let SEED_WEEK_SECONDS: u64 = 604800;
-    //     let SEED_OFFSET_SECONDS: u64 = 1609459200;
-    //     (time + SEED_OFFSET_SECONDS) / SEED_WEEK_SECONDS
-    // }
+// fn compute_id(time: u64) -> u64 {
+//     let SEED_WEEK_SECONDS: u64 = 604800;
+//     let SEED_OFFSET_SECONDS: u64 = 1609459200;
+//     (time + SEED_OFFSET_SECONDS) / SEED_WEEK_SECONDS
+// }
 }

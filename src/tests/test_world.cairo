@@ -8,7 +8,7 @@ mod tests {
     // starknet imports
     use starknet::ContractAddress;
     use starknet::testing::{set_contract_address, set_caller_address};
-    
+
 
     // import world dispatcher
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -18,10 +18,13 @@ mod tests {
     // import tonatuna
     use tonatuna::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{player::Player, fish_pond::FishPond, fish::Fish, commitment::Commitment, reveal_history::RevealHistory},
+        models::{
+            player::Player, fish_pond::FishPond, fish::Fish, commitment::Commitment,
+            reveal_history::RevealHistory
+        },
         types::vec2::Vec2,
         // models::{{Position, Vec2, position, Moves, Direction, moves}}
-        // helpers::random::random_num
+    // helpers::random::random_num
     };
 
     use tonatuna::store::{Store, StoreTrait};
@@ -51,7 +54,7 @@ mod tests {
         // register the player
         let mut player = actions_system.new_player(id: caller.into(), name: 'Bob');
 
-        actions_system.move(Vec2{ x: 1, y: 1 });
+        actions_system.move(Vec2 { x: 1, y: 1 });
 
         player = store.get_player(caller.into());
 
@@ -91,7 +94,6 @@ mod tests {
         // spawn the fish
         actions_system.spawn_fish(fish_pond_id, 1);
 
-
         let fish = store.get_fish(fish_pond_id, 1);
 
         assert(fish.fish_pond_id == fish_pond_id, 'fish id is wrong');
@@ -100,10 +102,9 @@ mod tests {
 
         println!("fish position x: {}", fish.position.x);
         println!("fish position y: {}", fish.position.y);
-
         // assert(player.name == 'Bob', 'name is wrong');
-        // assert(player.position.x == 1, 'position x is wrong');
-        // assert(player.position.y == 1, 'position y is wrong');
+    // assert(player.position.x == 1, 'position x is wrong');
+    // assert(player.position.y == 1, 'position y is wrong');
     }
 
     #[test]
@@ -150,10 +151,9 @@ mod tests {
 
             i += 1;
         }
-
         // assert(player.name == 'Bob', 'name is wrong');
-        // assert(player.position.x == 1, 'position x is wrong');
-        // assert(player.position.y == 1, 'position y is wrong');
+    // assert(player.position.x == 1, 'position x is wrong');
+    // assert(player.position.y == 1, 'position y is wrong');
     }
 
     #[test]
@@ -206,13 +206,17 @@ mod tests {
 
         let commitment = store.get_commitment(caller.into(), fish_pond_id);
 
-        // println!("commitment value: {}", commitment.value); // 1351846939947373597151552475990911731122143735091351208236876836383481829808
+        // println!("commitment value: {}", commitment.value); //
+        // 1351846939947373597151552475990911731122143735091351208236876836383481829808
 
-        assert(commitment.value == 1351846939947373597151552475990911731122143735091351208236876836383481829808, 'commitment value is wrong');
-
+        assert(
+            commitment
+                .value == 1351846939947373597151552475990911731122143735091351208236876836383481829808,
+            'commitment value is wrong'
+        );
         // assert(player.name == 'Bob', 'name is wrong');
-        // assert(player.position.x == 1, 'position x is wrong');
-        // assert(player.position.y == 1, 'position y is wrong');
+    // assert(player.position.x == 1, 'position x is wrong');
+    // assert(player.position.y == 1, 'position y is wrong');
     }
 
     #[test]
@@ -267,15 +271,16 @@ mod tests {
 
         // let commitment = store.get_commitment(caller.into(), fish_pond_id);
 
-        // println!("commitment value: {}", commitment.value); // 1351846939947373597151552475990911731122143735091351208236876836383481829808
+        // println!("commitment value: {}", commitment.value); //
+        // 1351846939947373597151552475990911731122143735091351208236876836383481829808
 
-        // assert(commitment.value == 1351846939947373597151552475990911731122143735091351208236876836383481829808, 'commitment value is wrong');
-
+        // assert(commitment.value ==
+        // 1351846939947373597151552475990911731122143735091351208236876836383481829808, 'commitment
+        // value is wrong');
 
         // reel the fish
         // ERROR should be occur: 'you have to wait'
         actions_system.reel_by_revealing(caller.into(), fish_pond_id, fish_id, salt);
-   }
-
-   // fn test_catch_the_fish() // ERROR should be occur: 'you have to wait'
+    }
+    // fn test_catch_the_fish() // ERROR should be occur: 'you have to wait'
 }
