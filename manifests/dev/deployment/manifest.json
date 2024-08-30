@@ -1230,12 +1230,12 @@
       }
     ],
     "address": "0x11e23a4568363aa10dce5254094f893e95cbd700915fd0d0c30a59f218d2a9d",
-    "transaction_hash": "0x5c6b526a2bc354eb356ebf3bde5e5b459c8b1167a7aaeac711b7458f78e9906",
+    "transaction_hash": "0x430e559d062bd14a063a74972596bbec6507b7d5b0bebd588057397171aaafb",
     "block_number": 3,
     "seed": "tonatuna",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/tonatuna-alpha-v2/katana"
+      "rpc_url": "http://0.0.0.0:5050/"
     },
     "manifest_name": "dojo-world"
   },
@@ -1251,8 +1251,8 @@
     {
       "kind": "DojoContract",
       "address": "0x2fdd8dc923c575334bfce376871fb80b89bcba892d9322ba9fb5db698146c9b",
-      "class_hash": "0x58cbd9109837e327dd077bfb7f7f76ba9605999c6d6d435d80657dbab41f10",
-      "original_class_hash": "0x58cbd9109837e327dd077bfb7f7f76ba9605999c6d6d435d80657dbab41f10",
+      "class_hash": "0x1c848500c26e1f2ef3c0c42ac0b4ed98a1a54eeb907759ca36235a8568e6430",
+      "original_class_hash": "0x1c848500c26e1f2ef3c0c42ac0b4ed98a1a54eeb907759ca36235a8568e6430",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1464,6 +1464,25 @@
             },
             {
               "type": "function",
+              "name": "reset_daily_attempts",
+              "inputs": [],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "buy_baits",
+              "inputs": [
+                {
+                  "name": "amount",
+                  "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
               "name": "move",
               "inputs": [
                 {
@@ -1483,8 +1502,8 @@
                   "type": "core::integer::u32"
                 },
                 {
-                  "name": "fish_id",
-                  "type": "core::integer::u32"
+                  "name": "time_delay",
+                  "type": "core::integer::u64"
                 }
               ],
               "outputs": [],
@@ -1501,6 +1520,22 @@
                 {
                   "name": "num_fish",
                   "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "play",
+              "inputs": [
+                {
+                  "name": "fish_pond_id",
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "name",
+                  "type": "core::felt252"
                 }
               ],
               "outputs": [],
@@ -1527,10 +1562,6 @@
               "name": "reel_by_revealing",
               "inputs": [
                 {
-                  "name": "player_id",
-                  "type": "core::felt252"
-                },
-                {
                   "name": "fish_pond_id",
                   "type": "core::integer::u32"
                 },
@@ -1551,19 +1582,11 @@
               "name": "catch_the_fish",
               "inputs": [
                 {
-                  "name": "player_id",
-                  "type": "core::felt252"
-                },
-                {
                   "name": "fish_pond_id",
                   "type": "core::integer::u32"
                 },
                 {
                   "name": "fish_id",
-                  "type": "core::integer::u32"
-                },
-                {
-                  "name": "salt",
                   "type": "core::integer::u32"
                 }
               ],
@@ -1668,9 +1691,12 @@
       "init_calldata": [],
       "tag": "tonatuna-actions",
       "systems": [
+        "reset_daily_attempts",
+        "buy_baits",
         "move",
         "spawn_fish",
         "spawn_multiple_fishes",
+        "play",
         "cast_fishing",
         "reel_by_revealing",
         "catch_the_fish"
@@ -1698,8 +1724,8 @@
           "key": false
         },
         {
-          "name": "nonce",
-          "type": "u32",
+          "name": "status",
+          "type": "u8",
           "key": false
         },
         {
@@ -1708,8 +1734,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325",
-      "original_class_hash": "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325",
+      "class_hash": "0x7df68e024fc00da2b03d6c3c8e38f6e839dbd8fdfa44b527a97083c5c53ce0b",
+      "original_class_hash": "0x7df68e024fc00da2b03d6c3c8e38f6e839dbd8fdfa44b527a97083c5c53ce0b",
       "abi": [
         {
           "type": "impl",
@@ -2095,8 +2121,8 @@
               "type": "core::felt252"
             },
             {
-              "name": "nonce",
-              "type": "core::integer::u32"
+              "name": "status",
+              "type": "core::integer::u8"
             },
             {
               "name": "timestamp",
@@ -2160,10 +2186,15 @@
           "name": "status",
           "type": "u8",
           "key": false
+        },
+        {
+          "name": "spawn_time",
+          "type": "u64",
+          "key": false
         }
       ],
-      "class_hash": "0x1890d147565b501edc040aeed98f4c024c7c0170eeb47e7178a22c1e2a9254d",
-      "original_class_hash": "0x1890d147565b501edc040aeed98f4c024c7c0170eeb47e7178a22c1e2a9254d",
+      "class_hash": "0x2794c117a4a6aea40e1db8a41ff7d71beee515d0ec2c083b2004156c9dcd78d",
+      "original_class_hash": "0x2794c117a4a6aea40e1db8a41ff7d71beee515d0ec2c083b2004156c9dcd78d",
       "abi": [
         {
           "type": "impl",
@@ -2569,6 +2600,10 @@
             {
               "name": "status",
               "type": "core::integer::u8"
+            },
+            {
+              "name": "spawn_time",
+              "type": "core::integer::u64"
             }
           ]
         },
@@ -2615,6 +2650,11 @@
           "key": false
         },
         {
+          "name": "max_fish_id",
+          "type": "u32",
+          "key": false
+        },
+        {
           "name": "daily_catch_limit",
           "type": "u32",
           "key": false
@@ -2630,8 +2670,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714",
-      "original_class_hash": "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714",
+      "class_hash": "0x36a1c982bdf821be20190700ec1c9ce526dea67aed0a5297983f775b03e60ba",
+      "original_class_hash": "0x36a1c982bdf821be20190700ec1c9ce526dea67aed0a5297983f775b03e60ba",
       "abi": [
         {
           "type": "impl",
@@ -3010,6 +3050,10 @@
             },
             {
               "name": "fish_population",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "max_fish_id",
               "type": "core::integer::u32"
             },
             {

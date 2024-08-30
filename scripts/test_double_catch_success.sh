@@ -51,6 +51,9 @@ echo $fish_pond_info
 
 sozo execute tonatuna-actions spawn_multiple_fishes -c $fish_pond_id,$fish_num
 
+sleep 2
+sozo execute tonatuna-actions create_fish_pond
+
 echo "Fish ID: $fish_id"
 fish_info=$(sozo model get Fish $fish_pond_id $fish_id)
 echo $fish_info
@@ -59,7 +62,10 @@ echo "Fish ID: $fish_id_2"
 fish_info_2=$(sozo model get Fish $fish_pond_id $fish_id_2)
 echo $fish_info_2
 
-echo "cast fishing"
+echo ""
+echo "################"
+echo "# cast fishing #"
+echo "################"
 # 
 sozo execute tonatuna-actions cast_fishing -c $fish_pond_id,$commitment --account-address $address --private-key $private_key_1
 
@@ -73,10 +79,14 @@ echo "Commitment 2:"
 commitment_info_2=$(sozo model get Commitment $address_2 $fish_pond_id)
 echo $commitment_info_2
 
-sleep 30
+sleep 15
 # to proceed block number
 sozo execute tonatuna-actions create_fish_pond
 
+echo ""
+echo "#################"
+echo "# Reveal commit #"
+echo "#################"
 echo "Reveal"
 sozo execute tonatuna-actions reel_by_revealing -c $fish_pond_id,$fish_id,$salt --account-address $address --private-key $private_key_1
 
@@ -84,15 +94,19 @@ echo "Reveal 2"
 sozo execute tonatuna-actions reel_by_revealing -c $fish_pond_id,$fish_id_2,$salt_2 --account-address $address_2 --private-key $private_key_2
 
 echo "Reveal History"
-reveal_history=$(sozo model get RevealHistory $address $fish_pond_id)
+reveal_history=$(sozo model get RevealHistory $fish_pond_id $fish_id)
 echo $reveal_history
-reveal_history_2=$(sozo model get RevealHistory $address_2 $fish_pond_id)
+reveal_history_2=$(sozo model get RevealHistory $fish_pond_id $fish_id_2)
 echo $reveal_history_2
 
-sleep 30
+sleep 15
 # to proceed block number
 sozo execute tonatuna-actions create_fish_pond
 
+echo ""
+echo "##################"
+echo "# Catch the Fish #"
+echo "##################"
 echo "Catch"
 sozo execute tonatuna-actions catch_the_fish -c $fish_pond_id,$fish_id --account-address $address --private-key $private_key_1
 

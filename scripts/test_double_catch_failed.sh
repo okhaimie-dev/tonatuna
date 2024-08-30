@@ -38,15 +38,15 @@ player_2_info=$(sozo model get Player $address_2)
 echo $player_2_info
 
 fish_pond_id=1
-fish_id=1
-fish_id_2=1 # same fish_id
+fish_id=3
+fish_id_2=3 # same fish_id
 fish_num=5
 salt=123
 salt_2=456
-# fish_id=1, salt=123, then
-commitment=0x2FD1E45D82B19ECDEEA8D16601D97F16D293D767A288B7774DE2B28B4C299B0
-# fish_id=1, salt=456, then
-commitment_2=0x430283BD41E0C78039DB8234BACB08860B3E0CD42F435FF60BC8D5CD4159345
+# fish_id=3, salt=123, then
+commitment=0x2112DDC7550455B1902511842C5200D931E9CB9C153F42E2E11763A71958BF8
+# fish_id=3, salt=456, then
+commitment_2=0x2A15DD0AE7949E80032F9F5356CBC0DD71E44BDBDFA4E506153D9972278AB0A
 
 echo "Fish Pond Info"
 fish_pond_info=$(sozo model get FishPond $fish_pond_id)
@@ -62,7 +62,11 @@ echo "Fish ID: $fish_id_2"
 fish_info_2=$(sozo model get Fish $fish_pond_id $fish_id_2)
 echo $fish_info_2
 
-echo "cast fishing"
+echo ""
+echo "################"
+echo "# cast fishing #"
+echo "################"
+
 # 
 sozo execute tonatuna-actions cast_fishing -c $fish_pond_id,$commitment --account-address $address --private-key $private_key_1
 
@@ -78,13 +82,17 @@ echo "Commitment 2:"
 commitment_info_2=$(sozo model get Commitment $address_2 $fish_pond_id)
 echo $commitment_info_2
 
-sleep 30
+sleep 15
 # to proceed block number
 sozo execute tonatuna-actions create_fish_pond
 echo "Reveal History"
 reveal_history=$(sozo model get RevealHistory $fish_pond_id $fish_id)
 echo $reveal_history
 
+echo ""
+echo "#################"
+echo "# Reveal commit #"
+echo "#################"
 echo "Reveal"
 sozo execute tonatuna-actions reel_by_revealing -c $fish_pond_id,$fish_id,$salt --account-address $address --private-key $private_key_1
 
@@ -98,10 +106,14 @@ reveal_history=$(sozo model get RevealHistory $fish_pond_id $fish_id)
 echo $reveal_history
 
 
-sleep 20
+sleep 15
 # to proceed block number
 sozo execute tonatuna-actions create_fish_pond
 
+echo ""
+echo "##################"
+echo "# Catch the Fish #"
+echo "##################"
 echo "Catch"
 sozo execute tonatuna-actions catch_the_fish -c $fish_pond_id,$fish_id --account-address $address --private-key $private_key_1
 

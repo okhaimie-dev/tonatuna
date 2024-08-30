@@ -50,7 +50,7 @@ sleep 30
 sozo execute tonatuna-actions create_fish_pond
 
 echo "Catch"
-sozo execute tonatuna-actions catch_the_fish -c $fish_pond_id,$fish_id,$salt
+sozo execute tonatuna-actions catch_the_fish -c $fish_pond_id,$fish_id
 
 echo "Player Status"
 player_info=$(sozo model get Player $address)
