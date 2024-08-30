@@ -52,7 +52,7 @@ mod tests {
         world.grant_writer(dojo::utils::bytearray_hash(@"tonatuna"), contract_address);
 
         // register the player
-        let mut player = actions_system.new_player(id: caller.into(), name: 'Bob');
+        let mut player = actions_system.new_player(name: 'Bob');
 
         actions_system.move(Vec2 { x: 1, y: 1 });
 
@@ -181,7 +181,7 @@ mod tests {
         world.grant_writer(dojo::utils::bytearray_hash(@"tonatuna"), contract_address);
 
         // register the player
-        let mut player = actions_system.new_player(id: caller.into(), name: 'Bob');
+        let mut player = actions_system.new_player(name: 'Bob');
 
         player.bait_balance = 5; // implement "buy bait" later
         store.set_player(player);
@@ -223,7 +223,7 @@ mod tests {
     #[should_panic] // ERROR should be occur: 'you have to wait'
     fn test_reeling() {
         // caller
-        let caller = starknet::contract_address_const::<0x0>();
+        // let caller = starknet::contract_address_const::<0x0>();
 
         // models
         let mut models = core::array::ArrayTrait::new();
@@ -246,7 +246,7 @@ mod tests {
         world.grant_writer(dojo::utils::bytearray_hash(@"tonatuna"), contract_address);
 
         // register the player
-        let mut player = actions_system.new_player(id: caller.into(), name: 'Bob');
+        let mut player = actions_system.new_player(name: 'Bob');
 
         player.bait_balance = 5; // implement "buy bait" later
         store.set_player(player);
@@ -280,7 +280,7 @@ mod tests {
 
         // reel the fish
         // ERROR should be occur: 'you have to wait'
-        actions_system.reel_by_revealing(caller.into(), fish_pond_id, fish_id, salt);
+        actions_system.reel_by_revealing(fish_pond_id, fish_id, salt);
     }
     // fn test_catch_the_fish() // ERROR should be occur: 'you have to wait'
 }

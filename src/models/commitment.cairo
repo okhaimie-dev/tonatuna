@@ -6,6 +6,7 @@ use tonatuna::models::index::Commitment;
 use tonatuna::types::vec2::Vec2;
 
 use tonatuna::helpers::dice::{Dice, DiceTrait};
+use tonatuna::types::commit_status::CommitStatus;
 
 use tonatuna::constants::MAX_SIZE;
 
@@ -18,7 +19,7 @@ mod errors {
 impl CommitmentImpl of CommitmentTrait {
     #[inline]
     fn new(player_id: felt252, fish_pond_id: u32) -> Commitment {
-        Commitment { player_id, fish_pond_id, value: 0, nonce: 0, timestamp: 0, }
+        Commitment { player_id, fish_pond_id, status: CommitStatus::None.into(), value: 0, timestamp: 0, }
     }
 }
 
