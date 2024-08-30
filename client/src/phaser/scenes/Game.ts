@@ -14,8 +14,8 @@ export class Game extends Phaser.Scene {
   keyF!: Phaser.Input.Keyboard.Key;
 
   gridEngine!: GridEngine;
-  myPlayer?: Player;
   players: Record<string, Player> = {};
+  myPlayerId?: string;
 
   isFishing: boolean = false;
   selectIndicator!: Phaser.GameObjects.Graphics;
@@ -81,8 +81,6 @@ export class Game extends Phaser.Scene {
     ]);
 
     this.setupGridEngine();
-    this.listenPositionUpdate();
-    this.listenPlayerUpdate();
     this.listenKeyPresses();
     this.updateChunks(0, 0);
     const camera = this.cameras.main;
@@ -96,8 +94,10 @@ export class Game extends Phaser.Scene {
   }
 
   update() {
-    if (this.myPlayer) {
-      this.updateChunks(this.myPlayer.x, this.myPlayer.y);
+    if (!this.myPlayerId) return;
+    const myPlayer = this.players[this.myPlayerId];
+    if (myPlayer) {
+      this.updateChunks(myPlayer.x, myPlayer.y);
     }
     this.handleKeyHolds();
   }
@@ -123,7 +123,7 @@ export class Game extends Phaser.Scene {
 
     if (isOwner) {
       this.cameras.main.startFollow(player, true);
-      this.myPlayer = player;
+      this.myPlayerId = id;
     }
 
     this.players[id] = player;
@@ -134,8 +134,8 @@ export class Game extends Phaser.Scene {
     this.gridEngine.removeCharacter(id);
     delete this.players[id];
 
-    if (this.myPlayer?.key === id) {
-      this.myPlayer = undefined;
+    if (this.myPlayerId === id) {
+      this.myPlayerId = undefined;
       this.isFishing = false;
       this.selectIndicator.setVisible(false);
     }
@@ -214,8 +214,8 @@ export class Game extends Phaser.Scene {
           const y = Math.round(this.selectIndicator.y / GRID_SIZE);
           const fishId = this.gridEngine.getCharactersAt({ x, y })[0];
           if (fishId) {
-            if (this.myPlayer) {
-              this.sendCast(this.myPlayer.key, fishId);
+            if (this.myPlayerId) {
+              this.sendCast(this.myPlayerId, fishId);
             }
             this.toggleFishing();
           }
@@ -225,36 +225,26 @@ export class Game extends Phaser.Scene {
   }
 
   toggleFishing() {
-    if (!this.myPlayer) return;
+    if (!this.myPlayerId) return;
+    const myPlayer = this.players[this.myPlayerId];
     this.isFishing = !this.isFishing;
     this.selectIndicator.setVisible(this.isFishing);
     if (this.isFishing) {
-      const pos = this.gridEngine.getPosition(this.myPlayer.key);
+      const pos = this.gridEngine.getPosition(this.myPlayerId);
       this.selectIndicator.setPosition(pos.x * GRID_SIZE, pos.y * GRID_SIZE);
-      this.myPlayer.precast();
+      myPlayer.precast();
     } else {
-      this.myPlayer.release();
+      myPlayer.release();
     }
   }
 
   sendMove(direction: Direction) {
     // send move transaction
-    this.myPlayer?.move(direction);
+    if (!this.myPlayerId) return;
+    this.players[this.myPlayerId]?.move(direction);
   }
 
   sendCast(playerId: string, fishId: string) {
     // send cast transaction
-  }
-
-  listenPositionUpdate() {
-    // listen to onchain position updates and call movePlayerTo on player object
-  }
-
-  listenPlayerUpdate() {
-    // listen to players being added and removed and call spawnPlayer and removePlayer
-  }
-
-  listenFishUpdate() {
-    // listen to fish being added and removed and call spawnFish and removeFish
   }
 }
