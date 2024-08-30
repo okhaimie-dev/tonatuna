@@ -15,6 +15,7 @@ export class Game extends Phaser.Scene {
 
   gridEngine!: GridEngine;
   myPlayer?: Player;
+  players: Record<string, Player> = {};
 
   isFishing: boolean = false;
   selectIndicator!: Phaser.GameObjects.Graphics;
@@ -125,11 +126,13 @@ export class Game extends Phaser.Scene {
       this.myPlayer = player;
     }
 
+    this.players[id] = player;
     return player;
   }
 
   removePlayer(id: string) {
     this.gridEngine.removeCharacter(id);
+    delete this.players[id];
 
     if (this.myPlayer?.key === id) {
       this.myPlayer = undefined;
