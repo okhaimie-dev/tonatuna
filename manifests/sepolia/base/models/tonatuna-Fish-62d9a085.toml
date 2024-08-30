@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x1890d147565b501edc040aeed98f4c024c7c0170eeb47e7178a22c1e2a9254d"
+original_class_hash = "0x1890d147565b501edc040aeed98f4c024c7c0170eeb47e7178a22c1e2a9254d"
+abi = "manifests/sepolia/base/abis/models/tonatuna-Fish-62d9a085.json"
+tag = "tonatuna-Fish"
+qualified_path = "tonatuna::models::index::fish"
+manifest_name = "tonatuna-Fish-62d9a085"
+
+[[members]]
+name = "fish_pond_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "fish_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "position"
+type = "Vec2"
+key = false
+
+[[members]]
+name = "weight"
+type = "u32"
+key = false
+
+[[members]]
+name = "status"
+type = "u8"
+key = false

@@ -1,0 +1,4 @@
+tag = "tonatuna-actions"
+writes = [
+    "ns:tonatuna"
+]

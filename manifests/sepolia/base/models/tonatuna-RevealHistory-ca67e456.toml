@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x4092ff33b03f32a3f143466d0e67b5718b62549d83bbf32b0317f5da22ceeb6"
+original_class_hash = "0x4092ff33b03f32a3f143466d0e67b5718b62549d83bbf32b0317f5da22ceeb6"
+abi = "manifests/sepolia/base/abis/models/tonatuna-RevealHistory-ca67e456.json"
+tag = "tonatuna-RevealHistory"
+qualified_path = "tonatuna::models::index::reveal_history"
+manifest_name = "tonatuna-RevealHistory-ca67e456"
+
+[[members]]
+name = "fish_pond_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "fish_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "commit_timestamp"
+type = "u64"
+key = false
+
+[[members]]
+name = "reveal_timestamp"
+type = "u64"
+key = false
+
+[[members]]
+name = "count"
+type = "u32"
+key = false

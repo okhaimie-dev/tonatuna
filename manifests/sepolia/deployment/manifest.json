@@ -1230,12 +1230,12 @@
       }
     ],
     "address": "0x11e23a4568363aa10dce5254094f893e95cbd700915fd0d0c30a59f218d2a9d",
-    "transaction_hash": "0x430e559d062bd14a063a74972596bbec6507b7d5b0bebd588057397171aaafb",
-    "block_number": 3,
+    "transaction_hash": "0x220f963b42ef0e32095e96f394ed3d6bcf128023583395d51498af55084360f",
+    "block_number": null,
     "seed": "tonatuna",
     "metadata": {
-      "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/tonatuna-alpha-v2/katana"
+      "profile_name": "sepolia",
+      "rpc_url": "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
     },
     "manifest_name": "dojo-world"
   },
@@ -1243,7 +1243,7 @@
     "kind": "Class",
     "class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
     "original_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
-    "abi": "manifests/dev/deployment/abis/dojo-base.json",
+    "abi": "manifests/sepolia/deployment/abis/dojo-base.json",
     "tag": "dojo-base",
     "manifest_name": "dojo-base"
   },

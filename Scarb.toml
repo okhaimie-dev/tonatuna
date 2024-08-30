@@ -13,6 +13,8 @@ migrate = "sozo build && sozo migrate apply"
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.7" }
 origami_token = { git = "https://github.com/dojoengine/origami", tag = "v1.0.0-alpha.7" }
 
+[profile.sepolia]
+
 [[target.dojo]]
 build-external-contracts = [
   "origami_token::components::introspection::src5::SRC5Model",

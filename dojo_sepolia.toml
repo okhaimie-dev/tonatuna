@@ -16,9 +16,9 @@ telegram = "https://t.me/dojoengine"
 default = "tonatuna"
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/tonatuna-alpha-v2/katana"
+rpc_url = "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
 # rpc_url = "http://0.0.0.0:5050" # for local katana
 # Default account for katana with seed = 0
-account_address = "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175"
-private_key = "0x5d2e95d7477224d35cd3b1ffe50c1631573e21b71977605177528acfc4b8598"
-world_address = "0x11e23a4568363aa10dce5254094f893e95cbd700915fd0d0c30a59f218d2a9d"  # Uncomment and update this line with your world address.
+account_address = "0x02A54eFf65D55a2E7D2fC7E23eF0F0e6030dB0313b16c8F0eaD0b4a83807f6d6"
+private_key = "0x0396533b7a1182ef03da483eca82e9dd2b17bee9c7fec07ac6cbbeb8bfd573cb"
+world_address = ""

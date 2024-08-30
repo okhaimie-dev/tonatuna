@@ -28,7 +28,9 @@ mod PlayableComponent {
     use tonatuna::types::fishing_rod::FishingRod;
     use tonatuna::types::fish_status::FishStatus;
     use tonatuna::types::commit_status::CommitStatus;
-    use tonatuna::constants::{REEL_DURATION, CATCH_DURATION, BAIT_PRICE, TOKEN_ADDRESS, GAME_CONTRACT_ADDRESS};
+    use tonatuna::constants::{
+        REEL_DURATION, CATCH_DURATION, BAIT_PRICE, TOKEN_ADDRESS, GAME_CONTRACT_ADDRESS
+    };
     use tonatuna::interfaces::ierc20::{ierc20, IERC20Dispatcher, IERC20DispatcherTrait};
 
     // Errors
@@ -80,9 +82,7 @@ mod PlayableComponent {
             player
         }
 
-        fn buy_baits(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, amount: u32
-        ) {
+        fn buy_baits(self: @ComponentState<TContractState>, world: IWorldDispatcher, amount: u32) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -95,19 +95,20 @@ mod PlayableComponent {
 
             // have to change the contract address
             let token = ierc20(TOKEN_ADDRESS());
-            let total = token.total_supply();
-            println!("total supply: {}", total);
-
 
             // [Check] assert that the caller has enough tokens
-            // assert(token.balance_of(caller.into()) >= amount.into() * BAIT_PRICE.into(), 'not enough tokens');
+            // assert(token.balance_of(caller.into()) >= amount.into() * BAIT_PRICE.into(), 'not
+            // enough tokens');
 
             // [Check] if the caller allowed enogh tokens to the contract
-            // assert(token.allowance(caller.into(), get_contract_address().into()) >= amount.into() * BAIT_PRICE.into(), 'not enough allowance');
+            // assert(token.allowance(caller.into(), get_contract_address().into()) >= amount.into()
+            // * BAIT_PRICE.into(), 'not enough allowance');
 
             // send tokens from caller to contract
-            token.transfer_from(caller.into(), GAME_CONTRACT_ADDRESS(), amount.into() * BAIT_PRICE.into());
-
+            token
+                .transfer_from(
+                    caller.into(), GAME_CONTRACT_ADDRESS(), amount.into() * BAIT_PRICE.into()
+                );
 
             // [Effect] Buy baits
             player.bait_balance += amount;
@@ -116,9 +117,7 @@ mod PlayableComponent {
             store.set_player(player);
         }
 
-        fn reset_daily_attempts(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher
-        ) {
+        fn reset_daily_attempts(self: @ComponentState<TContractState>, world: IWorldDispatcher) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
