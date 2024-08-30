@@ -71,19 +71,33 @@ export class Game extends Phaser.Scene {
     this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keyF = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.input.keyboard?.removeCapture([
+      Phaser.Input.Keyboard.KeyCodes.W,
+      Phaser.Input.Keyboard.KeyCodes.A,
+      Phaser.Input.Keyboard.KeyCodes.S,
+      Phaser.Input.Keyboard.KeyCodes.D,
+      Phaser.Input.Keyboard.KeyCodes.F,
+    ]);
 
     this.setupGridEngine();
     this.listenPositionUpdate();
     this.listenPlayerUpdate();
     this.listenKeyPresses();
+    this.updateChunks(0, 0);
+    const camera = this.cameras.main;
+    camera.setScroll(
+      -camera.width / 2 / camera.zoom,
+      -camera.height / 2 / camera.zoom
+    );
 
     // TESTING
-    this.spawnPlayer("player1", 5, 5, true);
-    this.spawnFish("fish1", 3, 3);
+    this.spawnFish("fish1", 0, 0);
   }
 
   update() {
-    this.updateChunks();
+    if (this.myPlayer) {
+      this.updateChunks(this.myPlayer.x, this.myPlayer.y);
+    }
     this.handleKeyHolds();
   }
 
@@ -119,6 +133,8 @@ export class Game extends Phaser.Scene {
 
     if (this.myPlayer?.key === id) {
       this.myPlayer = undefined;
+      this.isFishing = false;
+      this.selectIndicator.setVisible(false);
     }
   }
 
@@ -131,10 +147,9 @@ export class Game extends Phaser.Scene {
     this.gridEngine.removeCharacter(id);
   }
 
-  updateChunks() {
-    if (!this.myPlayer) return;
-    let snappedChunkX = Math.round(this.myPlayer.x / (CHUNK_SIZE * TILE_SIZE));
-    let snappedChunkY = Math.round(this.myPlayer.y / (CHUNK_SIZE * TILE_SIZE));
+  updateChunks(x: number, y: number) {
+    let snappedChunkX = Math.round(x / (CHUNK_SIZE * TILE_SIZE));
+    let snappedChunkY = Math.round(y / (CHUNK_SIZE * TILE_SIZE));
 
     for (let x = snappedChunkX - 2; x <= snappedChunkX + 2; x++) {
       for (let y = snappedChunkY - 2; y <= snappedChunkY + 2; y++) {
@@ -146,7 +161,6 @@ export class Game extends Phaser.Scene {
             tileSize: TILE_SIZE,
           });
           chunk.load();
-          console.log("loaded chunk", x, y);
           this.chunks.push(chunk);
         }
       }
