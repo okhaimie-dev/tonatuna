@@ -16,6 +16,10 @@ sozo execute tonatuna-actions new_player -c 0xee --account-address $address_2 --
 
 echo "↑it's okay to fail↑"
 
+##### PARAMS #####
+# Player 1 try to catch fish 1 with salt 123
+# Player 2 try to catch fish 2 with salt 456
+##################
 
 echo "Player 1 info"
 player_1_info=$(sozo model get Player $address)

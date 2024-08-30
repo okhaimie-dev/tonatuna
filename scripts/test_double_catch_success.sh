@@ -34,6 +34,11 @@ sozo execute tonatuna-actions buy_baits -c 5 --account-address $address_2 --priv
 player_2_info=$(sozo model get Player $address_2)
 echo $player_2_info
 
+##### PARAMS #####
+# Player 1 try to catch fish 1 with salt 123
+# Player 2 try to catch fish 2 with salt 456
+##################
+
 fish_pond_id=1
 fish_id=1
 fish_id_2=2
