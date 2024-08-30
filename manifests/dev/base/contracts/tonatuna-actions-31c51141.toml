@@ -8,6 +8,8 @@ writes = []
 init_calldata = []
 tag = "tonatuna-actions"
 systems = [
+    "reset_daily_attempts",
+    "buy_baits",
     "move",
     "spawn_fish",
     "spawn_multiple_fishes",

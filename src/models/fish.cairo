@@ -9,6 +9,7 @@ use tonatuna::types::vec2::Vec2;
 use tonatuna::types::fish_status::FishStatus;
 
 use tonatuna::helpers::dice::{Dice, DiceTrait};
+use tonatuna::types::fish_status::FishStatus;
 
 use tonatuna::constants::MAX_SIZE;
 

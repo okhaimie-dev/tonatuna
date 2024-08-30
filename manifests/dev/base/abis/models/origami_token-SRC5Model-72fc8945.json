@@ -363,38 +363,44 @@
   },
   {
     "type": "impl",
-    "name": "commitmentImpl",
-    "interface_name": "tonatuna::models::index::Icommitment"
+    "name": "src_5_modelImpl",
+    "interface_name": "origami_token::components::introspection::src5::Isrc_5_model"
+  },
+  {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
   },
   {
     "type": "struct",
-    "name": "tonatuna::models::index::Commitment",
+    "name": "origami_token::components::introspection::src5::SRC5Model",
     "members": [
       {
-        "name": "player_id",
+        "name": "token",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "interface_id",
         "type": "core::felt252"
       },
       {
-        "name": "fish_pond_id",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "value",
-        "type": "core::felt252"
-      },
-      {
-        "name": "status",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "timestamp",
-        "type": "core::integer::u64"
+        "name": "supports",
+        "type": "core::bool"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "tonatuna::models::index::Icommitment",
+    "name": "origami_token::components::introspection::src5::Isrc_5_model",
     "items": [
       {
         "type": "function",
@@ -402,7 +408,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "tonatuna::models::index::Commitment"
+            "type": "origami_token::components::introspection::src5::SRC5Model"
           }
         ],
         "outputs": [],
@@ -412,7 +418,7 @@
   },
   {
     "type": "event",
-    "name": "tonatuna::models::index::commitment::Event",
+    "name": "origami_token::components::introspection::src5::src_5_model::Event",
     "kind": "enum",
     "variants": []
   }

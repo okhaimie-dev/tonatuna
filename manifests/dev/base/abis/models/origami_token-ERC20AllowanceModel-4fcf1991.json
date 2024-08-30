@@ -363,38 +363,48 @@
   },
   {
     "type": "impl",
-    "name": "commitmentImpl",
-    "interface_name": "tonatuna::models::index::Icommitment"
+    "name": "erc_20_allowance_modelImpl",
+    "interface_name": "origami_token::components::token::erc20::erc20_allowance::Ierc_20_allowance_model"
   },
   {
     "type": "struct",
-    "name": "tonatuna::models::index::Commitment",
+    "name": "core::integer::u256",
     "members": [
       {
-        "name": "player_id",
-        "type": "core::felt252"
+        "name": "low",
+        "type": "core::integer::u128"
       },
       {
-        "name": "fish_pond_id",
-        "type": "core::integer::u32"
+        "name": "high",
+        "type": "core::integer::u128"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "origami_token::components::token::erc20::erc20_allowance::ERC20AllowanceModel",
+    "members": [
+      {
+        "name": "token",
+        "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "value",
-        "type": "core::felt252"
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "status",
-        "type": "core::integer::u8"
+        "name": "spender",
+        "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "timestamp",
-        "type": "core::integer::u64"
+        "name": "amount",
+        "type": "core::integer::u256"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "tonatuna::models::index::Icommitment",
+    "name": "origami_token::components::token::erc20::erc20_allowance::Ierc_20_allowance_model",
     "items": [
       {
         "type": "function",
@@ -402,7 +412,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "tonatuna::models::index::Commitment"
+            "type": "origami_token::components::token::erc20::erc20_allowance::ERC20AllowanceModel"
           }
         ],
         "outputs": [],
@@ -412,7 +422,7 @@
   },
   {
     "type": "event",
-    "name": "tonatuna::models::index::commitment::Event",
+    "name": "origami_token::components::token::erc20::erc20_allowance::erc_20_allowance_model::Event",
     "kind": "enum",
     "variants": []
   }

@@ -7,6 +7,7 @@ mod types {
     mod fishing_rod;
     mod bait;
     mod fish_status;
+    mod commit_status;
 }
 
 mod models {
@@ -25,6 +26,10 @@ mod components {
 
 mod systems {
     mod actions;
+}
+
+mod interfaces {
+    mod ierc20;
 }
 
 mod elements {
@@ -59,4 +64,5 @@ mod helpers {
 
 mod tests {
     mod test_world;
+    mod setup;
 }

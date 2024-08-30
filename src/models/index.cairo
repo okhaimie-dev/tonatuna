@@ -46,7 +46,7 @@ pub struct Commitment {
     #[key]
     pub fish_pond_id: u32,
     pub value: felt252,
-    pub nonce: u32,
+    pub status: u8,
     pub timestamp: u64
 }
 

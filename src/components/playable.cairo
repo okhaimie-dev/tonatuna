@@ -27,7 +27,9 @@ mod PlayableComponent {
     use tonatuna::types::tuna::Tuna;
     use tonatuna::types::fishing_rod::FishingRod;
     use tonatuna::types::fish_status::FishStatus;
-    use tonatuna::constants::{REEL_DURATION, CATCH_DURATION};
+    use tonatuna::types::commit_status::CommitStatus;
+    use tonatuna::constants::{REEL_DURATION, CATCH_DURATION, BAIT_PRICE, TOKEN_ADDRESS, GAME_CONTRACT_ADDRESS};
+    use tonatuna::interfaces::ierc20::{ierc20, IERC20Dispatcher, IERC20DispatcherTrait};
 
     // Errors
 
@@ -78,6 +80,60 @@ mod PlayableComponent {
             player
         }
 
+        fn buy_baits(
+            self: @ComponentState<TContractState>, world: IWorldDispatcher, amount: u32
+        ) {
+            // [Setup] Datastore
+            let store: Store = StoreTrait::new(world);
+
+            // [Check] Player exists
+            let caller = get_caller_address();
+            let mut player = store.get_player(caller.into());
+            player.assert_exists();
+
+            // FIXME: Have to pay ETH/STRK for buying baits
+
+            // have to change the contract address
+            let token = ierc20(TOKEN_ADDRESS());
+            let total = token.total_supply();
+            println!("total supply: {}", total);
+
+
+            // [Check] assert that the caller has enough tokens
+            assert(token.balance_of(caller.into()) >= amount.into() * BAIT_PRICE.into(), 'not enough tokens');
+
+            // [Check] if the caller allowed enogh tokens to the contract
+            assert(token.allowance(caller.into(), get_contract_address().into()) >= amount.into() * BAIT_PRICE.into(), 'not enough allowance');
+
+            // send tokens from caller to contract
+            token.transfer_from(caller.into(), GAME_CONTRACT_ADDRESS(), amount.into() * BAIT_PRICE.into());
+
+
+            // [Effect] Buy baits
+            player.bait_balance += amount;
+
+            // [Effect] Update player
+            store.set_player(player);
+        }
+
+        fn reset_daily_attempts(
+            self: @ComponentState<TContractState>, world: IWorldDispatcher
+        ) {
+            // [Setup] Datastore
+            let store: Store = StoreTrait::new(world);
+
+            // [Check] Player exists
+            let caller = get_caller_address();
+            let mut player = store.get_player(caller.into());
+            player.assert_exists();
+
+            // [Effect] Reset daily attempts
+            player.daily_attempts = 0;
+
+            // [Effect] Update player
+            store.set_player(player);
+        }
+
         fn move(self: @ComponentState<TContractState>, world: IWorldDispatcher, dest_pos: Vec2) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -107,8 +163,8 @@ mod PlayableComponent {
             let mut fish_pond: FishPond = store.get_fish_pond(fish_pond_id);
             fish_pond.assert_exists();
 
-
-
+            let old_fish = store.get_fish(fish_pond_id, fish_id);
+            assert(old_fish.status == FishStatus::None.into(), 'fish_id is already used');
             // [Effect] Spawn fish
             let new_fish: Fish = FishTrait::new(
                 fish_pond_id, fish_pond.max_fish_id, get_block_timestamp().into(), time_delay
@@ -155,7 +211,7 @@ mod PlayableComponent {
 
             let mut commit: Commitment = store.get_commitment(caller.into(), fish_pond_id);
 
-            commit.nonce += 1;
+            commit.status = CommitStatus::Committed.into();
             commit.value = commitment;
             commit.timestamp = get_block_timestamp();
 
@@ -172,7 +228,6 @@ mod PlayableComponent {
         fn reel_by_revealing(
             self: @ComponentState<TContractState>,
             world: IWorldDispatcher,
-            player_id: felt252,
             fish_pond_id: u32,
             fish_id: u32,
             salt: u32
@@ -200,7 +255,7 @@ mod PlayableComponent {
             let hash_state = hash_state.update(salt.into());
             let commitment_value = hash_state.finalize().into();
 
-            let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
+            let mut commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
             assert(commitment_value == commitment.value, 'hash value is wrong');
 
             assert(commitment.timestamp > fish.spawn_time, 'your fishing was too early');
@@ -217,6 +272,9 @@ mod PlayableComponent {
             assert(
                 commitment.timestamp >= reveal_history.commit_timestamp, 'your commit was failed'
             );
+
+            // [Check] commitment.status is Committed
+            assert(commitment.status == CommitStatus::Committed.into(), 'the commit is used');
 
             if (reveal_history.count != 0) {
                 // [Check] it's revevant to the previous commitment.
@@ -240,6 +298,9 @@ mod PlayableComponent {
                 reveal_history.count = 1;
             }
 
+            commitment.status = CommitStatus::Revealed.into();
+            store.set_commitment(commitment);
+
             // [Effect] Update reveal_history
             store.set_reveal_history(reveal_history);
         }
@@ -248,10 +309,8 @@ mod PlayableComponent {
         fn catch_the_fish(
             self: @ComponentState<TContractState>,
             world: IWorldDispatcher,
-            player_id: felt252,
             fish_pond_id: u32,
             fish_id: u32,
-            salt: u32
         ) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -269,14 +328,17 @@ mod PlayableComponent {
             let mut reveal_history = store.get_reveal_history(fish_pond_id, fish_id);
             assert(reveal_history.count == 1, 'reeling failed');
 
-            // [Check] Commitment Hash is correct : FIXME: Do we need this?????
-            let hash_state = PoseidonTrait::new();
-            let hash_state = hash_state.update(fish_id.into());
-            let hash_state = hash_state.update(salt.into());
-            let commitment_value = hash_state.finalize().into();
+            // // [Check] Commitment Hash is correct : FIXME: Do we need this?????
+            // let hash_state = PoseidonTrait::new();
+            // let hash_state = hash_state.update(fish_id.into());
+            // let hash_state = hash_state.update(salt.into());
+            // let commitment_value = hash_state.finalize().into();
 
-            let commitment: Commitment = store.get_commitment(player_id, fish_pond_id);
-            assert(commitment_value == commitment.value, 'hash value is wrong');
+            let mut commitment: Commitment = store.get_commitment(caller.into(), fish_pond_id);
+            // assert(commitment_value == commitment.value, 'hash value is wrong');
+
+            // [Check] commitment.status is Revealed
+            assert(commitment.status == CommitStatus::Revealed.into(), 'commit is not revealed');
 
             // [Check] reveal_history.timestamp is over CATCH_DURATION
             assert(
@@ -286,6 +348,10 @@ mod PlayableComponent {
 
             // [Check] reveal_history.commit_timestamp == commitment.timestamp
             assert(reveal_history.commit_timestamp == commitment.timestamp, 'commit is not yours');
+
+            // [Effect] Set commitment status
+            commitment.status = CommitStatus::Used.into();
+            store.set_commitment(commitment);
 
             // [Effect] Set fish status
             fish.status = FishStatus::Caught.into();
