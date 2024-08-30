@@ -25,7 +25,7 @@ export class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.setPath("assets/");
+    this.load.setPath("public/");
     // load assets
     this.load.spritesheet({
       key: "water",
