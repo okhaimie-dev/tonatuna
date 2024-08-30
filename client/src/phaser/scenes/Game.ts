@@ -84,10 +84,7 @@ export class Game extends Phaser.Scene {
     this.listenKeyPresses();
     this.updateChunks(0, 0);
     const camera = this.cameras.main;
-    camera.setScroll(
-      -camera.width / 2 / camera.zoom,
-      -camera.height / 2 / camera.zoom
-    );
+    camera.setScroll(-camera.width / 2, -camera.height / 2);
 
     // TESTING
     this.spawnFish("fish1", 0, 0);
