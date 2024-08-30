@@ -18,6 +18,7 @@ const config: Phaser.Types.Core.GameConfig = {
       },
     ],
   },
+  pixelArt: true,
 };
 
 export default config;

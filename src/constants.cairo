@@ -22,3 +22,6 @@ const BAIT_PRICE: u256 = 10;
 
 fn TOKEN_ADDRESS() -> ContractAddress { starknet::contract_address_const::<0x1234>() }
 fn GAME_CONTRACT_ADDRESS() -> ContractAddress { starknet::contract_address_const::<0x5678>() }
+
+const SPAWNING_DELAY: u64 = 10 * 60; // 10 minutes
+const INITIAL_FISH_NUM_PER_PLAYER: u32 = 3;

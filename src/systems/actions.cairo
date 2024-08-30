@@ -16,8 +16,9 @@ trait IActions<TContractState> {
     fn reset_daily_attempts(self: @TContractState);
     fn buy_baits(self: @TContractState, amount: u32);
     fn move(self: @TContractState, dest_pos: Vec2);
-    fn spawn_fish(self: @TContractState, fish_pond_id: u32, fish_id: u32);
+    fn spawn_fish(self: @TContractState, fish_pond_id: u32, time_delay: u64);
     fn spawn_multiple_fishes(self: @TContractState, fish_pond_id: u32, num_fish: u32);
+    fn play(self: @TContractState, fish_pond_id: u32, name: felt252);
     fn cast_fishing(self: @TContractState, fish_pond_id: u32, commitment: felt252);
     fn reel_by_revealing(
         self: @TContractState, fish_pond_id: u32, fish_id: u32, salt: u32
@@ -35,6 +36,7 @@ mod actions {
 
     // use tonatuna::components::initializable::InitializableComponent;
     use tonatuna::components::playable::PlayableComponent;
+    use tonatuna::constants::{SPAWNING_DELAY, INITIAL_FISH_NUM_PER_PLAYER};
 
 
     use super::{IActions, Vec2, Player};
@@ -97,14 +99,26 @@ mod actions {
             self.playable.move(self.world(), dest_pos);
         }
 
-        fn spawn_fish(self: @ContractState, fish_pond_id: u32, fish_id: u32) {
-            self.playable.spawn_fish(self.world(), fish_pond_id, fish_id);
+        fn spawn_fish(self: @ContractState, fish_pond_id: u32, time_delay: u64) {
+            self.playable.spawn_fish(self.world(), fish_pond_id, time_delay);
         }
 
         fn spawn_multiple_fishes(self: @ContractState, fish_pond_id: u32, num_fish: u32) {
-            let mut i = 1;
-            while i != num_fish + 1 {
-                self.playable.spawn_fish(self.world(), fish_pond_id, i);
+            let mut i = 0;
+            while i != num_fish {
+                self.playable.spawn_fish(self.world(), fish_pond_id, SPAWNING_DELAY * i.into());
+                i += 1;
+            }
+        }
+
+        fn play(self: @ContractState, fish_pond_id: u32, name: felt252) {
+            self.playable.new_player(self.world(), name);
+            // self.playable.buy_bait(self.world()); // TODO: implement buy_bait
+
+            // spawn fishes INITIAL_FISH_NUM_PER_PLAYER times
+            let mut i = 0;
+            while i != INITIAL_FISH_NUM_PER_PLAYER {
+                self.playable.spawn_fish(self.world(), fish_pond_id, SPAWNING_DELAY * i.into());
                 i += 1;
             }
         }
