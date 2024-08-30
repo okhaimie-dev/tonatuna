@@ -10,3 +10,4 @@ const REEL_DURATION: u64 = 10 * 60; // 10 minutes
 const CATCH_DURATION: u64 = 20 * 60; // 20 minutes after commitments are made
 
 const SPAWNING_DELAY: u64 = 10 * 60; // 10 minutes
+const INITIAL_FISH_NUM_PER_PLAYER: u32 = 3;

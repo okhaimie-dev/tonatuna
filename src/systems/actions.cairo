@@ -8,8 +8,6 @@ use dojo::world::IWorldDispatcher;
 use tonatuna::models::player::Player;
 use tonatuna::types::vec2::Vec2;
 
-use tonatuna::constants::{SPAWNING_DELAY};
-
 // define the interface
 #[starknet::interface]
 trait IActions<TContractState> {
@@ -36,7 +34,7 @@ mod actions {
 
     // use tonatuna::components::initializable::InitializableComponent;
     use tonatuna::components::playable::PlayableComponent;
-    use tonatuna::constants::SPAWNING_DELAY;
+    use tonatuna::constants::{SPAWNING_DELAY, INITIAL_FISH_NUM_PER_PLAYER};
 
 
     use super::{IActions, Vec2, Player};
@@ -106,7 +104,13 @@ mod actions {
         fn play(self: @ContractState, fish_pond_id: u32, name: felt252) {
             self.playable.new_player(self.world(), name);
             // self.playable.buy_bait(self.world()); // TODO: implement buy_bait
-            self.playable.spawn_fish(self.world(), fish_pond_id, SPAWNING_DELAY);
+
+            // spawn fishes INITIAL_FISH_NUM_PER_PLAYER times
+            let mut i = 0;
+            while i != INITIAL_FISH_NUM_PER_PLAYER {
+                self.playable.spawn_fish(self.world(), fish_pond_id, SPAWNING_DELAY * i.into());
+                i += 1;
+            }
         }
 
         fn cast_fishing(self: @ContractState, fish_pond_id: u32, commitment: felt252) {
