@@ -5,7 +5,8 @@
 #[derive(Copy, Drop)]
 enum FishStatus {
     None,
-    Swiming,
+    Spawning,
+    Swimming,
     Caught
 }
 
@@ -17,7 +18,8 @@ impl IntoFishStatusFelt252 of core::Into<FishStatus, felt252> {
     fn into(self: FishStatus) -> felt252 {
         match self {
             FishStatus::None => 'NONE',
-            FishStatus::Swiming => 'SWIMING',
+            FishStatus::Spawning => 'SPAWNING',
+            FishStatus::Swimming => 'SWIMMING',
             FishStatus::Caught => 'CAUGHT'
         }
     }
@@ -28,8 +30,9 @@ impl IntoFishStatusU8 of core::Into<FishStatus, u8> {
     fn into(self: FishStatus) -> u8 {
         match self {
             FishStatus::None => 0,
-            FishStatus::Swiming => 1,
-            FishStatus::Caught => 2
+            FishStatus::Spawning => 1,
+            FishStatus::Swimming => 2,
+            FishStatus::Caught => 3
         }
     }
 }
@@ -40,8 +43,9 @@ impl IntoU8FishStatus of core::Into<u8, FishStatus> {
         let fish_status: felt252 = self.into();
         match fish_status {
             0 => FishStatus::None,
-            1 => FishStatus::Swiming,
-            2 => FishStatus::Caught,
+            1 => FishStatus::Spawning,
+            2 => FishStatus::Swimming,
+            3 => FishStatus::Caught,
             _ => FishStatus::None
         }
     }

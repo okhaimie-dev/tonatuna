@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714"
-original_class_hash = "0x4bb183919b5e0be0bd37154a516acdde9927eef061e886851a7c56680a0c714"
+class_hash = "0x36a1c982bdf821be20190700ec1c9ce526dea67aed0a5297983f775b03e60ba"
+original_class_hash = "0x36a1c982bdf821be20190700ec1c9ce526dea67aed0a5297983f775b03e60ba"
 abi = "manifests/dev/base/abis/models/tonatuna-FishPond-6253e2c7.json"
 tag = "tonatuna-FishPond"
 qualified_path = "tonatuna::models::index::fish_pond"
@@ -13,6 +13,11 @@ key = true
 
 [[members]]
 name = "fish_population"
+type = "u32"
+key = false
+
+[[members]]
+name = "max_fish_id"
 type = "u32"
 key = false
 

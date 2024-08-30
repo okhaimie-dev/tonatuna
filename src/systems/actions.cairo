@@ -8,14 +8,17 @@ use dojo::world::IWorldDispatcher;
 use tonatuna::models::player::Player;
 use tonatuna::types::vec2::Vec2;
 
+use tonatuna::constants::{SPAWNING_DELAY};
+
 // define the interface
 #[starknet::interface]
 trait IActions<TContractState> {
     fn create_fish_pond(self: @TContractState) -> u32;
     fn new_player(self: @TContractState, name: felt252) -> Player;
     fn move(self: @TContractState, dest_pos: Vec2);
-    fn spawn_fish(self: @TContractState, fish_pond_id: u32, fish_id: u32);
+    fn spawn_fish(self: @TContractState, fish_pond_id: u32, time_delay: u64);
     fn spawn_multiple_fishes(self: @TContractState, fish_pond_id: u32, num_fish: u32);
+    fn play(self: @TContractState, fish_pond_id: u32, name: felt252);
     fn cast_fishing(self: @TContractState, fish_pond_id: u32, commitment: felt252);
     fn reel_by_revealing(
         self: @TContractState, player_id: felt252, fish_pond_id: u32, fish_id: u32, salt: u32
@@ -33,6 +36,7 @@ mod actions {
 
     // use tonatuna::components::initializable::InitializableComponent;
     use tonatuna::components::playable::PlayableComponent;
+    use tonatuna::constants::SPAWNING_DELAY;
 
 
     use super::{IActions, Vec2, Player};
@@ -87,16 +91,22 @@ mod actions {
             self.playable.move(self.world(), dest_pos);
         }
 
-        fn spawn_fish(self: @ContractState, fish_pond_id: u32, fish_id: u32) {
-            self.playable.spawn_fish(self.world(), fish_pond_id, fish_id);
+        fn spawn_fish(self: @ContractState, fish_pond_id: u32, time_delay: u64) {
+            self.playable.spawn_fish(self.world(), fish_pond_id, time_delay);
         }
 
         fn spawn_multiple_fishes(self: @ContractState, fish_pond_id: u32, num_fish: u32) {
-            let mut i = 1;
-            while i != num_fish + 1 {
-                self.playable.spawn_fish(self.world(), fish_pond_id, i);
+            let mut i = 0;
+            while i != num_fish {
+                self.playable.spawn_fish(self.world(), fish_pond_id, SPAWNING_DELAY * i.into());
                 i += 1;
             }
+        }
+
+        fn play(self: @ContractState, fish_pond_id: u32, name: felt252) {
+            self.playable.new_player(self.world(), name);
+            // self.playable.buy_bait(self.world()); // TODO: implement buy_bait
+            self.playable.spawn_fish(self.world(), fish_pond_id, SPAWNING_DELAY);
         }
 
         fn cast_fishing(self: @ContractState, fish_pond_id: u32, commitment: felt252) {

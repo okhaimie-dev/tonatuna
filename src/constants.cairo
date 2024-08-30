@@ -8,3 +8,5 @@ const MAX_DAILY_FISHING_ATTEMPTS: u8 = 5;
 // Game
 const REEL_DURATION: u64 = 10 * 60; // 10 minutes
 const CATCH_DURATION: u64 = 20 * 60; // 20 minutes after commitments are made
+
+const SPAWNING_DELAY: u64 = 10 * 60; // 10 minutes

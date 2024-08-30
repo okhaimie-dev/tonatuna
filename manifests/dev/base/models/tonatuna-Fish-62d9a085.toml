@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x1890d147565b501edc040aeed98f4c024c7c0170eeb47e7178a22c1e2a9254d"
-original_class_hash = "0x1890d147565b501edc040aeed98f4c024c7c0170eeb47e7178a22c1e2a9254d"
+class_hash = "0x2794c117a4a6aea40e1db8a41ff7d71beee515d0ec2c083b2004156c9dcd78d"
+original_class_hash = "0x2794c117a4a6aea40e1db8a41ff7d71beee515d0ec2c083b2004156c9dcd78d"
 abi = "manifests/dev/base/abis/models/tonatuna-Fish-62d9a085.json"
 tag = "tonatuna-Fish"
 qualified_path = "tonatuna::models::index::fish"
@@ -29,4 +29,9 @@ key = false
 [[members]]
 name = "status"
 type = "u8"
+key = false
+
+[[members]]
+name = "spawn_time"
+type = "u64"
 key = false

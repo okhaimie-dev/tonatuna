@@ -227,8 +227,8 @@
             "type": "core::integer::u32"
           },
           {
-            "name": "fish_id",
-            "type": "core::integer::u32"
+            "name": "time_delay",
+            "type": "core::integer::u64"
           }
         ],
         "outputs": [],
@@ -245,6 +245,22 @@
           {
             "name": "num_fish",
             "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "play",
+        "inputs": [
+          {
+            "name": "fish_pond_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "name",
+            "type": "core::felt252"
           }
         ],
         "outputs": [],

@@ -403,6 +403,10 @@
       {
         "name": "status",
         "type": "core::integer::u8"
+      },
+      {
+        "name": "spawn_time",
+        "type": "core::integer::u64"
       }
     ]
   },
