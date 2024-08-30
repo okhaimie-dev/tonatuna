@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325"
-original_class_hash = "0x5e32ad108ad7fe6e2c189bdda35710454ab234e38840468da2397d62d933325"
+class_hash = "0x7df68e024fc00da2b03d6c3c8e38f6e839dbd8fdfa44b527a97083c5c53ce0b"
+original_class_hash = "0x7df68e024fc00da2b03d6c3c8e38f6e839dbd8fdfa44b527a97083c5c53ce0b"
 abi = "manifests/dev/base/abis/models/tonatuna-Commitment-5626dabb.json"
 tag = "tonatuna-Commitment"
 qualified_path = "tonatuna::models::index::commitment"
@@ -22,8 +22,8 @@ type = "felt252"
 key = false
 
 [[members]]
-name = "nonce"
-type = "u32"
+name = "status"
+type = "u8"
 key = false
 
 [[members]]

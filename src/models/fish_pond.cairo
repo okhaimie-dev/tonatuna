@@ -16,12 +16,15 @@ impl FishPondImpl of FishPondTrait {
         FishPond {
             id,
             fish_population: 0,
+            max_fish_id: 1,
             daily_catch_limit: DAILY_CATCH_LIMIT,
             rare_fish_chance: 5,
             daily_catches: 0,
         }
     }
 
+    // not using daily_catches for now. we are using player's daily_attempts    
+    #[inline]
     fn reset_daily_catches(ref self: FishPond) {
         self.daily_catches = 0;
     }
